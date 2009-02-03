@@ -82,6 +82,52 @@ public final class TypeUtils
 		return getRawType(type).isInstance(object);
 	}
 	
+	/**
+	 * Gets the erased type of the specified type.
+	 * 
+	 * @param type
+	 *            the type to perform erasure on
+	 * @return the erased type, never a parameterized type nor a type variable
+	 * @see <a href="http://java.sun.com/docs/books/jls/third_edition/html/typesValues.html#4.6">4.6 Type Erasure</a>
+	 */
+	public static Type getErasedType(Type type)
+	{
+		Utils.checkNotNull(type, "type");
+		
+		Type erasedType;
+		
+		// the erasure of a parameterized type G<T1, ... ,Tn> is |G|
+		if (type instanceof ParameterizedType)
+		{
+			Type rawType = ((ParameterizedType) type).getRawType();
+			
+			erasedType = getErasedType(rawType);
+		}
+		// TODO: the erasure of a nested type T.C is |T|.C
+		// the erasure of an array type T[] is |T|[]
+		else if (isArray(type))
+		{
+			Type componentType = getComponentType(type);
+			Type erasedComponentType = getErasedType(componentType);
+			
+			erasedType = getArrayType(erasedComponentType);
+		}
+		// the erasure of a type variable is the erasure of its leftmost bound 
+		else if (type instanceof TypeVariable)
+		{
+			Type[] bounds = ((TypeVariable<?>) type).getBounds();
+			
+			erasedType = getErasedType(bounds[0]);
+		}
+		// the erasure of every other type is the type itself
+		else
+		{
+			erasedType = type;
+		}
+		
+		return erasedType;
+	}
+	
 	public static Class<?> getRawType(Type type)
 	{
 		Utils.checkNotNull(type, "type");

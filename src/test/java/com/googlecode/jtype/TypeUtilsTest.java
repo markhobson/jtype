@@ -413,6 +413,53 @@ public class TypeUtilsTest
 		assertTrue(TypeUtils.isInstance(valueOf("ArrayList<Integer>"), new ArrayList<Long>()));
 	}
 	
+	// getErasedType tests ----------------------------------------------------
+	
+	@Test(expected = NullPointerException.class)
+	public void getErasedTypeWithNull()
+	{
+		TypeUtils.getErasedType(null);
+	}
+	
+	@Test
+	public void getErasedTypeWithClass()
+	{
+		assertEquals(Integer.class, TypeUtils.getErasedType(Integer.class));
+	}
+	
+	@Test
+	public void getErasedTypeWithClassArray()
+	{
+		assertEquals(Integer[].class, TypeUtils.getErasedType(Integer[].class));
+	}
+	
+	@Test
+	public void getErasedTypeWithTypeVariable()
+	{
+		assertEquals(Number.class, TypeUtils.getErasedType(Types.typeVariable(declaration, "T", Number.class,
+			Comparable.class)));
+	}
+	
+	@Test
+	public void getErasedTypeWithGenericArrayType()
+	{
+		assertEquals(List[].class, TypeUtils.getErasedType(valueOf("List<Integer>[]")));
+	}
+	
+	@Test
+	public void getErasedTypeWithParameterizedType()
+	{
+		assertEquals(List.class, TypeUtils.getErasedType(valueOf("List<Integer>")));
+	}
+	
+	@Test
+	public void getErasedTypeWithWildcardType()
+	{
+		Type type = Types.unboundedWildcardType();
+		
+		assertEquals(type, TypeUtils.getErasedType(type));
+	}
+	
 	// getRawType tests -------------------------------------------------------
 	
 	@Test(expected = NullPointerException.class)
