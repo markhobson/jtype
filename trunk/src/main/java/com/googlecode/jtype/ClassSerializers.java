@@ -22,7 +22,7 @@ package com.googlecode.jtype;
  * @version $Id$
  * @see ClassSerializer
  */
-final class ClassSerializers
+public final class ClassSerializers
 {
 	// constants --------------------------------------------------------------
 	
