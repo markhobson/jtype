@@ -1,0 +1,30 @@
+#summary Getting started with Maven.
+
+= Getting started with Maven =
+
+To start using JType in a [http://maven.apache.org/ Maven] project, add the following dependency and repository definition to the POM:
+
+{{{
+<project>
+	...
+	<dependencies>
+		<dependency>
+			<groupId>com.googlecode.jtype</groupId>
+			<artifactId>jtype</artifactId>
+			<version>0.1.0</version>
+		</dependency>
+	</dependencies>
+	
+	<repositories>
+		<repository>
+			<id>jtype</id>
+			<name>JType Maven Repository</name>
+			<url>http://jtype.googlecode.com/svn/repository/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	...
+</project>
+}}}
