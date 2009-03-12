@@ -1,0 +1,23 @@
+-classpath 'c:/Documents and Settings/mark/My Documents/projects/oss/jtype/target/checkout/target/classes'
+ -encoding
+'UTF-8'
+-protected
+-sourcepath
+'c:/Documents and Settings/mark/My Documents/projects/oss/jtype/target/checkout/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2008-2009. All Rights Reserved.'
+-charset
+'UTF-8'
+-d
+'c:/Documents and Settings/mark/My Documents/projects/oss/jtype/target/checkout/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'JType 0.1.0 API'
+-link
+'http://java.sun.com/j2se/1.5.0/docs/api'
+-use
+-version
+-windowtitle
+'JType 0.1.0 API'
