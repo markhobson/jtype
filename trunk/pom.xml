@@ -10,7 +10,7 @@
 	
 	<name>JType</name>
 	<description>Library for working with the Java 5 type system</description>
-	<url>http://code.google.com/p/jtype/</url>
+	<url>http://jtype.googlecode.com/</url>
 	<inceptionYear>2008</inceptionYear>
 	
 	<licenses>
