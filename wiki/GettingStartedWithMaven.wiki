@@ -1,4 +1,5 @@
 #summary How to add JType to a Maven project.
+#labels Phase-Deploy
 
 = Getting started with Maven =
 
