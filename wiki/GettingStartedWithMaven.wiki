@@ -1,4 +1,4 @@
-#summary Getting started with Maven.
+#summary How to add JType to a Maven project.
 
 = Getting started with Maven =
 
