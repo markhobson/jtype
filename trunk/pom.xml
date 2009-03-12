@@ -10,6 +10,7 @@
 	
 	<name>JType</name>
 	<description>Library for working with the Java 5 type system</description>
+	<url>http://code.google.com/p/jtype/</url>
 	<inceptionYear>2008</inceptionYear>
 	
 	<licenses>
@@ -25,6 +26,11 @@
 		<developerConnection>scm:svn:https://jtype.googlecode.com/svn/trunk/</developerConnection>
 		<url>http://code.google.com/p/jtype/source/browse/</url>
 	</scm>
+	
+	<issueManagement>
+		<system>Google Code</system>
+		<url>http://code.google.com/p/jtype/issues/list</url>
+	</issueManagement>
 	
 	<developers>
 		<developer>
