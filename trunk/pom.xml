@@ -39,23 +39,22 @@
 	</developers>
 	
 	<build>
+		<extensions>
+			<extension>
+				<groupId>org.jvnet.wagon-svn</groupId>
+				<artifactId>wagon-svn</artifactId>
+				<version>1.9</version>
+			</extension>
+		</extensions>
 		<pluginManagement>
 			<plugins>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.0.2</version>
 					<configuration>
 						<source>1.5</source>
 						<target>1.5</target>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<configuration>
-						<links>
-							<link>http://java.sun.com/j2se/1.5.0/docs/api</link>
-						</links>
 					</configuration>
 				</plugin>
 			</plugins>
@@ -71,4 +70,40 @@
 		</dependency>
 	</dependencies>
 	
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.1.1</version>
+				<reportSets>
+					<reportSet/>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<links>
+						<link>http://java.sun.com/j2se/1.5.0/docs/api</link>
+					</links>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<distributionManagement>
+		<repository>
+			<id>jtype</id>
+			<name>JType Maven Repository</name>
+			<url>svn:https://jtype.googlecode.com/svn/repository/</url>
+		</repository>
+		<site>
+			<id>jtype-site</id>
+			<name>JType Maven Site</name>
+			<url>svn:https://jtype.googlecode.com/svn/site/</url>
+		</site>
+	</distributionManagement>
+
 </project>
