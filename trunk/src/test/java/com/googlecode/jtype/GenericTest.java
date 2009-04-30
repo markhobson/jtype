@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
@@ -93,19 +94,11 @@ public class GenericTest
 		}
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public <T> void constructorWhenSubclassedWithGenericArray()
+	@Test
+	public void constructorWhenSubclassedWithGenericArrayType()
 	{
-		try
-		{
-			new Generic<T[]>() {/**/};
-		}
-		catch (IllegalArgumentException exception)
-		{
-			assertEquals("Message", "Generic array types are not supported: T[]", exception.getMessage());
-			
-			throw exception;
-		}
+		assertEquals(Types.genericArrayType(Types.parameterizedType(List.class, String.class)),
+			new Generic<List<String>[]>() {/**/}.getType());
 	}
 	
 	@Test
@@ -152,19 +145,12 @@ public class GenericTest
 		}
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void getWithGenericArrayType()
 	{
-		try
-		{
-			Generic.get(Types.genericArrayType(Types.typeVariable(declaration, "T")));
-		}
-		catch (IllegalArgumentException exception)
-		{
-			assertEquals("Message", "Generic array types are not supported: T[]", exception.getMessage());
-			
-			throw exception;
-		}
+		GenericArrayType genericArrayType = Types.genericArrayType(Types.parameterizedType(List.class, String.class));
+		
+		assertEquals(genericArrayType, Generic.get(genericArrayType).getType());
 	}
 	
 	@Test
