@@ -167,10 +167,10 @@ public abstract class Generic<T>
 	private static void validateType(Type type)
 	{
 		Utils.checkNotNull(type, "type");
-		Utils.checkFalse(type instanceof GenericArrayType, "Generic array types are not supported: ", type);
 		Utils.checkFalse(type instanceof TypeVariable, "Type variables are not supported: ", type);
 		Utils.checkFalse(type instanceof WildcardType, "Wildcard types are not supported: ", type);
-		Utils.checkTrue(type instanceof Class || type instanceof ParameterizedType, "Unsupported type: ", type);
+		Utils.checkTrue(type instanceof Class || type instanceof ParameterizedType || type instanceof GenericArrayType,
+			"Unsupported type: ", type);
 	}
 	
 	private Type getActualTypeArgument()
