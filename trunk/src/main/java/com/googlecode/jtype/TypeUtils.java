@@ -49,11 +49,11 @@ public final class TypeUtils
 		{
 			assignable = true;
 		}
-		else if (supertype instanceof Class && type instanceof Class)
+		else if (supertype instanceof Class<?> && type instanceof Class<?>)
 		{
 			assignable = ((Class<?>) supertype).isAssignableFrom((Class<?>) type);
 		}
-		else if (supertype instanceof Class && type instanceof ParameterizedType)
+		else if (supertype instanceof Class<?> && type instanceof ParameterizedType)
 		{
 			assignable = isAssignable(supertype, ((ParameterizedType) type).getRawType());
 		}
@@ -65,7 +65,7 @@ public final class TypeUtils
 		{
 			assignable = isAssignable((WildcardType) supertype, type);
 		}
-		else if (type instanceof Class)
+		else if (type instanceof Class<?>)
 		{
 			assignable = isAssignable(supertype, (Class<?>) type);
 		}
@@ -113,7 +113,7 @@ public final class TypeUtils
 			erasedType = getArrayType(erasedComponentType);
 		}
 		// the erasure of a type variable is the erasure of its leftmost bound 
-		else if (type instanceof TypeVariable)
+		else if (type instanceof TypeVariable<?>)
 		{
 			Type[] bounds = ((TypeVariable<?>) type).getBounds();
 			
@@ -134,7 +134,7 @@ public final class TypeUtils
 		
 		Class<?> rawType;
 		
-		if (type instanceof Class)
+		if (type instanceof Class<?>)
 		{
 			rawType = (Class<?>) type;
 		}
@@ -166,7 +166,7 @@ public final class TypeUtils
 		
 		boolean array;
 		
-		if (type instanceof Class)
+		if (type instanceof Class<?>)
 		{
 			array = ((Class<?>) type).isArray();
 		}
@@ -188,7 +188,7 @@ public final class TypeUtils
 		
 		Type componentType;
 		
-		if (type instanceof Class)
+		if (type instanceof Class<?>)
 		{
 			Class<?> klass = (Class<?>) type;
 			
@@ -219,7 +219,7 @@ public final class TypeUtils
 		
 		Type arrayType;
 		
-		if (componentType instanceof Class)
+		if (componentType instanceof Class<?>)
 		{
 			arrayType = ClassUtils.getArrayType((Class<?>) componentType);
 		}
@@ -245,7 +245,7 @@ public final class TypeUtils
 		
 		Type paramRawType = paramType.getRawType();
 		
-		if (!(paramRawType instanceof Class))
+		if (!(paramRawType instanceof Class<?>))
 		{
 			return false;
 		}
@@ -284,7 +284,7 @@ public final class TypeUtils
 	{
 		String value;
 		
-		if (type instanceof Class)
+		if (type instanceof Class<?>)
 		{
 			Class<?> klass = (Class<?>) type;
 			
@@ -297,7 +297,7 @@ public final class TypeUtils
 				value = serializer.toString(klass);
 			}
 		}
-		else if (type instanceof TypeVariable)
+		else if (type instanceof TypeVariable<?>)
 		{
 			value = DefaultTypeVariable.toString((TypeVariable<?>) type, serializer);
 		}

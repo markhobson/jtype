@@ -106,7 +106,7 @@ class DefaultTypeVariable<D extends GenericDeclaration> implements TypeVariable<
 	@Override
 	public boolean equals(Object object)
 	{
-		if (!(object instanceof TypeVariable))
+		if (!(object instanceof TypeVariable<?>))
 		{
 			return false;
 		}
