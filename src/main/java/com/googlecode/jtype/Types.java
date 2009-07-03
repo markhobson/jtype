@@ -169,15 +169,15 @@ public final class Types
 		
 		for (String className : imports)
 		{
-			String unqualifiedClassName = ClassUtils.getUnqualifiedClassName(className);
+			String simpleClassName = ClassUtils.getSimpleClassName(className);
 			
-			if (importMap.containsKey(unqualifiedClassName))
+			if (importMap.containsKey(simpleClassName))
 			{
-				throw new IllegalArgumentException("Duplicate imports: " + importMap.get(unqualifiedClassName)
-					+ " and " + className);
+				throw new IllegalArgumentException("Duplicate imports: " + importMap.get(simpleClassName) + " and "
+					+ className);
 			}
 			
-			importMap.put(unqualifiedClassName, className);
+			importMap.put(simpleClassName, className);
 		}
 		
 		return valueOf(typeName, importMap);

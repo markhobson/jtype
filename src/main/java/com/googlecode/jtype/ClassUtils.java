@@ -47,6 +47,18 @@ final class ClassUtils
 		return (dot == -1) ? className : className.substring(dot + 1);
 	}
 	
+	public static String getSimpleClassName(String className)
+	{
+		int index = className.lastIndexOf('$');
+		
+		if (index == -1)
+		{
+			index = className.lastIndexOf('.');
+		}
+		
+		return (index == -1) ? className : className.substring(index + 1);
+	}
+	
 	public static Class<?> getArrayType(Class<?> componentType)
 	{
 		return Array.newInstance(componentType, 0).getClass();
