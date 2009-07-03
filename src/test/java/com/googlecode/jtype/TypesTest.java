@@ -266,9 +266,21 @@ public class TypesTest
 	}
 	
 	@Test
+	public void valueOfWithClassAndWhitespace()
+	{
+		assertEquals(Integer.class, Types.valueOf(" java.lang.Integer "));
+	}
+	
+	@Test
 	public void valueOfWithArray()
 	{
 		assertEquals(Integer[].class, Types.valueOf("java.lang.Integer[]"));
+	}
+	
+	@Test
+	public void valueOfWithArrayAndWhitespace()
+	{
+		assertEquals(Integer[].class, Types.valueOf(" java.lang.Integer [ ] "));
 	}
 	
 	@Test
@@ -286,10 +298,38 @@ public class TypesTest
 	}
 	
 	@Test
+	public void valueOfWithSingleArgumentParameterizedTypeAndWhitespace()
+	{
+		assertEquals(Types.parameterizedType(List.class, Integer.class),
+			Types.valueOf(" java.util.List < java.lang.Integer > "));
+	}
+	
+	@Test
+	public void valueOfWithSingleUnboundedWildcardParameterizedType()
+	{
+		assertEquals(Types.parameterizedType(List.class, Types.unboundedWildcardType()),
+			Types.valueOf("java.util.List<?>"));
+	}
+	
+	@Test
 	public void valueOfWithMultipleArgumentParameterizedType()
 	{
 		assertEquals(Types.parameterizedType(Map.class, String.class, Integer.class),
 			Types.valueOf("java.util.Map<java.lang.String,java.lang.Integer>"));
+	}
+	
+	@Test
+	public void valueOfWithMultipleArgumentParameterizedTypeAndWhitespace()
+	{
+		assertEquals(Types.parameterizedType(Map.class, String.class, Integer.class),
+			Types.valueOf(" java.util.Map < java.lang.String , java.lang.Integer > "));
+	}
+	
+	@Test
+	public void valueOfWithMultipleUnboundedWildcardParameterizedType()
+	{
+		assertEquals(Types.parameterizedType(Map.class, Types.unboundedWildcardType(), Types.unboundedWildcardType()),
+			Types.valueOf("java.util.Map<?,?>"));
 	}
 	
 	@Test(expected = MalformedParameterizedTypeException.class)
@@ -322,15 +362,33 @@ public class TypesTest
 	}
 	
 	@Test
+	public void valueOfWithUnboundedWildcardTypeAndWhitespace()
+	{
+		assertEquals(Types.unboundedWildcardType(), Types.valueOf(" ? "));
+	}
+	
+	@Test
 	public void valueOfWithUpperBoundedWildcardType()
 	{
 		assertEquals(Types.upperBoundedWildcardType(Number.class), Types.valueOf("? extends java.lang.Number"));
 	}
 	
 	@Test
+	public void valueOfWithUpperBoundedWildcardTypeAndWhitespace()
+	{
+		assertEquals(Types.upperBoundedWildcardType(Number.class), Types.valueOf(" ?  extends  java.lang.Number "));
+	}
+	
+	@Test
 	public void valueOfWithLowerBoundedWildcardType()
 	{
 		assertEquals(Types.lowerBoundedWildcardType(Integer.class), Types.valueOf("? super java.lang.Integer"));
+	}
+	
+	@Test
+	public void valueOfWithLowerBoundedWildcardTypeAndWhitespace()
+	{
+		assertEquals(Types.lowerBoundedWildcardType(Integer.class), Types.valueOf(" ?  super  java.lang.Integer "));
 	}
 	
 	@Test
