@@ -26,6 +26,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Factory for creating types.
@@ -36,6 +38,14 @@ import java.util.Set;
  */
 public final class Types
 {
+	// constants --------------------------------------------------------------
+	
+	private static final Pattern ARRAY_PATTERN = Pattern.compile("\\[\\s*\\]$");
+
+	private static final Pattern UPPER_BOUND_PATTERN = Pattern.compile("^\\?\\s+extends\\s+");
+	
+	private static final Pattern LOWER_BOUND_PATTERN = Pattern.compile("^\\?\\s+super\\s+");
+	
 	// constructors -----------------------------------------------------------
 	
 	private Types()
@@ -182,11 +192,15 @@ public final class Types
 	
 	private static Type valueOf(String typeName, Map<String, String> imports)
 	{
+		typeName = typeName.trim();
+		
 		// handle arrays
 		
-		if (typeName.endsWith("[]"))
+		Matcher arrayMatcher = ARRAY_PATTERN.matcher(typeName);
+		
+		if (arrayMatcher.find())
 		{
-			String componentName = typeName.substring(0, typeName.length() - "[]".length());
+			String componentName = typeName.substring(0, arrayMatcher.start());
 			
 			Type componentType = valueOf(componentName, imports);
 			
@@ -218,7 +232,7 @@ public final class Types
 			throw new IllegalArgumentException("Mismatched type argument delimiters: " + typeName);
 		}
 		
-		String rawTypeName = typeName.substring(0, argStart);
+		String rawTypeName = typeName.substring(0, argStart).trim();
 		Class<?> rawType = parseClass(rawTypeName, imports);
 		
 		String[] actualTypeArgumentNames = typeName.substring(argStart + 1, argEnd).split(",");
@@ -273,22 +287,25 @@ public final class Types
 		Type[] upperBounds;
 		Type[] lowerBounds;
 		
+		Matcher upperBoundMatcher;
+		Matcher lowerBoundMatcher;
+		
 		if ("?".equals(typeName))
 		{
 			upperBounds = null;
 			lowerBounds = null;
 		}
-		else if (typeName.startsWith("? extends "))
+		else if ((upperBoundMatcher = UPPER_BOUND_PATTERN.matcher(typeName)).find())
 		{
-			String upperBoundName = typeName.substring("? extends ".length());
+			String upperBoundName = typeName.substring(upperBoundMatcher.end());
 			Type upperBound = valueOf(upperBoundName, imports);
 			
 			upperBounds = new Type[] {upperBound};
 			lowerBounds = null;
 		}
-		else if (typeName.startsWith("? super "))
+		else if ((lowerBoundMatcher = LOWER_BOUND_PATTERN.matcher(typeName)).find())
 		{
-			String lowerBoundName = typeName.substring("? super ".length());
+			String lowerBoundName = typeName.substring(lowerBoundMatcher.end());
 			Type lowerBound = valueOf(lowerBoundName, imports);
 			
 			upperBounds = null;
