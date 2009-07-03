@@ -152,14 +152,26 @@ class DefaultParameterizedType implements ParameterizedType
 		StringBuilder builder = new StringBuilder();
 		
 		Type ownerType = type.getOwnerType();
+		String rawTypeString = TypeUtils.toString(type.getRawType(), serializer);
 		
 		if (ownerType != null)
 		{
-			builder.append(TypeUtils.toString(ownerType, serializer));
-			builder.append(".");
+			String ownerTypeString = TypeUtils.toString(ownerType, serializer);
+			
+			builder.append(ownerTypeString);
+			
+			if (rawTypeString.startsWith(ownerTypeString))
+			{
+				// use simple name for member types
+				rawTypeString = rawTypeString.substring(ownerTypeString.length());
+			}
+			else
+			{
+				builder.append(".");
+			}
 		}
 		
-		builder.append(TypeUtils.toString(type.getRawType(), serializer));
+		builder.append(rawTypeString);
 		
 		Type[] actualTypeArguments = type.getActualTypeArguments();
 		
