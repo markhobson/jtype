@@ -35,6 +35,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -431,6 +432,24 @@ public class TypesTest
 			
 			throw exception;
 		}
+	}
+
+	// TODO: fix
+	@Ignore
+	@Test
+	public void valueOfWithMemberClassAndImportContext()
+	{
+		Set<String> importContext = Collections.singleton(Map.class.getName());
+		
+		assertEquals(Map.Entry.class, Types.valueOf("Map.Entry", importContext));
+	}
+	
+	@Test
+	public void valueOfWithMemberClassAndMemberImportContext()
+	{
+		Set<String> importContext = Collections.singleton(Map.Entry.class.getName());
+		
+		assertEquals(Map.Entry.class, Types.valueOf("Entry", importContext));
 	}
 	
 	@Test
