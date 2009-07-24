@@ -272,9 +272,11 @@ public final class Types
 	
 	private static Class<?> parseClass(String className)
 	{
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		
 		try
 		{
-			return Class.forName(className);
+			return Class.forName(className, true, classLoader);
 		}
 		catch (ClassNotFoundException exception)
 		{
