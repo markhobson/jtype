@@ -34,9 +34,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Tests {@code Types}.
@@ -45,9 +51,12 @@ import org.junit.Test;
  * @version $Id$
  * @see Types
  */
+@RunWith(JMock.class)
 public class TypesTest
 {
 	// fields -----------------------------------------------------------------
+	
+	private Mockery context;
 	
 	@SuppressWarnings("unused")
 	private Map<String, Integer> stringIntegerMap;
@@ -74,6 +83,9 @@ public class TypesTest
 	@Before
 	public void setUp() throws NoSuchFieldException
 	{
+		context = new JUnit4Mockery();
+		context.setImposteriser(ClassImposteriser.INSTANCE);
+		
 		stringIntegerMapType = getFieldType("stringIntegerMap");
 		unboundedWildcardType = getFieldActualTypeArgument("unboundedWildcardList");
 		numberUpperBoundedWildcardType = getFieldActualTypeArgument("numberUpperBoundedWildcardList");
@@ -270,6 +282,29 @@ public class TypesTest
 	public void valueOfWithClassAndWhitespace()
 	{
 		assertEquals(Integer.class, Types.valueOf(" java.lang.Integer "));
+	}
+	
+	@Test
+	public void valueOfWithClassAndCustomClassLoader() throws ClassNotFoundException
+	{
+		ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
+		
+		final ClassLoader newClassLoader = context.mock(ClassLoader.class);
+		
+		context.checking(new Expectations() {{
+			one(newClassLoader).loadClass("java.lang.Integer"); will(returnValue(Integer.class));
+		}});
+
+		try
+		{
+			Thread.currentThread().setContextClassLoader(newClassLoader);
+			
+			assertEquals(Integer.class, Types.valueOf("java.lang.Integer"));
+		}
+		finally
+		{
+			Thread.currentThread().setContextClassLoader(oldClassLoader);
+		}
 	}
 	
 	@Test
