@@ -326,6 +326,11 @@ public final class TypeUtils
 		return toString(type, ClassSerializers.UNQUALIFIED);
 	}
 	
+	public static String toSimpleString(Type type)
+	{
+		return toString(type, ClassSerializers.SIMPLE);
+	}
+	
 	// package methods --------------------------------------------------------
 	
 	static StringBuilder appendBounds(StringBuilder builder, Type[] bounds, ClassSerializer serializer)
