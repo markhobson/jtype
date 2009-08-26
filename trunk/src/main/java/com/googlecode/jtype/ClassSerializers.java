@@ -42,6 +42,14 @@ public final class ClassSerializers
 		}
 	};
 	
+	public static final ClassSerializer SIMPLE = new ClassSerializer()
+	{
+		public String toString(Class<?> klass)
+		{
+			return ClassUtils.getSimpleClassName(klass);
+		}
+	};
+	
 	// constructors -----------------------------------------------------------
 	
 	private ClassSerializers()

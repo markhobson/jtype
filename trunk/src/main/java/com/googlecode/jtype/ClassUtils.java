@@ -47,6 +47,11 @@ final class ClassUtils
 		return (dot == -1) ? className : className.substring(dot + 1);
 	}
 	
+	public static String getSimpleClassName(Class<?> klass)
+	{
+		return getSimpleClassName(klass.getName());
+	}
+	
 	public static String getSimpleClassName(String className)
 	{
 		int index = className.lastIndexOf('$');
