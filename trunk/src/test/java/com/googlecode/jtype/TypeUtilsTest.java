@@ -20,6 +20,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.Serializable;
 import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -81,6 +82,128 @@ public class TypeUtilsTest
 	}
 	
 	// isAssignable tests -----------------------------------------------------
+	
+	// JLS 4.10.1 Subtyping among Primitive Types
+	
+	@Test
+	public void isAssignableWithPrimitiveDouble()
+	{
+		assertAssignable(Double.TYPE, Double.TYPE);
+		assertAsymmetricallyAssignable(Double.TYPE, Float.TYPE);
+		assertAsymmetricallyAssignable(Double.TYPE, Long.TYPE);
+		assertAsymmetricallyAssignable(Double.TYPE, Integer.TYPE);
+		assertAsymmetricallyAssignable(Double.TYPE, Character.TYPE);
+		assertAsymmetricallyAssignable(Double.TYPE, Short.TYPE);
+		assertAsymmetricallyAssignable(Double.TYPE, Byte.TYPE);
+	}
+	
+	@Test
+	public void isAssignableWithPrimitiveFloat()
+	{
+		assertAssignable(Float.TYPE, Float.TYPE);
+		assertAsymmetricallyAssignable(Float.TYPE, Long.TYPE);
+		assertAsymmetricallyAssignable(Float.TYPE, Integer.TYPE);
+		assertAsymmetricallyAssignable(Float.TYPE, Character.TYPE);
+		assertAsymmetricallyAssignable(Float.TYPE, Short.TYPE);
+		assertAsymmetricallyAssignable(Float.TYPE, Byte.TYPE);
+	}
+	
+	@Test
+	public void isAssignableWithPrimitiveLong()
+	{
+		assertAssignable(Long.TYPE, Long.TYPE);
+		assertAsymmetricallyAssignable(Long.TYPE, Integer.TYPE);
+		assertAsymmetricallyAssignable(Long.TYPE, Character.TYPE);
+		assertAsymmetricallyAssignable(Long.TYPE, Short.TYPE);
+		assertAsymmetricallyAssignable(Long.TYPE, Byte.TYPE);
+	}
+	
+	@Test
+	public void isAssignableWithPrimitiveInt()
+	{
+		assertAssignable(Integer.TYPE, Integer.TYPE);
+		assertAsymmetricallyAssignable(Integer.TYPE, Character.TYPE);
+		assertAsymmetricallyAssignable(Integer.TYPE, Short.TYPE);
+		assertAsymmetricallyAssignable(Integer.TYPE, Byte.TYPE);
+	}
+	
+	@Test
+	public void isAssignableWithPrimitiveShort()
+	{
+		assertAssignable(Short.TYPE, Short.TYPE);
+		assertAsymmetricallyAssignable(Short.TYPE, Byte.TYPE);
+	}
+	
+	// JLS 4.10.3 Subtyping among Array Types
+	
+	/**
+	 * If S and T are both reference types, then S[] >1 T[] iff S >1 T.
+	 */
+	@Test
+	public void isAssignableWithDirectArrays()
+	{
+		assertAsymmetricallyAssignable(Number[].class, Integer[].class);
+	}
+	
+	@Test
+	public void isAssignableWithIndirectArrays()
+	{
+		assertAsymmetricallyAssignable(Object[].class, Integer[].class);
+	}
+	
+	/**
+	 * Object >1 Object[].
+	 */
+	@Test
+	public void isAssignableWithObjectFromObjectArray()
+	{
+		assertAsymmetricallyAssignable(Object.class, Object[].class);
+	}
+	
+	/**
+	 * Cloneable >1 Object[].
+	 */
+	@Test
+	public void isAssignableWithCloneableFromObjectArray()
+	{
+		assertAsymmetricallyAssignable(Cloneable.class, Object[].class);
+	}
+	
+	/**
+	 * java.io.Serializable >1 Object[].
+	 */
+	@Test
+	public void isAssignableWithSerializableFromObjectArray()
+	{
+		assertAsymmetricallyAssignable(Serializable.class, Object[].class);
+	}
+	
+	/**
+	 * If p is a primitive type, then Object >1 p[]. 
+	 */
+	@Test
+	public void isAssignableWithObjectFromPrimitiveArray()
+	{
+		assertAsymmetricallyAssignable(Object.class, int[].class);
+	}
+	
+	/**
+	 * If p is a primitive type, then Cloneable >1 p[]. 
+	 */
+	@Test
+	public void isAssignableWithCloneableFromPrimitiveArray()
+	{
+		assertAsymmetricallyAssignable(Cloneable.class, int[].class);
+	}
+	
+	/**
+	 * If p is a primitive type, then java.io.Serializable >1 p[]. 
+	 */
+	@Test
+	public void isAssignableWithSerializableFromPrimitiveArray()
+	{
+		assertAsymmetricallyAssignable(Serializable.class, int[].class);
+	}
 	
 	@Test(expected = NullPointerException.class)
 	public void isAssignableWithNullSupertype()
@@ -838,6 +961,22 @@ public class TypeUtilsTest
 	}
 	
 	// private methods --------------------------------------------------------
+	
+	private static void assertAsymmetricallyAssignable(Type supertype, Type type)
+	{
+		assertAssignable(supertype, type);
+		assertUnassignable(type, supertype);
+	}
+	
+	private static void assertAssignable(Type supertype, Type type)
+	{
+		assertTrue("Expected " + type + " assignable to " + supertype, TypeUtils.isAssignable(supertype, type));
+	}
+	
+	private static void assertUnassignable(Type supertype, Type type)
+	{
+		assertFalse("Expected " + type + " not assignable to " + supertype, TypeUtils.isAssignable(supertype, type));
+	}
 	
 	private Type valueOf(String typeName)
 	{

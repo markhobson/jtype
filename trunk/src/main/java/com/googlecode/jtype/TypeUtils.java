@@ -20,6 +20,11 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Provides utility methods for working with types.
@@ -29,6 +34,27 @@ import java.lang.reflect.WildcardType;
  */
 public final class TypeUtils
 {
+	// constants --------------------------------------------------------------
+	
+	private static final Map<Class<?>, Set<Class<?>>> SUBTYPES_BY_PRIMITIVE;
+	
+	static
+	{
+		Map<Class<?>, Set<Class<?>>> subtypesByPrimitive = new HashMap<Class<?>, Set<Class<?>>>();
+		
+		putPrimitiveSubtypes(subtypesByPrimitive, Void.TYPE);
+		putPrimitiveSubtypes(subtypesByPrimitive, Boolean.TYPE);
+		putPrimitiveSubtypes(subtypesByPrimitive, Byte.TYPE);
+		putPrimitiveSubtypes(subtypesByPrimitive, Character.TYPE);
+		putPrimitiveSubtypes(subtypesByPrimitive, Short.TYPE, Byte.TYPE);
+		putPrimitiveSubtypes(subtypesByPrimitive, Integer.TYPE, Character.TYPE, Short.TYPE);
+		putPrimitiveSubtypes(subtypesByPrimitive, Long.TYPE, Integer.TYPE);
+		putPrimitiveSubtypes(subtypesByPrimitive, Float.TYPE, Long.TYPE);
+		putPrimitiveSubtypes(subtypesByPrimitive, Double.TYPE, Float.TYPE);
+
+		SUBTYPES_BY_PRIMITIVE = Collections.unmodifiableMap(subtypesByPrimitive);
+	}
+	
 	// constructors -----------------------------------------------------------
 	
 	private TypeUtils()
@@ -51,7 +77,7 @@ public final class TypeUtils
 		}
 		else if (supertype instanceof Class<?> && type instanceof Class<?>)
 		{
-			assignable = ((Class<?>) supertype).isAssignableFrom((Class<?>) type);
+			assignable = isAssignable((Class<?>) supertype, (Class<?>) type);
 		}
 		else if (supertype instanceof Class<?> && type instanceof ParameterizedType)
 		{
@@ -349,6 +375,37 @@ public final class TypeUtils
 	}
 	
 	// private methods --------------------------------------------------------
+	
+	private static void putPrimitiveSubtypes(Map<Class<?>, Set<Class<?>>> subtypesByPrimitive, Class<?> primitiveType,
+		Class<?>... directSubtypes)
+	{
+		Set<Class<?>> subtypes = new HashSet<Class<?>>();
+		
+		for (Class<?> directSubtype : directSubtypes)
+		{
+			subtypes.add(directSubtype);
+			subtypes.addAll(subtypesByPrimitive.get(directSubtype));
+		}
+		
+		subtypesByPrimitive.put(primitiveType, Collections.unmodifiableSet(subtypes));
+	}
+	
+	private static boolean isAssignable(Class<?> supertype, Class<?> type)
+	{
+		boolean assignable;
+		
+		// Class.isAssignableFrom does not perform primitive widening
+		if (supertype.isPrimitive() && type.isPrimitive())
+		{
+			assignable = SUBTYPES_BY_PRIMITIVE.get(supertype).contains(type);
+		}
+		else
+		{
+			assignable = supertype.isAssignableFrom(type);
+		}
+		
+		return assignable;
+	}
 	
 	private static boolean isAssignable(ParameterizedType supertype, ParameterizedType type)
 	{
