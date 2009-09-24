@@ -208,13 +208,13 @@ public class TypeUtilsTest
 	@Test(expected = NullPointerException.class)
 	public void isAssignableWithNullSupertype()
 	{
-		TypeUtils.isAssignable(null, Integer.class);
+		assertAssignable(null, Integer.class);
 	}
 	
 	@Test(expected = NullPointerException.class)
 	public void isAssignableWithNullType()
 	{
-		TypeUtils.isAssignable(Integer.class, null);
+		assertAssignable(Integer.class, null);
 	}
 	
 	/**
@@ -225,8 +225,7 @@ public class TypeUtilsTest
 	@Test
 	public void isAssignableWithDirectSuperclassFromClass()
 	{
-		assertTrue(TypeUtils.isAssignable(Number.class, Integer.class));
-		assertFalse(TypeUtils.isAssignable(Integer.class, Number.class));
+		assertAsymmetricallyAssignable(Number.class, Integer.class);
 	}
 	
 	/**
@@ -237,8 +236,7 @@ public class TypeUtilsTest
 	@Test
 	public void isAssignableWithIndirectSuperclassFromClass()
 	{
-		assertTrue(TypeUtils.isAssignable(Object.class, Integer.class));
-		assertFalse(TypeUtils.isAssignable(Integer.class, Object.class));
+		assertAsymmetricallyAssignable(Object.class, Integer.class);
 	}
 	
 	/**
@@ -249,8 +247,7 @@ public class TypeUtilsTest
 	@Test
 	public void isAssignableWithClassFromParameterizedType()
 	{
-		assertTrue(TypeUtils.isAssignable(List.class, valueOf("List<Integer>")));
-		assertFalse(TypeUtils.isAssignable(valueOf("List<Integer>"), List.class));
+		assertAsymmetricallyAssignable(List.class, valueOf("List<Integer>"));
 	}
 	
 	/**
@@ -261,8 +258,7 @@ public class TypeUtilsTest
 	@Test
 	public void isAssignableWithDirectlyAssignableParameterizedTypeRawTypes()
 	{
-		assertTrue(TypeUtils.isAssignable(valueOf("Collection<Integer>"), valueOf("List<Integer>")));
-		assertFalse(TypeUtils.isAssignable(valueOf("List<Integer>"), valueOf("Collection<Integer>")));
+		assertAsymmetricallyAssignable(valueOf("Collection<Integer>"), valueOf("List<Integer>"));
 	}
 	
 	/**
@@ -273,8 +269,7 @@ public class TypeUtilsTest
 	@Test
 	public void isAssignableWithIndirectlyAssignableParameterizedTypeRawTypes()
 	{
-		assertTrue(TypeUtils.isAssignable(valueOf("Collection<Integer>"), valueOf("ArrayList<Integer>")));
-		assertFalse(TypeUtils.isAssignable(valueOf("ArrayList<Integer>"), valueOf("Collection<Integer>")));
+		assertAsymmetricallyAssignable(valueOf("Collection<Integer>"), valueOf("ArrayList<Integer>"));
 	}
 	
 	/**
@@ -285,8 +280,8 @@ public class TypeUtilsTest
 	@Test
 	public void isAssignableWithUnassignableParameterizedTypeRawTypes()
 	{
-		assertFalse(TypeUtils.isAssignable(valueOf("List<Integer>"), valueOf("Set<Integer>")));
-		assertFalse(TypeUtils.isAssignable(valueOf("Set<Integer>"), valueOf("List<Integer>")));
+		assertUnassignable(valueOf("List<Integer>"), valueOf("Set<Integer>"));
+		assertUnassignable(valueOf("Set<Integer>"), valueOf("List<Integer>"));
 	}
 	
 	/**
@@ -297,8 +292,8 @@ public class TypeUtilsTest
 	@Test
 	public void isAssignableWithAssignableParameterizedTypeArguments()
 	{
-		assertFalse(TypeUtils.isAssignable(valueOf("List<Number>"), valueOf("List<Integer>")));
-		assertFalse(TypeUtils.isAssignable(valueOf("List<Integer>"), valueOf("List<Number>")));
+		assertUnassignable(valueOf("List<Number>"), valueOf("List<Integer>"));
+		assertUnassignable(valueOf("List<Integer>"), valueOf("List<Number>"));
 	}
 	
 	/**
@@ -309,8 +304,7 @@ public class TypeUtilsTest
 	@Test
 	public void isAssignableWithWildcardParameterizedTypeFromParameterizedType()
 	{
-		assertTrue(TypeUtils.isAssignable(valueOf("List<?>"), valueOf("List<Integer>")));
-		assertFalse(TypeUtils.isAssignable(valueOf("List<Integer>"), valueOf("List<?>")));
+		assertAsymmetricallyAssignable(valueOf("List<?>"), valueOf("List<Integer>"));
 	}
 	
 	/**
@@ -321,8 +315,7 @@ public class TypeUtilsTest
 	@Test
 	public void isAssignableWithUpperBoundedWildcardParameterizedTypeFromParameterizedType()
 	{
-		assertTrue(TypeUtils.isAssignable(valueOf("List<? extends Number>"), valueOf("List<Number>")));
-		assertFalse(TypeUtils.isAssignable(valueOf("List<Number>"), valueOf("List<? extends Number>")));
+		assertAsymmetricallyAssignable(valueOf("List<? extends Number>"), valueOf("List<Number>"));
 	}
 	
 	/**
@@ -333,8 +326,7 @@ public class TypeUtilsTest
 	@Test
 	public void isAssignableWithUpperBoundedWildcardParameterizedTypeFromInBoundsParameterizedType()
 	{
-		assertTrue(TypeUtils.isAssignable(valueOf("List<? extends Number>"), valueOf("List<Integer>")));
-		assertFalse(TypeUtils.isAssignable(valueOf("List<Integer>"), valueOf("List<? extends Number>")));
+		assertAsymmetricallyAssignable(valueOf("List<? extends Number>"), valueOf("List<Integer>"));
 	}
 	
 	/**
@@ -345,8 +337,8 @@ public class TypeUtilsTest
 	@Test
 	public void isAssignableWithUpperBoundedWildcardParameterizedTypeFromOutOfBoundsParameterizedType()
 	{
-		assertFalse(TypeUtils.isAssignable(valueOf("List<? extends Number>"), valueOf("List<Object>")));
-		assertFalse(TypeUtils.isAssignable(valueOf("List<Object>"), valueOf("List<? extends Number>")));
+		assertUnassignable(valueOf("List<? extends Number>"), valueOf("List<Object>"));
+		assertUnassignable(valueOf("List<Object>"), valueOf("List<? extends Number>"));
 	}
 	
 	/**
@@ -357,7 +349,7 @@ public class TypeUtilsTest
 	@Test
 	public void isAssignableWithUpperBoundedWildcardParameterizedTypeFromInBoundsUpperBoundedWildcardParameterizedType()
 	{
-		assertTrue(TypeUtils.isAssignable(valueOf("List<? extends Number>"), valueOf("List<? extends Integer>")));
+		assertAsymmetricallyAssignable(valueOf("List<? extends Number>"), valueOf("List<? extends Integer>"));
 	}
 	
 	/**
@@ -368,8 +360,7 @@ public class TypeUtilsTest
 	@Test
 	public void isAssignableWithLowerBoundedWildcardParameterizedTypeFromParameterizedType()
 	{
-		assertTrue(TypeUtils.isAssignable(valueOf("List<? super Number>"), valueOf("List<Number>")));
-		assertFalse(TypeUtils.isAssignable(valueOf("List<Number>"), valueOf("List<? super Number>")));
+		assertAsymmetricallyAssignable(valueOf("List<? super Number>"), valueOf("List<Number>"));
 	}
 	
 	/**
@@ -380,8 +371,7 @@ public class TypeUtilsTest
 	@Test
 	public void isAssignableWithLowerBoundedWildcardParameterizedTypeFromInBoundsParameterizedType()
 	{
-		assertTrue(TypeUtils.isAssignable(valueOf("List<? super Number>"), valueOf("List<Object>")));
-		assertFalse(TypeUtils.isAssignable(valueOf("List<Object>"), valueOf("List<? super Number>")));
+		assertAsymmetricallyAssignable(valueOf("List<? super Number>"), valueOf("List<Object>"));
 	}
 	
 	/**
@@ -392,8 +382,8 @@ public class TypeUtilsTest
 	@Test
 	public void isAssignableWithLowerBoundedWildcardParameterizedTypeFromOutOfBoundsParameterizedType()
 	{
-		assertFalse(TypeUtils.isAssignable(valueOf("List<? super Number>"), valueOf("List<Integer>")));
-		assertFalse(TypeUtils.isAssignable(valueOf("List<Integer>"), valueOf("List<? super Number>")));
+		assertUnassignable(valueOf("List<? super Number>"), valueOf("List<Integer>"));
+		assertUnassignable(valueOf("List<Integer>"), valueOf("List<? super Number>"));
 	}
 	
 	/**
@@ -404,7 +394,7 @@ public class TypeUtilsTest
 	@Test
 	public void isAssignableWithLowerBoundedWildcardParameterizedTypeFromInBoundsLowerBoundedWildcardParameterizedType()
 	{
-		assertTrue(TypeUtils.isAssignable(valueOf("List<? super Integer>"), valueOf("List<? super Number>")));
+		assertAsymmetricallyAssignable(valueOf("List<? super Integer>"), valueOf("List<? super Number>"));
 	}
 	
 	/**
@@ -415,8 +405,7 @@ public class TypeUtilsTest
 	@Test
 	public void isAssignableWithParameterizedTypeFromClass()
 	{
-		assertTrue(TypeUtils.isAssignable(valueOf("List<Integer>"), IntegerArrayList.class));
-		assertFalse(TypeUtils.isAssignable(IntegerArrayList.class, valueOf("List<Integer>")));
+		assertAsymmetricallyAssignable(valueOf("List<Integer>"), IntegerArrayList.class);
 	}
 	
 	// isInstance tests -------------------------------------------------------
