@@ -427,8 +427,14 @@ public final class TypeUtils
 			Type supertypeArg = supertypeArgs[i];
 			Type typeArg = typeArgs[i];
 			
-			if (!supertypeArg.equals(typeArg)
-				&& !(supertypeArg instanceof WildcardType && isAssignable((WildcardType) supertypeArg, typeArg)))
+			if (supertypeArg instanceof WildcardType)
+			{
+				if (!isAssignable((WildcardType) supertypeArg, typeArg))
+				{
+					return false;
+				}
+			}
+			else if (!supertypeArg.equals(typeArg))
 			{
 				return false;
 			}
