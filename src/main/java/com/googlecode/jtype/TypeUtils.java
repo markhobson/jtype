@@ -126,7 +126,7 @@ public final class TypeUtils
 	
 	public static boolean isInstance(Type type, Object object)
 	{
-		return getRawType(type).isInstance(object);
+		return getErasedReferenceType(type).isInstance(object);
 	}
 	
 	/**
@@ -172,42 +172,18 @@ public final class TypeUtils
 	
 	public static Class<?> getErasedReferenceType(Type type)
 	{
-		// TODO: replace getRawType with this method
-		
 		Utils.checkTrue(isReferenceType(type), "type is not a reference type: ", type);
 		
 		return (Class<?>) getErasedType(type);
 	}
-	
+
+	/**
+	 * @deprecated Use {@link #getErasedReferenceType(Type)} instead.
+	 */
+	@Deprecated
 	public static Class<?> getRawType(Type type)
 	{
-		if (type == null)
-		{
-			return null;
-		}
-		
-		if (type instanceof Class<?>)
-		{
-			return (Class<?>) type;
-		}
-		
-		if (type instanceof GenericArrayType)
-		{
-			Type componentType = ((GenericArrayType) type).getGenericComponentType();
-			
-			Class<?> rawComponentType = getRawType(componentType);
-			
-			return ClassUtils.getArrayType(rawComponentType);
-		}
-		
-		if (type instanceof ParameterizedType)
-		{
-			return getRawType(((ParameterizedType) type).getRawType());
-		}
-		
-		// TODO: support TypeVariables and WildcardTypes
-			
-		throw new IllegalArgumentException("Cannot obtain raw type from " + type);
+		return getErasedReferenceType(type);
 	}
 	
 	public static boolean isArray(Type type)
@@ -552,7 +528,7 @@ public final class TypeUtils
 		}
 		
 		Map<Type, Type> actualTypeArgumentsByParameter = getActualTypeArgumentsByParameter(type, subtype);
-		Class<?> rawType = getRawType(type);
+		Class<?> rawType = getErasedReferenceType(type);
 		
 		return parameterizeClass(rawType, actualTypeArgumentsByParameter);
 	}
@@ -579,7 +555,7 @@ public final class TypeUtils
 			return Collections.emptyMap();
 		}
 		
-		TypeVariable<?>[] typeParameters = getRawType(type).getTypeParameters();
+		TypeVariable<?>[] typeParameters = getErasedReferenceType(type).getTypeParameters();
 		Type[] typeArguments = ((ParameterizedType) type).getActualTypeArguments();
 		
 		if (typeParameters.length != typeArguments.length)
@@ -622,7 +598,7 @@ public final class TypeUtils
 			actualTypeArguments[i] = actualTypeArgument;
 		}
 		
-		return Types.parameterizedType(getRawType(type), actualTypeArguments);
+		return Types.parameterizedType(getErasedReferenceType(type), actualTypeArguments);
 	}
 	
 	private static <K, V> Map<K, V> normalize(Map<K, V> map)
