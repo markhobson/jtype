@@ -170,6 +170,15 @@ public final class TypeUtils
 		return type;
 	}
 	
+	public static Class<?> getErasedReferenceType(Type type)
+	{
+		// TODO: replace getRawType with this method
+		
+		Utils.checkTrue(isReferenceType(type), "type is not a reference type: ", type);
+		
+		return (Class<?>) getErasedType(type);
+	}
+	
 	public static Class<?> getRawType(Type type)
 	{
 		if (type == null)
@@ -505,15 +514,6 @@ public final class TypeUtils
 		}
 		
 		return false;
-	}
-	
-	private static Class<?> getErasedReferenceType(Type type)
-	{
-		// TODO: replace getRawType with this method
-		
-		Utils.checkTrue(isReferenceType(type), "type is not a reference type: ", type);
-		
-		return (Class<?>) getErasedType(type);
 	}
 	
 	/**
