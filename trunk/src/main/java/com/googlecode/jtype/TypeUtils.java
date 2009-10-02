@@ -16,6 +16,7 @@
 package com.googlecode.jtype;
 
 import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.MalformedParameterizedTypeException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -23,6 +24,7 @@ import java.lang.reflect.WildcardType;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -69,38 +71,57 @@ public final class TypeUtils
 		Utils.checkNotNull(supertype, "supertype");
 		Utils.checkNotNull(type, "type");
 		
-		boolean assignable;
-		
 		if (supertype.equals(type))
 		{
-			assignable = true;
-		}
-		else if (supertype instanceof Class<?> && type instanceof Class<?>)
-		{
-			assignable = isAssignable((Class<?>) supertype, (Class<?>) type);
-		}
-		else if (supertype instanceof Class<?> && type instanceof ParameterizedType)
-		{
-			assignable = isAssignable(supertype, ((ParameterizedType) type).getRawType());
-		}
-		else if (supertype instanceof ParameterizedType && type instanceof ParameterizedType)
-		{
-			assignable = isAssignable((ParameterizedType) supertype, (ParameterizedType) type);
-		}
-		else if (supertype instanceof WildcardType)
-		{
-			assignable = isAssignable((WildcardType) supertype, type);
-		}
-		else if (type instanceof Class<?>)
-		{
-			assignable = isAssignable(supertype, (Class<?>) type);
-		}
-		else
-		{
-			assignable = false;
+			return true;
 		}
 		
-		return assignable;
+		if (supertype instanceof Class<?>)
+		{
+			if (type instanceof Class<?>)
+			{
+				return isClassAssignable((Class<?>) supertype, (Class<?>) type);
+			}
+			
+			if (type instanceof ParameterizedType)
+			{
+				return isAssignable(supertype, ((ParameterizedType) type).getRawType());
+			}
+			
+			if (type instanceof TypeVariable<?>)
+			{
+				return isTypeVariableAssignable(supertype, (TypeVariable<?>) type);
+			}
+			
+			return false;
+		}
+		
+		if (supertype instanceof ParameterizedType)
+		{
+			if (type instanceof Class<?>)
+			{
+				return isSuperAssignable(supertype, type);
+			}
+			
+			if (type instanceof ParameterizedType)
+			{
+				return isParameterizedTypeAssignable((ParameterizedType) supertype, (ParameterizedType) type);
+			}
+			
+			return false;
+		}
+		
+		if (type instanceof TypeVariable<?>)
+		{
+			return isTypeVariableAssignable(supertype, (TypeVariable<?>) type);
+		}
+		
+		if (supertype instanceof WildcardType)
+		{
+			return isWildcardTypeAssignable((WildcardType) supertype, type);
+		}
+		
+		return false;
 	}
 	
 	public static boolean isInstance(Type type, Object object)
@@ -301,6 +322,37 @@ public final class TypeUtils
 		return typeArgs[0];
 	}
 	
+	public static Type getResolvedSuperclass(Type type)
+	{
+		Utils.checkNotNull(type, "type");
+		
+		Class<?> rawType = getErasedReferenceType(type);
+		Type supertype = rawType.getGenericSuperclass();
+		
+		if (supertype == null)
+		{
+			return null;
+		}
+
+		return resolveTypeVariables(supertype, type);
+	}
+	
+	public static Type[] getResolvedInterfaces(Type type)
+	{
+		Utils.checkNotNull(type, "type");
+		
+		Class<?> rawType = getErasedReferenceType(type);
+		Type[] interfaces = rawType.getGenericInterfaces();
+		Type[] resolvedInterfaces = new Type[interfaces.length];
+		
+		for (int i = 0; i < interfaces.length; i++)
+		{
+			resolvedInterfaces[i] = resolveTypeVariables(interfaces[i], type);
+		}
+		
+		return resolvedInterfaces;
+	}
+	
 	public static String toString(Type type)
 	{
 		return toString(type, ClassSerializers.QUALIFIED);
@@ -390,7 +442,7 @@ public final class TypeUtils
 		subtypesByPrimitive.put(primitiveType, Collections.unmodifiableSet(subtypes));
 	}
 	
-	private static boolean isAssignable(Class<?> supertype, Class<?> type)
+	private static boolean isClassAssignable(Class<?> supertype, Class<?> type)
 	{
 		boolean assignable;
 		
@@ -407,11 +459,21 @@ public final class TypeUtils
 		return assignable;
 	}
 	
-	private static boolean isAssignable(ParameterizedType supertype, ParameterizedType type)
+	private static boolean isParameterizedTypeAssignable(ParameterizedType supertype, ParameterizedType type)
 	{
-		if (!isAssignable(supertype.getRawType(), type.getRawType()))
+		Type rawSupertype = supertype.getRawType();
+		Type rawType = type.getRawType();
+
+		if (!rawSupertype.equals(rawType))
 		{
-			return false;
+			// short circuit when class raw types are unassignable
+			if (rawSupertype instanceof Class<?> && rawType instanceof Class<?>
+				&& !(((Class<?>) rawSupertype).isAssignableFrom((Class<?>) rawType)))
+			{
+				return false;
+			}
+		
+			return isSuperAssignable(supertype, type);
 		}
 		
 		Type[] supertypeArgs = supertype.getActualTypeArguments();
@@ -429,7 +491,7 @@ public final class TypeUtils
 			
 			if (supertypeArg instanceof WildcardType)
 			{
-				if (!isAssignable((WildcardType) supertypeArg, typeArg))
+				if (!isWildcardTypeAssignable((WildcardType) supertypeArg, typeArg))
 				{
 					return false;
 				}
@@ -443,7 +505,20 @@ public final class TypeUtils
 		return true;
 	}
 	
-	private static boolean isAssignable(WildcardType supertype, Type type)
+	private static boolean isTypeVariableAssignable(Type supertype, TypeVariable<?> type)
+	{
+		for (Type bound : type.getBounds())
+		{
+			if (isAssignable(supertype, bound))
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private static boolean isWildcardTypeAssignable(WildcardType supertype, Type type)
 	{
 		for (Type upperBound : supertype.getUpperBounds())
 		{
@@ -464,16 +539,16 @@ public final class TypeUtils
 		return true;
 	}
 	
-	private static boolean isAssignable(Type supertype, Class<?> type)
+	private static boolean isSuperAssignable(Type supertype, Type type)
 	{
-		Type genericSuperclass = type.getGenericSuperclass();
+		Type superclass = getResolvedSuperclass(type);
 		
-		if (genericSuperclass != null && isAssignable(supertype, genericSuperclass))
+		if (superclass != null && isAssignable(supertype, superclass))
 		{
 			return true;
 		}
 		
-		for (Type interphace : type.getGenericInterfaces())
+		for (Type interphace : getResolvedInterfaces(type))
 		{
 			if (isAssignable(supertype, interphace))
 			{
@@ -482,5 +557,143 @@ public final class TypeUtils
 		}
 		
 		return false;
+	}
+	
+	private static Class<?> getErasedReferenceType(Type type)
+	{
+		// TODO: replace getRawType with this method
+		
+		Utils.checkNotNull(type, "type");
+		Utils.checkTrue(isReferenceType(type), "type is not a reference type: ", type);
+		
+		return (Class<?>) getErasedType(type);
+	}
+	
+	/**
+	 * Gets whether the specified type is a <em>reference type</em>.
+	 * <p>
+	 * More specifically, this method returns {@code true} if the specified type is one of the following:
+	 * <ul>
+	 * <li>a class type</li>
+	 * <li>an interface type</li>
+	 * <li>an array type</li>
+	 * <li>a parameterized type</li>
+	 * <li>a type variable</li>
+	 * <li>the null type</li>
+	 * </ul>
+	 * 
+	 * @param type
+	 *            the type to check
+	 * @return {@code true} if the specified type is a reference type
+	 * @see <a href="http://java.sun.com/docs/books/jls/third_edition/html/typesValues.html#4.3">4.3 Reference Types and Values</a>
+	 */
+	private static boolean isReferenceType(Type type)
+	{
+		return type == null
+			|| type instanceof Class<?>
+			|| type instanceof ParameterizedType
+			|| type instanceof TypeVariable<?>
+			|| type instanceof GenericArrayType;
+	}
+
+	private static Type resolveTypeVariables(Type type, Type subtype)
+	{
+		// TODO: need to support other types in future, e.g. T[], etc.
+		if (!(type instanceof ParameterizedType))
+		{
+			return type;
+		}
+		
+		Map<Type, Type> actualTypeArgumentsByParameter = getActualTypeArgumentsByParameter(type, subtype);
+		Class<?> rawType = getRawType(type);
+		
+		return parameterizeClass(rawType, actualTypeArgumentsByParameter);
+	}
+	
+	private static Map<Type, Type> getActualTypeArgumentsByParameter(Type... types)
+	{
+		// TODO: return Map<TypeVariable<Class<?>>, Type> somehow
+		
+		Map<Type, Type> actualTypeArgumentsByParameter = new LinkedHashMap<Type, Type>();
+		
+		for (Type type : types)
+		{
+			actualTypeArgumentsByParameter.putAll(getActualTypeArgumentsByParameterInternal(type));
+		}
+		
+		return normalize(actualTypeArgumentsByParameter);
+	}
+	
+	private static Map<Type, Type> getActualTypeArgumentsByParameterInternal(Type type)
+	{
+		// TODO: look deeply within non-parameterized types when visitors implemented
+		if (!(type instanceof ParameterizedType))
+		{
+			return Collections.emptyMap();
+		}
+		
+		TypeVariable<?>[] typeParameters = getRawType(type).getTypeParameters();
+		Type[] typeArguments = ((ParameterizedType) type).getActualTypeArguments();
+		
+		if (typeParameters.length != typeArguments.length)
+		{
+			throw new MalformedParameterizedTypeException();
+		}
+		
+		Map<Type, Type> actualTypeArgumentsByParameter = new LinkedHashMap<Type, Type>();
+		
+		for (int i = 0; i < typeParameters.length; i++)
+		{
+			actualTypeArgumentsByParameter.put(typeParameters[i], typeArguments[i]);
+		}
+		
+		return actualTypeArgumentsByParameter;
+	}
+	
+	private static ParameterizedType parameterizeClass(Class<?> type, Map<Type, Type> actualTypeArgumentsByParameter)
+	{
+		return parameterizeClassCapture(type, actualTypeArgumentsByParameter);
+	}
+	
+	private static <T> ParameterizedType parameterizeClassCapture(Class<T> type, Map<Type, Type> actualTypeArgumentsByParameter)
+	{
+		// TODO: actualTypeArgumentsByParameter should be Map<TypeVariable<Class<T>>, Type>
+		
+		TypeVariable<Class<T>>[] typeParameters = type.getTypeParameters();
+		Type[] actualTypeArguments = new Type[typeParameters.length];
+		
+		for (int i = 0; i < typeParameters.length; i++)
+		{
+			TypeVariable<Class<T>> typeParameter = typeParameters[i];
+			Type actualTypeArgument = actualTypeArgumentsByParameter.get(typeParameter);
+			
+			if (actualTypeArgument == null)
+			{
+				throw new IllegalArgumentException("Missing actual type argument for type parameter: " + typeParameter);
+			}
+			
+			actualTypeArguments[i] = actualTypeArgument;
+		}
+		
+		return Types.parameterizedType(getRawType(type), actualTypeArguments);
+	}
+	
+	private static <K, V> Map<K, V> normalize(Map<K, V> map)
+	{
+		// TODO: will this cause an infinite look with recursive bounds?
+		
+		for (K key : map.keySet())
+		{
+			V value = map.get(key);
+			
+			while (map.containsKey(value))
+			{
+				value = map.get(value);
+			}
+			
+			map.put(key, value);
+		}
+		
+		return map;
 	}
 }
