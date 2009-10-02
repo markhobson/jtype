@@ -139,10 +139,8 @@ public final class TypeUtils
 	 */
 	public static Type getErasedType(Type type)
 	{
-		Utils.checkNotNull(type, "type");
-		
 		Type erasedType;
-		
+
 		// the erasure of a parameterized type G<T1, ... ,Tn> is |G|
 		if (type instanceof ParameterizedType)
 		{
@@ -177,11 +175,13 @@ public final class TypeUtils
 	
 	public static Class<?> getRawType(Type type)
 	{
-		Utils.checkNotNull(type, "type");
-		
 		Class<?> rawType;
 		
-		if (type instanceof Class<?>)
+		if (type == null)
+		{
+			rawType = null;
+		}
+		else if (type instanceof Class<?>)
 		{
 			rawType = (Class<?>) type;
 		}
@@ -209,8 +209,6 @@ public final class TypeUtils
 	
 	public static boolean isArray(Type type)
 	{
-		Utils.checkNotNull(type, "type");
-		
 		boolean array;
 		
 		if (type instanceof Class<?>)
@@ -231,8 +229,6 @@ public final class TypeUtils
 	
 	public static Type getComponentType(Type type)
 	{
-		Utils.checkNotNull(type, "type");
-		
 		Type componentType;
 		
 		if (type instanceof Class<?>)
@@ -563,7 +559,6 @@ public final class TypeUtils
 	{
 		// TODO: replace getRawType with this method
 		
-		Utils.checkNotNull(type, "type");
 		Utils.checkTrue(isReferenceType(type), "type is not a reference type: ", type);
 		
 		return (Class<?>) getErasedType(type);
