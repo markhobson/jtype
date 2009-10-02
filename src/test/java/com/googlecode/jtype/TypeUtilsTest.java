@@ -15,6 +15,7 @@
  */
 package com.googlecode.jtype;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -26,13 +27,17 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.RandomAccess;
 import java.util.Set;
 
 import org.junit.Before;
@@ -55,6 +60,16 @@ public class TypeUtilsTest
 		// simple subclass to fix generics
 	}
 	
+	private static class IntegerKeyHashMap<V> extends HashMap<Integer, V>
+	{
+		// simple subclass to fix generics
+	}
+	
+	private static class StringsByIntegerHashMap extends IntegerKeyHashMap<String>
+	{
+		// simple subclass to fix generics
+	}
+	
 	// fields -----------------------------------------------------------------
 	
 	private Set<String> valueOfImports;
@@ -73,8 +88,10 @@ public class TypeUtilsTest
 			Collection.class.getName(),
 			Set.class.getName(),
 			List.class.getName(),
+			Map.class.getName(),
 			HashSet.class.getName(),
 			LinkedHashSet.class.getName(),
+			AbstractList.class.getName(),
 			ArrayList.class.getName()
 		)));
 		
@@ -133,6 +150,46 @@ public class TypeUtilsTest
 		assertAssignable(Short.TYPE, Short.TYPE);
 		assertAsymmetricallyAssignable(Short.TYPE, Byte.TYPE);
 	}
+	
+	// JLS 4.10.2 Subtyping among Class and Interface Types
+	
+	/**
+	 * The direct superclasses of C.
+	 */
+	@Test
+	public void isAssignableWithDirectSuperclassFromParameterizedType()
+	{
+		assertAssignable(AbstractList.class, valueOf("ArrayList<Integer>"));
+	}
+	
+	/**
+	 * The direct superinterfaces of C.
+	 */
+	@Test
+	public void isAssignableWithDirectSuperinterfaceFromParameterizedType()
+	{
+		assertAssignable(Collection.class, valueOf("List<Integer>"));
+	}
+	
+	/**
+	 * The type Object, if C is an interface type with no direct superinterfaces.
+	 */
+	@Test
+	public void isAssignableWithObjectFromInterface()
+	{
+		assertAssignable(Object.class, Iterable.class);
+	}
+	
+	/**
+	 * The raw type C.
+	 */
+	@Test
+	public void isAssignableWithRawTypeFromParameterizedType()
+	{
+		assertAssignable(List.class, valueOf("List<Integer>"));
+	}
+	
+	// TODO: finish 4.10.2
 	
 	// JLS 4.10.3 Subtyping among Array Types
 	
@@ -403,9 +460,107 @@ public class TypeUtilsTest
 	 * {@literal List<Integer> <: IntegerArrayList}
 	 */
 	@Test
-	public void isAssignableWithParameterizedTypeFromClass()
+	public void isAssignableWithParameterizedTypeFromClassWithActualTypeArguments()
 	{
 		assertAsymmetricallyAssignable(valueOf("List<Integer>"), IntegerArrayList.class);
+	}
+	
+	@Test
+	public void isAssignableWithUnboundedWildcardParameterizedTypeFromClass()
+	{
+		assertAsymmetricallyAssignable(valueOf("List<?>"), ArrayList.class);
+	}
+	
+	@Test
+	public void isAssignableWithUnboundedWildcardParameterizedTypeFromClassWithActualTypeArguments()
+	{
+		assertAsymmetricallyAssignable(valueOf("Map<?,?>"), StringsByIntegerHashMap.class);
+	}
+	
+	/**
+	 * Tests that unbounded type variables are assignable to Object.
+	 * 
+	 * {@literal Object <: T}
+	 */
+	@Test
+	public void isAssignableWithObjectFromTypeVariableWithNoBounds()
+	{
+		assertAssignable(Object.class, Types.typeVariable(declaration, "T"));
+	}
+
+	/**
+	 * Tests that type variables with a single bound are assignable to their bound. 
+	 * 
+	 * {@literal Number <: T extends Number}
+	 */
+	@Test
+	public void isAssignableWithBoundFromTypeVariableWithBound()
+	{
+		assertAssignable(Number.class, Types.typeVariable(declaration, "T", Number.class));
+	}
+	
+	/**
+	 * Tests that type variables with a single bound are not assignable to subtypes of their bound.
+	 * 
+	 * {@literal Integer !<: T extends Number}
+	 */
+	@Test
+	public void isAssignableWithTypeOutsideOfBoundFromTypeVariableWithBound()
+	{
+		assertUnassignable(Integer.class, Types.typeVariable(declaration, "T", Number.class));
+	}
+	
+	/**
+	 * Tests that type variables with a single bound are assignable to supertypes of their bound.
+	 * 
+	 * {@literal Number <: T extends Integer}
+	 */
+	@Test
+	public void isAssignableWithTypeInsideOfBoundFromTypeVariableWithBound()
+	{
+		assertAssignable(Number.class, Types.typeVariable(declaration, "T", Integer.class));
+	}
+	
+	/**
+	 * Tests that type variables with multiple bounds are assignable to their bounds.
+	 * 
+	 * {@literal Number, Collection <: T extends Number & Collection}
+	 */
+	@Test
+	public void isAssignableWithBoundsFromTypeVariableWithBounds()
+	{
+		TypeVariable<?> type = Types.typeVariable(declaration, "T", Number.class, Collection.class);
+
+		assertAssignable(Number.class, type);
+		assertAssignable(Collection.class, type);
+	}
+	
+	/**
+	 * Tests that type variables with multiple bounds are not assignable to supertypes of their bounds.
+	 * 
+	 * {@literal Integer, Thread !<: T extends Number & Runnable}
+	 */
+	@Test
+	public void isAssignableWithTypeOutsideOfBoundsFromTypeVariableWithBounds()
+	{
+		TypeVariable<?> type = Types.typeVariable(declaration, "T", Number.class, Collection.class);
+		
+		assertUnassignable(Integer.class, type);
+		assertUnassignable(List.class, type);
+	}
+	
+	/**
+	 * Tests that type variables with multiple bounds are assignable to subtypes of their bounds.
+	 * 
+	 * {@literal Number, Collection <: T extends Integer & List}
+	 */
+	@Test
+	public void isAssignableWithTypeInsideOfBoundsFromTypeVariableWithBounds()
+	{
+		TypeVariable<?> type = Types.typeVariable(declaration, "T", Integer.class, List.class);
+		
+		assertAssignable(Number.class, type);
+		assertAssignable(Collection.class, type);
 	}
 	
 	// isInstance tests -------------------------------------------------------
@@ -784,6 +939,150 @@ public class TypeUtilsTest
 	public void getActualTypeArgument()
 	{
 		assertEquals(Integer.class, TypeUtils.getActualTypeArgument(valueOf("List<Integer>")));
+	}
+	
+	// getResolvedSuperclass tests ---------------------------------------------
+	
+	@Test
+	public void getResolvedSuperclassWithPrimitive()
+	{
+		assertNull(TypeUtils.getResolvedSuperclass(int.class));
+	}
+	
+	@Test
+	public void getResolvedSuperclassWithPrimitiveArray()
+	{
+		assertEquals(Object.class, TypeUtils.getResolvedSuperclass(int[].class));
+	}
+	
+	@Test
+	public void getResolvedSuperclassWithObject()
+	{
+		assertNull(TypeUtils.getResolvedSuperclass(Object.class));
+	}
+	
+	@Test
+	public void getResolvedSuperclassWithClass()
+	{
+		assertEquals(Number.class, TypeUtils.getResolvedSuperclass(Integer.class));
+	}
+	
+	@Test
+	public void getResolvedSuperclassWithArrayClass()
+	{
+		assertEquals(Object.class, TypeUtils.getResolvedSuperclass(Integer[].class));
+	}
+	
+	@Test
+	public void getResolvedSuperclassWithTypeVariable()
+	{
+		assertNull(TypeUtils.getResolvedSuperclass(Types.typeVariable(declaration, "T")));
+	}
+	
+	@Test
+	public void getResolvedSuperclassWithGenericArray()
+	{
+		assertEquals(Object.class, TypeUtils.getResolvedSuperclass(Types.genericArrayType(Integer.class)));
+	}
+	
+	@Test
+	public void getResolvedSuperclassWithParameterizedType()
+	{
+		assertEquals(valueOf("AbstractList<Integer>"), TypeUtils.getResolvedSuperclass(valueOf("ArrayList<Integer>")));
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void getResolvedSuperclassWithWildcardType()
+	{
+		TypeUtils.getResolvedSuperclass(Types.unboundedWildcardType());
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void getResolvedSuperclassWithNull()
+	{
+		TypeUtils.getResolvedSuperclass(null);
+	}
+	
+	// getResolvedInterfaces tests --------------------------------------------
+	
+	@Test
+	public void getResolvedInterfacesWithPrimitive()
+	{
+		assertArrayEquals(new Type[0], TypeUtils.getResolvedInterfaces(int.class));
+	}
+	
+	@Test
+	public void getResolvedInterfacesWithPrimitiveArray()
+	{
+		Type[] expectedInterfaces = new Type[] {
+			Cloneable.class,
+			Serializable.class
+		};
+		
+		assertArrayEquals(expectedInterfaces, TypeUtils.getResolvedInterfaces(int[].class));
+	}
+	
+	@Test
+	public void getResolvedInterfacesWithClass()
+	{
+		Type[] expectedInterfaces = new Type[] {
+			valueOf("java.lang.Comparable<Integer>")
+		};
+		
+		assertArrayEquals(expectedInterfaces, TypeUtils.getResolvedInterfaces(Integer.class));
+	}
+	
+	@Test
+	public void getResolvedInterfacesWithArrayClass()
+	{
+		Type[] expectedInterfaces = new Type[] {
+			Cloneable.class,
+			Serializable.class
+		};
+		
+		assertArrayEquals(expectedInterfaces, TypeUtils.getResolvedInterfaces(Integer[].class));
+	}
+	
+	@Test
+	public void getResolvedInterfacesWithTypeVariable()
+	{
+		assertArrayEquals(new Type[0], TypeUtils.getResolvedInterfaces(Types.typeVariable(declaration, "T")));
+	}
+	
+	@Test
+	public void getResolvedInterfacesWithGenericArray()
+	{
+		Type[] expectedInterfaces = new Type[] {
+			Cloneable.class,
+			Serializable.class
+		};
+		
+		assertArrayEquals(expectedInterfaces, TypeUtils.getResolvedInterfaces(Types.genericArrayType(Integer.class)));
+	}
+	
+	@Test
+	public void getResolvedInterfacesWithParameterizedType()
+	{
+		Type[] expectedInterfaces = new Type[] {
+			valueOf("List<Integer>"),
+			RandomAccess.class,
+			Cloneable.class,
+			Serializable.class
+		};
+		
+		assertArrayEquals(expectedInterfaces, TypeUtils.getResolvedInterfaces(valueOf("ArrayList<Integer>")));
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void getResolvedInterfacesWithWildcardType()
+	{
+		TypeUtils.getResolvedInterfaces(Types.unboundedWildcardType());
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void getResolvedInterfacesWithNull()
+	{
+		TypeUtils.getResolvedInterfaces(null);
 	}
 	
 	// toString tests ---------------------------------------------------------
