@@ -682,10 +682,10 @@ public class TypeUtilsTest
 	
 	// getErasedType tests ----------------------------------------------------
 	
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void getErasedTypeWithNull()
 	{
-		TypeUtils.getErasedType(null);
+		assertNull(TypeUtils.getErasedType(null));
 	}
 	
 	@Test
@@ -729,10 +729,10 @@ public class TypeUtilsTest
 	
 	// getRawType tests -------------------------------------------------------
 	
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void getRawTypeWithNull()
 	{
-		TypeUtils.getRawType(null);
+		assertNull(TypeUtils.getRawType(null));
 	}
 	
 	@Test
@@ -755,10 +755,10 @@ public class TypeUtilsTest
 	
 	// isArray tests ----------------------------------------------------------
 	
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void isArrayWithNull()
 	{
-		TypeUtils.isArray(null);
+		assertFalse(TypeUtils.isArray(null));
 	}
 	
 	@Test
@@ -799,10 +799,10 @@ public class TypeUtilsTest
 	
 	// getComponentType tests -------------------------------------------------
 	
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void getComponentTypeWithNull()
 	{
-		TypeUtils.getComponentType(null);
+		assertNull(TypeUtils.getComponentType(null));
 	}
 	
 	@Test
