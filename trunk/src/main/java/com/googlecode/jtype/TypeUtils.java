@@ -139,139 +139,101 @@ public final class TypeUtils
 	 */
 	public static Type getErasedType(Type type)
 	{
-		Type erasedType;
-
 		// the erasure of a parameterized type G<T1, ... ,Tn> is |G|
 		if (type instanceof ParameterizedType)
 		{
 			Type rawType = ((ParameterizedType) type).getRawType();
 			
-			erasedType = getErasedType(rawType);
+			return getErasedType(rawType);
 		}
+		
 		// TODO: the erasure of a nested type T.C is |T|.C
+		
 		// the erasure of an array type T[] is |T|[]
-		else if (isArray(type))
+		if (isArray(type))
 		{
 			Type componentType = getComponentType(type);
 			Type erasedComponentType = getErasedType(componentType);
 			
-			erasedType = getArrayType(erasedComponentType);
+			return getArrayType(erasedComponentType);
 		}
+		
 		// the erasure of a type variable is the erasure of its leftmost bound 
-		else if (type instanceof TypeVariable<?>)
+		if (type instanceof TypeVariable<?>)
 		{
 			Type[] bounds = ((TypeVariable<?>) type).getBounds();
 			
-			erasedType = getErasedType(bounds[0]);
-		}
-		// the erasure of every other type is the type itself
-		else
-		{
-			erasedType = type;
+			return getErasedType(bounds[0]);
 		}
 		
-		return erasedType;
+		// the erasure of every other type is the type itself
+		return type;
 	}
 	
 	public static Class<?> getRawType(Type type)
 	{
-		Class<?> rawType;
-		
 		if (type == null)
 		{
-			rawType = null;
+			return null;
 		}
-		else if (type instanceof Class<?>)
+		
+		if (type instanceof Class<?>)
 		{
-			rawType = (Class<?>) type;
+			return (Class<?>) type;
 		}
-		else if (type instanceof GenericArrayType)
+		
+		if (type instanceof GenericArrayType)
 		{
 			Type componentType = ((GenericArrayType) type).getGenericComponentType();
 			
 			Class<?> rawComponentType = getRawType(componentType);
 			
-			rawType = ClassUtils.getArrayType(rawComponentType);
-		}
-		else if (type instanceof ParameterizedType)
-		{
-			rawType = getRawType(((ParameterizedType) type).getRawType());
-		}
-		else
-		{
-			// TODO: support TypeVariables and WildcardTypes
-			
-			throw new IllegalArgumentException("Cannot obtain raw type from " + type);
+			return ClassUtils.getArrayType(rawComponentType);
 		}
 		
-		return rawType;
+		if (type instanceof ParameterizedType)
+		{
+			return getRawType(((ParameterizedType) type).getRawType());
+		}
+		
+		// TODO: support TypeVariables and WildcardTypes
+			
+		throw new IllegalArgumentException("Cannot obtain raw type from " + type);
 	}
 	
 	public static boolean isArray(Type type)
 	{
-		boolean array;
-		
-		if (type instanceof Class<?>)
-		{
-			array = ((Class<?>) type).isArray();
-		}
-		else if (type instanceof GenericArrayType)
-		{
-			array = true;
-		}
-		else
-		{
-			array = false;
-		}
-		
-		return array;
+		return (type instanceof Class<?> && ((Class<?>) type).isArray())
+			|| (type instanceof GenericArrayType);
 	}
 	
 	public static Type getComponentType(Type type)
 	{
-		Type componentType;
-		
 		if (type instanceof Class<?>)
 		{
 			Class<?> klass = (Class<?>) type;
 			
-			if (klass.isArray())
-			{
-				componentType = klass.getComponentType();
-			}
-			else
-			{
-				componentType = null;
-			}
-		}
-		else if (type instanceof GenericArrayType)
-		{
-			componentType = ((GenericArrayType) type).getGenericComponentType();
-		}
-		else
-		{
-			componentType = null;
+			return klass.isArray() ? klass.getComponentType() : null;
 		}
 		
-		return componentType;
+		if (type instanceof GenericArrayType)
+		{
+			return ((GenericArrayType) type).getGenericComponentType();
+		}
+		
+		return null;
 	}
 	
 	public static Type getArrayType(Type componentType)
 	{
 		Utils.checkNotNull(componentType, "componentType");
 		
-		Type arrayType;
-		
 		if (componentType instanceof Class<?>)
 		{
-			arrayType = ClassUtils.getArrayType((Class<?>) componentType);
-		}
-		else
-		{
-			arrayType = Types.genericArrayType(componentType);
+			return ClassUtils.getArrayType((Class<?>) componentType);
 		}
 		
-		return arrayType;
+		return Types.genericArrayType(componentType);
 	}
 	
 	public static boolean isSimpleParameterizedType(Type type, Class<?> rawType)
@@ -356,43 +318,39 @@ public final class TypeUtils
 	
 	public static String toString(Type type, ClassSerializer serializer)
 	{
-		String value;
-		
 		if (type instanceof Class<?>)
 		{
 			Class<?> klass = (Class<?>) type;
 			
 			if (klass.isArray())
 			{
-				value = toString(klass.getComponentType(), serializer) + "[]";
+				return toString(klass.getComponentType(), serializer) + "[]";
 			}
-			else
-			{
-				value = serializer.toString(klass);
-			}
-		}
-		else if (type instanceof TypeVariable<?>)
-		{
-			value = DefaultTypeVariable.toString((TypeVariable<?>) type, serializer);
-		}
-		else if (type instanceof GenericArrayType)
-		{
-			value = DefaultGenericArrayType.toString((GenericArrayType) type, serializer);
-		}
-		else if (type instanceof ParameterizedType)
-		{
-			value = DefaultParameterizedType.toString((ParameterizedType) type, serializer);
-		}
-		else if (type instanceof WildcardType)
-		{
-			value = DefaultWildcardType.toString((WildcardType) type, serializer);
-		}
-		else
-		{
-			value = String.valueOf(type);
+			
+			return serializer.toString(klass);
 		}
 		
-		return value;
+		if (type instanceof TypeVariable<?>)
+		{
+			return DefaultTypeVariable.toString((TypeVariable<?>) type, serializer);
+		}
+		
+		if (type instanceof GenericArrayType)
+		{
+			return DefaultGenericArrayType.toString((GenericArrayType) type, serializer);
+		}
+		
+		if (type instanceof ParameterizedType)
+		{
+			return DefaultParameterizedType.toString((ParameterizedType) type, serializer);
+		}
+		
+		if (type instanceof WildcardType)
+		{
+			return DefaultWildcardType.toString((WildcardType) type, serializer);
+		}
+		
+		return String.valueOf(type);
 	}
 
 	public static String toUnqualifiedString(Type type)
@@ -440,19 +398,13 @@ public final class TypeUtils
 	
 	private static boolean isClassAssignable(Class<?> supertype, Class<?> type)
 	{
-		boolean assignable;
-		
 		// Class.isAssignableFrom does not perform primitive widening
 		if (supertype.isPrimitive() && type.isPrimitive())
 		{
-			assignable = SUBTYPES_BY_PRIMITIVE.get(supertype).contains(type);
-		}
-		else
-		{
-			assignable = supertype.isAssignableFrom(type);
+			return SUBTYPES_BY_PRIMITIVE.get(supertype).contains(type);
 		}
 		
-		return assignable;
+		return supertype.isAssignableFrom(type);
 	}
 	
 	private static boolean isParameterizedTypeAssignable(ParameterizedType supertype, ParameterizedType type)
