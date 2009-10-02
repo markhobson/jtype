@@ -16,6 +16,7 @@
 package com.googlecode.jtype;
 
 import java.lang.reflect.GenericDeclaration;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
@@ -53,6 +54,24 @@ class DefaultTypeVariable<D extends GenericDeclaration> implements TypeVariable<
 		{
 			bounds = DEFAULT_BOUNDS;
 		}
+		
+		// initial bound must be either a class type, an interface type or a type variable
+		
+		Utils.checkTrue(isValidFirstBound(bounds[0]), "First bound must be either a class type, an interface type or a "
+			+ "type variable", bounds[0]);
+		
+		// subsequent bounds must be an interface type
+		
+		for (int i = 1; i < bounds.length; i++)
+		{
+			Utils.checkTrue(isValidSecondaryBound(bounds[i]), "Secondary bounds must be an interface type: ",
+				bounds[i]);
+		}
+		
+		// TODO: the erasures of all constituent types of a bound must be pairwise different
+		
+		// TODO: type variable may not be a subtype of two interface types which are different parameterizations of the
+		// same generic interface
 		
 		this.declaration = Utils.checkNotNull(declaration, "declaration");
 		this.name = Utils.checkNotNull(name, "name");
@@ -148,5 +167,31 @@ class DefaultTypeVariable<D extends GenericDeclaration> implements TypeVariable<
 		}
 		
 		return builder.toString();
+	}
+	
+	// private methods --------------------------------------------------------
+	
+	private static boolean isValidFirstBound(Type bound)
+	{
+		return (bound instanceof Class<?> && !((Class<?>) bound).isArray())
+			|| (bound instanceof ParameterizedType)
+			|| (bound instanceof TypeVariable<?>);
+	}
+	
+	private static boolean isValidSecondaryBound(Type bound)
+	{
+		if (bound instanceof Class<?>)
+		{
+			return ((Class<?>) bound).isInterface();
+		}
+		
+		if (bound instanceof ParameterizedType)
+		{
+			Type rawType = ((ParameterizedType) bound).getRawType();
+			
+			return (rawType instanceof Class<?>) && ((Class<?>) rawType).isInterface();
+		}
+		
+		return false;
 	}
 }

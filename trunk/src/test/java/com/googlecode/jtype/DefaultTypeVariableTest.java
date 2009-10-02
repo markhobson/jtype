@@ -19,10 +19,14 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -81,14 +85,87 @@ public class DefaultTypeVariableTest
 	}
 	
 	@Test
-	public void constructorWithBounds()
+	public void constructorWithClassFirstBound()
 	{
-		TypeVariable<Constructor<?>> typeVariable = new DefaultTypeVariable<Constructor<?>>(constructor, "T",
-			new Type[] {Number.class});
-		
-		assertEquals(constructor, typeVariable.getGenericDeclaration());
-		assertEquals("T", typeVariable.getName());
-		assertArrayEquals(new Type[] {Number.class}, typeVariable.getBounds());
+		assertConstructor(constructor, "T", Number.class);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void constructorWithArrayClassFirstBound()
+	{
+		assertConstructor(constructor, "T", Number[].class);
+	}
+	
+	@Test
+	public void constructorWithInterfaceFirstBound()
+	{
+		assertConstructor(constructor, "T", Serializable.class);
+	}
+	
+	@Test
+	public void constructorWithTypeVariableFirstBound()
+	{
+		assertConstructor(constructor, "T", Types.typeVariable(constructor, "U"));
+	}
+	
+	@Test
+	public void constructorWithInterfaceParameterizedTypeFirstBound()
+	{
+		assertConstructor(constructor, "T", Types.parameterizedType(List.class, Number.class));
+	}
+	
+	@Test
+	public void constructorWithClassParameterizedTypeFirstBound()
+	{
+		assertConstructor(constructor, "T", Types.parameterizedType(ArrayList.class, Number.class));
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void constructorWithWildcardTypeFirstBound()
+	{
+		assertConstructor(constructor, "T", Types.unboundedWildcardType());
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void constructorWithClassSecondBound()
+	{
+		assertConstructor(constructor, "T", Object.class, Number.class);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void constructorWithArrayClassSecondBound()
+	{
+		assertConstructor(constructor, "T", Object.class, Number[].class);
+	}
+	
+	@Test
+	public void constructorWithInterfaceSecondBound()
+	{
+		assertConstructor(constructor, "T", Object.class, Serializable.class);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void constructorWithTypeVariableSecondBound()
+	{
+		assertConstructor(constructor, "T", Object.class, Types.typeVariable(constructor, "U"));
+	}
+	
+	@Test
+	public void constructorWithInterfaceParameterizedTypeSecondBound()
+	{
+		assertConstructor(constructor, "T", Object.class, Types.parameterizedType(List.class, Number.class));
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void constructorWithClassParameterizedTypeSecondBound()
+	{
+		assertConstructor(constructor, "T", Object.class, Types.parameterizedType(ArrayList.class, Number.class));
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void constructorWithWildcardTypeSecondBound()
+	{
+		assertConstructor(constructor, "T", Object.class, Types.unboundedWildcardType());
 	}
 	
 	@Test
@@ -205,5 +282,16 @@ public class DefaultTypeVariableTest
 			new Type[] {Number.class, Comparable.class});
 		
 		assertEquals("T extends java.lang.Number & java.lang.Comparable", typeVariable.toString());
+	}
+	
+	// private methods --------------------------------------------------------
+	
+	private static <D extends GenericDeclaration> void assertConstructor(D declaration, String name, Type... bounds)
+	{
+		TypeVariable<D> typeVariable = new DefaultTypeVariable<D>(declaration, name, bounds);
+		
+		assertEquals("Generic declaration", declaration, typeVariable.getGenericDeclaration());
+		assertEquals("Name", name, typeVariable.getName());
+		assertArrayEquals("Bounds", bounds, typeVariable.getBounds());
 	}
 }
