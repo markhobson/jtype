@@ -95,7 +95,7 @@ public abstract class Generic<T>
 	@SuppressWarnings("unchecked")
 	public Class<? super T> getRawType()
 	{
-		return (Class<? super T>) TypeUtils.getRawType(type);
+		return (Class<? super T>) TypeUtils.getErasedReferenceType(type);
 	}
 	
 	public String toUnqualifiedString()

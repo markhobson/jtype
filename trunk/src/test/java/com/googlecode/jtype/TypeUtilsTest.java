@@ -774,24 +774,28 @@ public class TypeUtilsTest
 	
 	// getRawType tests -------------------------------------------------------
 	
+	@Deprecated
 	@Test
 	public void getRawTypeWithNull()
 	{
 		assertNull(TypeUtils.getRawType(null));
 	}
 	
+	@Deprecated
 	@Test
 	public void getRawTypeWithClass()
 	{
 		assertEquals(Integer.class, TypeUtils.getRawType(Integer.class));
 	}
 	
+	@Deprecated
 	@Test
 	public void getRawTypeWithGenericArrayType()
 	{
 		assertEquals(List[].class, TypeUtils.getRawType(valueOf("List<Integer>[]")));
 	}
 	
+	@Deprecated
 	@Test
 	public void getRawTypeWithParameterizedType()
 	{
