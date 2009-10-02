@@ -15,6 +15,7 @@
  */
 package com.googlecode.jtype;
 
+import java.io.Serializable;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.MalformedParameterizedTypeException;
 import java.lang.reflect.ParameterizedType;
@@ -93,6 +94,16 @@ public final class TypeUtils
 				return isTypeVariableAssignable(supertype, (TypeVariable<?>) type);
 			}
 			
+			if (type instanceof GenericArrayType)
+			{
+				if (((Class<?>) supertype).isArray())
+				{
+					return isAssignable(getComponentType(supertype), getComponentType(type));
+				}
+				
+				return isArraySupertype((Class<?>) supertype);
+			}
+			
 			return false;
 		}
 		
@@ -114,6 +125,16 @@ public final class TypeUtils
 		if (type instanceof TypeVariable<?>)
 		{
 			return isTypeVariableAssignable(supertype, (TypeVariable<?>) type);
+		}
+		
+		if (supertype instanceof GenericArrayType)
+		{
+			if (isArray(type))
+			{
+				return isAssignable(getComponentType(supertype), getComponentType(type));
+			}
+			
+			return false;
 		}
 		
 		if (supertype instanceof WildcardType)
@@ -517,6 +538,13 @@ public final class TypeUtils
 			|| type instanceof ParameterizedType
 			|| type instanceof TypeVariable<?>
 			|| type instanceof GenericArrayType;
+	}
+	
+	private static boolean isArraySupertype(Class<?> type)
+	{
+		return Object.class.equals(type)
+			|| Cloneable.class.equals(type)
+			|| Serializable.class.equals(type);
 	}
 
 	private static Type resolveTypeVariables(Type type, Type subtype)

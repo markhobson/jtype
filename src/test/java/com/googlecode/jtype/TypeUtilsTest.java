@@ -197,42 +197,144 @@ public class TypeUtilsTest
 	 * If S and T are both reference types, then S[] >1 T[] iff S >1 T.
 	 */
 	@Test
-	public void isAssignableWithDirectArrays()
+	public void isAssignableWithArrayClassFromDirectSubtypeArrayClass()
 	{
 		assertAsymmetricallyAssignable(Number[].class, Integer[].class);
 	}
 	
 	@Test
-	public void isAssignableWithIndirectArrays()
+	public void isAssignableWithArrayClassFromIndirectSubtypeArrayClass()
 	{
 		assertAsymmetricallyAssignable(Object[].class, Integer[].class);
+	}
+	
+	@Test
+	public void isAssignableWithArrayClassFromGenericArrayType()
+	{
+		assertAssignable(Integer[].class, Types.genericArrayType(Integer.class));
+	}
+	
+	@Test
+	public void isAssignableWithArrayClassFromDirectSubtypeGenericArrayType()
+	{
+		assertAsymmetricallyAssignable(Number[].class, Types.genericArrayType(Integer.class));
+	}
+	
+	@Test
+	public void isAssignableWithArrayClassFromIndirectSubtypeGenericArrayType()
+	{
+		assertAsymmetricallyAssignable(Object[].class, Types.genericArrayType(Integer.class));
+	}
+	
+	@Test
+	public void isAssignableWithGenericArrayTypeFromDirectSubtypeGenericArrayType()
+	{
+		assertAsymmetricallyAssignable(Types.genericArrayType(Number.class), Types.genericArrayType(Integer.class));
+	}
+	
+	@Test
+	public void isAssignableWithGenericArrayTypeFromIndirectSubtypeGenericArrayType()
+	{
+		assertAsymmetricallyAssignable(Types.genericArrayType(Object.class), Types.genericArrayType(Integer.class));
+	}
+	
+	@Test
+	public void isAssignableWithGenericArrayTypeFromArrayClass()
+	{
+		assertAssignable(Types.genericArrayType(Integer.class), Integer[].class);
+	}
+	
+	@Test
+	public void isAssignableWithGenericArrayTypeFromDirectSubtypeArrayClass()
+	{
+		assertAsymmetricallyAssignable(Types.genericArrayType(Number.class), Integer[].class);
+	}
+	
+	@Test
+	public void isAssignableWithGenericArrayTypeFromIndirectSubtypeArrayClass()
+	{
+		assertAsymmetricallyAssignable(Types.genericArrayType(Object.class), Integer[].class);
 	}
 	
 	/**
 	 * Object >1 Object[].
 	 */
 	@Test
-	public void isAssignableWithObjectFromObjectArray()
+	public void isAssignableWithObjectFromObjectArrayClass()
 	{
 		assertAsymmetricallyAssignable(Object.class, Object[].class);
+	}
+	
+	@Test
+	public void isAssignableWithObjectFromArrayClass()
+	{
+		assertAsymmetricallyAssignable(Object.class, Integer[].class);
+	}
+	
+	@Test
+	public void isAssignableWithObjectFromObjectGenericArrayType()
+	{
+		assertAsymmetricallyAssignable(Object.class, Types.genericArrayType(Object.class));
+	}
+	
+	@Test
+	public void isAssignableWithObjectFromGenericArrayType()
+	{
+		assertAsymmetricallyAssignable(Object.class, Types.genericArrayType(Integer.class));
 	}
 	
 	/**
 	 * Cloneable >1 Object[].
 	 */
 	@Test
-	public void isAssignableWithCloneableFromObjectArray()
+	public void isAssignableWithCloneableFromObjectArrayClass()
 	{
 		assertAsymmetricallyAssignable(Cloneable.class, Object[].class);
+	}
+	
+	@Test
+	public void isAssignableWithCloneableFromArrayClass()
+	{
+		assertAsymmetricallyAssignable(Cloneable.class, Integer[].class);
+	}
+	
+	@Test
+	public void isAssignableWithCloneableFromObjectGenericArrayType()
+	{
+		assertAsymmetricallyAssignable(Cloneable.class, Types.genericArrayType(Object.class));
+	}
+	
+	@Test
+	public void isAssignableWithCloneableFromGenericArrayType()
+	{
+		assertAsymmetricallyAssignable(Cloneable.class, Types.genericArrayType(Integer.class));
 	}
 	
 	/**
 	 * java.io.Serializable >1 Object[].
 	 */
 	@Test
-	public void isAssignableWithSerializableFromObjectArray()
+	public void isAssignableWithSerializableFromObjectArrayClass()
 	{
 		assertAsymmetricallyAssignable(Serializable.class, Object[].class);
+	}
+	
+	@Test
+	public void isAssignableWithSerializableFromArrayClass()
+	{
+		assertAsymmetricallyAssignable(Serializable.class, Integer[].class);
+	}
+	
+	@Test
+	public void isAssignableWithSerializableFromObjectGenericArrayType()
+	{
+		assertAsymmetricallyAssignable(Serializable.class, Types.genericArrayType(Object.class));
+	}
+	
+	@Test
+	public void isAssignableWithSerializableFromGenericArrayType()
+	{
+		assertAsymmetricallyAssignable(Serializable.class, Types.genericArrayType(Integer.class));
 	}
 	
 	/**
@@ -280,7 +382,7 @@ public class TypeUtilsTest
 	 * {@literal Number <: Integer}
 	 */
 	@Test
-	public void isAssignableWithDirectSuperclassFromClass()
+	public void isAssignableWithClassFromDirectSubclass()
 	{
 		assertAsymmetricallyAssignable(Number.class, Integer.class);
 	}
@@ -291,7 +393,7 @@ public class TypeUtilsTest
 	 * {@literal Object <: Integer}
 	 */
 	@Test
-	public void isAssignableWithIndirectSuperclassFromClass()
+	public void isAssignableWithClassFromIndirectSubclass()
 	{
 		assertAsymmetricallyAssignable(Object.class, Integer.class);
 	}
