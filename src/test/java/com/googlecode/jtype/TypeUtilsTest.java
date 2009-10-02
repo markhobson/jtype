@@ -727,6 +727,51 @@ public class TypeUtilsTest
 		assertEquals(type, TypeUtils.getErasedType(type));
 	}
 	
+	// getErasedReferenceType tests -------------------------------------------
+	
+	@Test
+	public void getErasedReferenceTypeWithNull()
+	{
+		assertNull(TypeUtils.getErasedReferenceType(null));
+	}
+	
+	@Test
+	public void getErasedReferenceTypeWithClass()
+	{
+		assertEquals(Integer.class, TypeUtils.getErasedReferenceType(Integer.class));
+	}
+	
+	@Test
+	public void getErasedReferenceTypeWithClassArray()
+	{
+		assertEquals(Integer[].class, TypeUtils.getErasedReferenceType(Integer[].class));
+	}
+	
+	@Test
+	public void getErasedReferenceTypeWithTypeVariable()
+	{
+		assertEquals(Number.class, TypeUtils.getErasedReferenceType(Types.typeVariable(declaration, "T", Number.class,
+			Comparable.class)));
+	}
+	
+	@Test
+	public void getErasedReferenceTypeWithGenericArrayType()
+	{
+		assertEquals(List[].class, TypeUtils.getErasedReferenceType(valueOf("List<Integer>[]")));
+	}
+	
+	@Test
+	public void getErasedReferenceTypeWithParameterizedType()
+	{
+		assertEquals(List.class, TypeUtils.getErasedReferenceType(valueOf("List<Integer>")));
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void getErasedReferenceTypeWithWildcardType()
+	{
+		TypeUtils.getErasedReferenceType(Types.unboundedWildcardType());
+	}
+	
 	// getRawType tests -------------------------------------------------------
 	
 	@Test
