@@ -28,6 +28,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 /**
  * Provides utility methods for working with types.
@@ -633,9 +634,10 @@ public final class TypeUtils
 	{
 		// TODO: will this cause an infinite look with recursive bounds?
 		
-		for (K key : map.keySet())
+		for (Entry<K, V> entry : map.entrySet())
 		{
-			V value = map.get(key);
+			K key = entry.getKey();
+			V value = entry.getValue();
 			
 			while (map.containsKey(value))
 			{
