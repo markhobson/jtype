@@ -13,6 +13,10 @@
 	<url>http://jtype.googlecode.com/</url>
 	<inceptionYear>2008</inceptionYear>
 	
+	<prerequisites>
+		<maven>2.2.1</maven>
+	</prerequisites>
+	
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -98,18 +102,11 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-resources-plugin</artifactId>
 					<version>2.4.1</version>
-					<configuration>
-						<encoding>UTF-8</encoding>
-					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-site-plugin</artifactId>
 					<version>2.0.1</version>
-					<configuration>
-						<inputEncoding>UTF-8</inputEncoding>
-						<outputEncoding>UTF-8</outputEncoding>
-					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -119,6 +116,10 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 	
 	<profiles>
 		<profile>
@@ -190,9 +191,6 @@
 					</reportSet>
 				</reportSets>
 				<configuration>
-					<encoding>UTF-8</encoding>
-					<docencoding>UTF-8</docencoding>
-					<charset>UTF-8</charset>
 					<links>
 						<link>http://java.sun.com/j2se/1.5.0/docs/api</link>
 					</links>
