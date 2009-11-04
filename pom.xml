@@ -206,10 +206,15 @@
 
 	<distributionManagement>
 		<repository>
-			<id>jtype</id>
-			<name>JType Maven Repository</name>
-			<url>svn:https://jtype.googlecode.com/svn/repository/</url>
+			<id>jtype-releases</id>
+			<name>JType Staging Repository</name>
+			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
+		<snapshotRepository>
+			<id>jtype-snapshots</id>
+			<name>JType Snapshot Repository</name>
+			<url>http://oss.sonatype.org/content/repositories/googlecode-snapshots/</url>
+		</snapshotRepository>
 		<site>
 			<id>jtype-site</id>
 			<name>JType Maven Site</name>
