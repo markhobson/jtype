@@ -3,7 +3,7 @@
 
 = Getting started with Maven =
 
-To start using JType in a [http://maven.apache.org/ Maven] project, add the following dependency and repository definition to the POM:
+To start using JType in a [http://maven.apache.org/ Maven] project, add the following dependency to the POM:
 
 {{{
 <project>
@@ -16,16 +16,7 @@ To start using JType in a [http://maven.apache.org/ Maven] project, add the foll
         </dependency>
     </dependencies>
     ...
-    <repositories>
-        <repository>
-            <id>jtype</id>
-            <name>JType Maven Repository</name>
-            <url>http://jtype.googlecode.com/svn/repository/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-    ...
 </project>
 }}}
+
+Note that JType is now deployed to [http://oss.sonatype.org/ Sonatype's OSS Repository] and synced with the [http://repo1.maven.org/maven2/ Maven Central Repository], so no repository definitions are required.
