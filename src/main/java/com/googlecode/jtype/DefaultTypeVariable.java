@@ -143,30 +143,7 @@ class DefaultTypeVariable<D extends GenericDeclaration> implements TypeVariable<
 	@Override
 	public String toString()
 	{
-		return toString(this);
-	}
-	
-	// public methods ---------------------------------------------------------
-	
-	public static String toString(TypeVariable<?> type)
-	{
-		return toString(type, ClassSerializers.QUALIFIED);
-	}
-	
-	public static String toString(TypeVariable<?> type, ClassSerializer serializer)
-	{
-		StringBuilder builder = new StringBuilder();
-		
-		builder.append(type.getName());
-		
-		if (!Arrays.equals(DEFAULT_BOUNDS, type.getBounds()))
-		{
-			builder.append(" extends ");
-			
-			TypeUtils.appendBounds(builder, type.getBounds(), serializer);
-		}
-		
-		return builder.toString();
+		return TypeUtils.toString(this);
 	}
 	
 	// private methods --------------------------------------------------------

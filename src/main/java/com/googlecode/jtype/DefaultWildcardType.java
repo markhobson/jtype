@@ -116,38 +116,6 @@ class DefaultWildcardType implements WildcardType
 	@Override
 	public String toString()
 	{
-		return toString(this);
-	}
-	
-	// public methods ---------------------------------------------------------
-	
-	public static String toString(WildcardType type)
-	{
-		return toString(type, ClassSerializers.QUALIFIED);
-	}
-	
-	public static String toString(WildcardType type, ClassSerializer serializer)
-	{
-		StringBuilder builder = new StringBuilder();
-		
-		builder.append("?");
-		
-		Type[] lowerBounds = type.getLowerBounds();
-		Type[] upperBounds = type.getUpperBounds();
-		
-		if (!Arrays.equals(DEFAULT_LOWER_BOUNDS, lowerBounds))
-		{
-			builder.append(" super ");
-			
-			TypeUtils.appendBounds(builder, lowerBounds, serializer);
-		}
-		else if (!Arrays.equals(DEFAULT_UPPER_BOUNDS, upperBounds))
-		{
-			builder.append(" extends ");
-			
-			TypeUtils.appendBounds(builder, upperBounds, serializer);
-		}
-		
-		return builder.toString();
+		return TypeUtils.toString(this);
 	}
 }
