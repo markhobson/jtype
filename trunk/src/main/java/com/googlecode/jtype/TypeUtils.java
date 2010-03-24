@@ -325,6 +325,7 @@ public final class TypeUtils
 		return Types.genericArrayType(componentType);
 	}
 	
+	// TODO: perform isSubtype(type, Types.parameterizedType(rawType, Types.unboundedWildcardType()))
 	public static boolean isSimpleParameterizedType(Type type, Class<?> rawType)
 	{
 		Utils.checkNotNull(type, "type");
@@ -356,6 +357,7 @@ public final class TypeUtils
 		return (typeArgs.length == 1);
 	}
 	
+	// TODO: remove?
 	public static Type getActualTypeArgument(Type type)
 	{
 		Utils.checkNotNull(type, "type");
