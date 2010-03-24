@@ -83,18 +83,6 @@ class DefaultGenericArrayType implements GenericArrayType
 	@Override
 	public String toString()
 	{
-		return toString(this);
-	}
-	
-	// public methods ---------------------------------------------------------
-	
-	public static String toString(GenericArrayType type)
-	{
-		return toString(type, ClassSerializers.QUALIFIED);
-	}
-	
-	public static String toString(GenericArrayType type, ClassSerializer serializer)
-	{
-		return TypeUtils.toString(type.getGenericComponentType(), serializer) + "[]";
+		return TypeUtils.toString(this);
 	}
 }

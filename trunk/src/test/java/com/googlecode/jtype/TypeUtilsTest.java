@@ -1251,6 +1251,12 @@ public class TypeUtilsTest
 	}
 	
 	@Test
+	public void toStringWithMultidimensionalArrayClass()
+	{
+		assertEquals("java.lang.Integer[][]", TypeUtils.toString(Integer[][].class));
+	}
+	
+	@Test
 	public void toStringWithUnboundedTypeVariable()
 	{
 		assertEquals("T", TypeUtils.toString(Types.typeVariable(declaration, "T")));

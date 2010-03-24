@@ -137,61 +137,6 @@ class DefaultParameterizedType implements ParameterizedType
 	@Override
 	public String toString()
 	{
-		return toString(this);
-	}
-	
-	// public methods ---------------------------------------------------------
-	
-	public static String toString(ParameterizedType type)
-	{
-		return toString(type, ClassSerializers.QUALIFIED);
-	}
-	
-	public static String toString(ParameterizedType type, ClassSerializer serializer)
-	{
-		StringBuilder builder = new StringBuilder();
-		
-		Type ownerType = type.getOwnerType();
-		String rawTypeString = TypeUtils.toString(type.getRawType(), serializer);
-		
-		if (ownerType != null)
-		{
-			String ownerTypeString = TypeUtils.toString(ownerType, serializer);
-			
-			builder.append(ownerTypeString);
-			
-			if (rawTypeString.startsWith(ownerTypeString))
-			{
-				// use simple name for member types
-				rawTypeString = rawTypeString.substring(ownerTypeString.length());
-			}
-			else
-			{
-				builder.append(".");
-			}
-		}
-		
-		builder.append(rawTypeString);
-		
-		Type[] actualTypeArguments = type.getActualTypeArguments();
-		
-		if (actualTypeArguments != null && actualTypeArguments.length > 0)
-		{
-			builder.append("<");
-			
-			for (int i = 0; i < actualTypeArguments.length; i++)
-			{
-				if (i > 0)
-				{
-					builder.append(",");
-				}
-				
-				builder.append(TypeUtils.toString(actualTypeArguments[i], serializer));
-			}
-			
-			builder.append(">");
-		}
-		
-		return builder.toString();
+		return TypeUtils.toString(this);
 	}
 }

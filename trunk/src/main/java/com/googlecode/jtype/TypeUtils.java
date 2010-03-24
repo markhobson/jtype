@@ -68,6 +68,88 @@ public final class TypeUtils
 	
 	// public methods ---------------------------------------------------------
 	
+	public static void accept(Type type, TypeVisitor visitor)
+	{
+		Utils.checkNotNull(type, "type");
+		Utils.checkNotNull(visitor, "visitor");
+		
+		if (type instanceof Class<?>)
+		{
+			visitor.visit((Class<?>) type);
+		}
+		else if (type instanceof TypeVariable<?>)
+		{
+			TypeVariable<?> typeVariable = (TypeVariable<?>) type;
+			
+			if (visitor.beginVisit(typeVariable))
+			{
+				// visit bounds
+			
+				Type[] bounds = typeVariable.getBounds();
+				
+				for (int i = 0; i < bounds.length; i++)
+				{
+					visitor.visitTypeVariableBound(bounds[i], i);
+				}
+			}
+			
+			visitor.endVisit(typeVariable);
+		}
+		else if (type instanceof GenericArrayType)
+		{
+			visitor.visit((GenericArrayType) type);
+		}
+		else if (type instanceof ParameterizedType)
+		{
+			ParameterizedType parameterizedType = (ParameterizedType) type;
+			
+			if (visitor.beginVisit(parameterizedType))
+			{
+				// visit actual type arguments
+				
+				Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+				
+				for (int i = 0; i < actualTypeArguments.length; i++)
+				{
+					visitor.visitActualTypeArgument(actualTypeArguments[i], i);
+				}
+			}
+			
+			visitor.endVisit(parameterizedType);
+		}
+		else if (type instanceof WildcardType)
+		{
+			WildcardType wildcardType = (WildcardType) type;
+
+			if (visitor.beginVisit(wildcardType))
+			{
+				// visit upper bounds
+				
+				Type[] upperBounds = wildcardType.getUpperBounds();
+				
+				for (int i = 0; i < upperBounds.length; i++)
+				{
+					visitor.visitUpperBound(upperBounds[i], i);
+				}
+				
+				// visit lower bounds
+				
+				Type[] lowerBounds = wildcardType.getLowerBounds();
+				
+				for (int i = 0; i < lowerBounds.length; i++)
+				{
+					visitor.visitLowerBound(lowerBounds[i], i);
+				}
+			}
+				
+			visitor.endVisit(wildcardType);
+		}
+		else
+		{
+			throw new IllegalArgumentException("Unknown type: " + type);
+		}
+	}
+	
 	public static boolean isAssignable(Type supertype, Type type)
 	{
 		Utils.checkNotNull(supertype, "supertype");
@@ -325,39 +407,16 @@ public final class TypeUtils
 	
 	public static String toString(Type type, ClassSerializer serializer)
 	{
-		if (type instanceof Class<?>)
+		if (type == null)
 		{
-			Class<?> klass = (Class<?>) type;
-			
-			if (klass.isArray())
-			{
-				return toString(klass.getComponentType(), serializer) + "[]";
-			}
-			
-			return serializer.toString(klass);
+			return String.valueOf(type);
 		}
 		
-		if (type instanceof TypeVariable<?>)
-		{
-			return DefaultTypeVariable.toString((TypeVariable<?>) type, serializer);
-		}
+		SerializingTypeVisitor visitor = new SerializingTypeVisitor(serializer);
 		
-		if (type instanceof GenericArrayType)
-		{
-			return DefaultGenericArrayType.toString((GenericArrayType) type, serializer);
-		}
+		accept(type, visitor);
 		
-		if (type instanceof ParameterizedType)
-		{
-			return DefaultParameterizedType.toString((ParameterizedType) type, serializer);
-		}
-		
-		if (type instanceof WildcardType)
-		{
-			return DefaultWildcardType.toString((WildcardType) type, serializer);
-		}
-		
-		return String.valueOf(type);
+		return visitor.toString();
 	}
 
 	public static String toUnqualifiedString(Type type)
@@ -368,23 +427,6 @@ public final class TypeUtils
 	public static String toSimpleString(Type type)
 	{
 		return toString(type, ClassSerializers.SIMPLE);
-	}
-	
-	// package methods --------------------------------------------------------
-	
-	static StringBuilder appendBounds(StringBuilder builder, Type[] bounds, ClassSerializer serializer)
-	{
-		for (int i = 0; i < bounds.length; i++)
-		{
-			if (i > 0)
-			{
-				builder.append(" & ");
-			}
-			
-			builder.append(toString(bounds[i], serializer));
-		}
-		
-		return builder;
 	}
 	
 	// private methods --------------------------------------------------------
