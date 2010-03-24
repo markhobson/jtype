@@ -632,7 +632,7 @@ public final class TypeUtils
 	
 	private static <K, V> Map<K, V> normalize(Map<K, V> map)
 	{
-		// TODO: will this cause an infinite look with recursive bounds?
+		// TODO: will this cause an infinite loop with recursive bounds?
 		
 		for (Entry<K, V> entry : map.entrySet())
 		{
