@@ -1,7 +1,9 @@
-#summary How to add JType to a Maven project.
+#summary How to add JType to your project.
 #labels Phase-Deploy
 
-= Getting started with Maven =
+= Getting started =
+
+== Maven ==
 
 To start using JType in a [http://maven.apache.org/ Maven] project, add the following dependency to the POM:
 
@@ -19,4 +21,4 @@ To start using JType in a [http://maven.apache.org/ Maven] project, add the foll
 </project>
 }}}
 
-Note that JType is now deployed to [http://oss.sonatype.org/ Sonatype's OSS Repository] and synced with the [http://repo1.maven.org/maven2/ Maven Central Repository], so no repository definitions are required.
+JType is deployed to [http://oss.sonatype.org/ Sonatype's OSS Repository] and synced with the [http://repo1.maven.org/maven2/ Maven Central Repository], so no repository definitions are required.
