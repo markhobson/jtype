@@ -1,5 +1,5 @@
 #summary How to add JType to your project.
-#labels Phase-Deploy
+#labels Phase-Deploy,Featured
 
 = Getting started =
 
