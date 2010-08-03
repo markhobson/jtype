@@ -948,6 +948,58 @@ public class TypeUtilsTest
 		assertFalse(TypeUtils.isArray(Types.unboundedWildcardType()));
 	}
 	
+	// isPrimitive tests ------------------------------------------------------
+	
+	@Test
+	public void isPrimitiveWithNull()
+	{
+		assertFalse(TypeUtils.isPrimitive(null));
+	}
+	
+	@Test
+	public void isPrimitiveWithPrimitives()
+	{
+		assertTrue(TypeUtils.isPrimitive(Boolean.TYPE));
+		assertTrue(TypeUtils.isPrimitive(Character.TYPE));
+		assertTrue(TypeUtils.isPrimitive(Byte.TYPE));
+		assertTrue(TypeUtils.isPrimitive(Short.TYPE));
+		assertTrue(TypeUtils.isPrimitive(Integer.TYPE));
+		assertTrue(TypeUtils.isPrimitive(Long.TYPE));
+		assertTrue(TypeUtils.isPrimitive(Float.TYPE));
+		assertTrue(TypeUtils.isPrimitive(Double.TYPE));
+		assertTrue(TypeUtils.isPrimitive(Void.TYPE));
+	}
+	
+	@Test
+	public void isPrimitiveWithClass()
+	{
+		assertFalse(TypeUtils.isPrimitive(Integer.class));
+	}
+	
+	@Test
+	public void isPrimitiveWithTypeVariable()
+	{
+		assertFalse(TypeUtils.isPrimitive(Types.typeVariable(declaration, "T")));
+	}
+	
+	@Test
+	public void isPrimitiveWithGenericArrayType()
+	{
+		assertFalse(TypeUtils.isPrimitive(Types.genericArrayType(Integer.class)));
+	}
+	
+	@Test
+	public void isPrimitiveWithParameterizedType()
+	{
+		assertFalse(TypeUtils.isPrimitive(Types.parameterizedType(List.class, Integer.class)));
+	}
+	
+	@Test
+	public void isPrimitiveWithWildcardType()
+	{
+		assertFalse(TypeUtils.isPrimitive(Types.unboundedWildcardType()));
+	}
+	
 	// getComponentType tests -------------------------------------------------
 	
 	@Test

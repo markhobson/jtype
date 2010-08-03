@@ -296,6 +296,11 @@ public final class TypeUtils
 			|| (type instanceof GenericArrayType);
 	}
 	
+	public static boolean isPrimitive(Type type)
+	{
+		return (type instanceof Class<?>) && ((Class<?>) type).isPrimitive();
+	}
+	
 	public static Type getComponentType(Type type)
 	{
 		if (type instanceof Class<?>)
