@@ -248,7 +248,7 @@ public final class Types
 	
 	private static Class<?> parseClass(String className, Map<String, String> imports)
 	{
-		Class<?> klass = parseClass(className);
+		Class<?> klass = ClassUtils.valueOf(className);
 		
 		if (klass != null)
 		{
@@ -259,7 +259,7 @@ public final class Types
 		{
 			String qualifiedClassName = imports.get(className);
 			
-			klass = parseClass(qualifiedClassName);
+			klass = ClassUtils.valueOf(qualifiedClassName);
 			
 			if (klass != null)
 			{
@@ -268,20 +268,6 @@ public final class Types
 		}
 		
 		throw new IllegalArgumentException("Class not found: " + className);
-	}
-	
-	private static Class<?> parseClass(String className)
-	{
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		
-		try
-		{
-			return Class.forName(className, true, classLoader);
-		}
-		catch (ClassNotFoundException exception)
-		{
-			return null;
-		}
 	}
 	
 	private static WildcardType parseWildcardType(String typeName, Map<String, String> imports)

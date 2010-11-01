@@ -273,6 +273,54 @@ public class TypesTest
 	// valueOf tests ----------------------------------------------------------
 	
 	@Test
+	public void valueOfWithBooleanPrimitive()
+	{
+		assertEquals(Boolean.TYPE, Types.valueOf("boolean"));
+	}
+	
+	@Test
+	public void valueOfWithBytePrimitive()
+	{
+		assertEquals(Byte.TYPE, Types.valueOf("byte"));
+	}
+	
+	@Test
+	public void valueOfWithCharPrimitive()
+	{
+		assertEquals(Character.TYPE, Types.valueOf("char"));
+	}
+	
+	@Test
+	public void valueOfWithDoublePrimitive()
+	{
+		assertEquals(Double.TYPE, Types.valueOf("double"));
+	}
+	
+	@Test
+	public void valueOfWithFloatPrimitive()
+	{
+		assertEquals(Float.TYPE, Types.valueOf("float"));
+	}
+	
+	@Test
+	public void valueOfWithIntPrimitive()
+	{
+		assertEquals(Integer.TYPE, Types.valueOf("int"));
+	}
+	
+	@Test
+	public void valueOfWithLongPrimitive()
+	{
+		assertEquals(Long.TYPE, Types.valueOf("long"));
+	}
+	
+	@Test
+	public void valueOfWithShortPrimitive()
+	{
+		assertEquals(Short.TYPE, Types.valueOf("short"));
+	}
+	
+	@Test
 	public void valueOfWithClass()
 	{
 		assertEquals(Integer.class, Types.valueOf("java.lang.Integer"));
