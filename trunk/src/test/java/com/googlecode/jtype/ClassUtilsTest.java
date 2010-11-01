@@ -83,4 +83,58 @@ public class ClassUtilsTest
 	{
 		assertEquals("E", ClassUtils.getSimpleClassName("a.b.C$D$E"));
 	}
+	
+	@Test
+	public void valueOfWithBooleanPrimitive()
+	{
+		assertEquals(Boolean.TYPE, ClassUtils.valueOf("boolean"));
+	}
+	
+	@Test
+	public void valueOfWithBytePrimitive()
+	{
+		assertEquals(Byte.TYPE, ClassUtils.valueOf("byte"));
+	}
+	
+	@Test
+	public void valueOfWithCharPrimitive()
+	{
+		assertEquals(Character.TYPE, ClassUtils.valueOf("char"));
+	}
+	
+	@Test
+	public void valueOfWithDoublePrimitive()
+	{
+		assertEquals(Double.TYPE, ClassUtils.valueOf("double"));
+	}
+	
+	@Test
+	public void valueOfWithFloatPrimitive()
+	{
+		assertEquals(Float.TYPE, ClassUtils.valueOf("float"));
+	}
+	
+	@Test
+	public void valueOfWithIntPrimitive()
+	{
+		assertEquals(Integer.TYPE, ClassUtils.valueOf("int"));
+	}
+	
+	@Test
+	public void valueOfWithLongPrimitive()
+	{
+		assertEquals(Long.TYPE, ClassUtils.valueOf("long"));
+	}
+	
+	@Test
+	public void valueOfWithShortPrimitive()
+	{
+		assertEquals(Short.TYPE, ClassUtils.valueOf("short"));
+	}
+	
+	@Test
+	public void valueOfWithClass()
+	{
+		assertEquals(Integer.class, ClassUtils.valueOf("java.lang.Integer"));
+	}
 }
