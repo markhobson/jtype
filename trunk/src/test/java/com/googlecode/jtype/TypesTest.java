@@ -475,6 +475,12 @@ public class TypesTest
 		assertEquals(Types.lowerBoundedWildcardType(Integer.class), Types.valueOf(" ?  super  java.lang.Integer "));
 	}
 	
+	@Test(expected = NullPointerException.class)
+	public void valueOfWithNullTypeName()
+	{
+		Types.valueOf(null);
+	}
+	
 	@Test
 	public void valueOfWithClassAndImportContext()
 	{
@@ -551,6 +557,12 @@ public class TypesTest
 		Set<String> importContext = Collections.singleton(Number.class.getName());
 		
 		assertEquals(Types.upperBoundedWildcardType(Number.class), Types.valueOf("? extends Number", importContext));
+	}
+	
+	@Test
+	public void valueOfWithClassAndNullImportContext()
+	{
+		assertEquals(Integer.class, Types.valueOf("java.lang.Integer", null));
 	}
 	
 	// private methods --------------------------------------------------------

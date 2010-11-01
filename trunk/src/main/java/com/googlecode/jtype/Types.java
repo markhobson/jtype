@@ -149,7 +149,7 @@ public final class Types
 	 */
 	public static Type valueOf(String typeName)
 	{
-		return valueOf(typeName, Collections.<String>emptySet());
+		return valueOf(typeName, (Set<String>) null);
 	}
 	
 	/**
@@ -165,6 +165,27 @@ public final class Types
 	 */
 	public static Type valueOf(String typeName, Set<String> imports)
 	{
+		Utils.checkNotNull(typeName, "typeName");
+		
+		Map<String, String> importMap = createImportMap(imports);
+		
+		return valueOf(typeName, importMap);
+	}
+	
+	// private methods --------------------------------------------------------
+	
+	private static WildcardType wildcardType(Type[] upperBounds, Type[] lowerBounds)
+	{
+		return new DefaultWildcardType(upperBounds, lowerBounds);
+	}
+	
+	private static Map<String, String> createImportMap(Set<String> imports)
+	{
+		if (imports == null)
+		{
+			return Collections.emptyMap();
+		}
+		
 		Map<String, String> importMap = new HashMap<String, String>();
 		
 		for (String className : imports)
@@ -180,14 +201,7 @@ public final class Types
 			importMap.put(simpleClassName, className);
 		}
 		
-		return valueOf(typeName, importMap);
-	}
-	
-	// private methods --------------------------------------------------------
-	
-	private static WildcardType wildcardType(Type[] upperBounds, Type[] lowerBounds)
-	{
-		return new DefaultWildcardType(upperBounds, lowerBounds);
+		return importMap;
 	}
 	
 	private static Type valueOf(String typeName, Map<String, String> imports)
