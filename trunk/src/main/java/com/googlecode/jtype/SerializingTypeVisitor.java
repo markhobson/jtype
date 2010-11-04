@@ -136,7 +136,7 @@ class SerializingTypeVisitor extends AbstractTypeVisitor
 	{
 		if (index > 0)
 		{
-			builder.append(",");
+			builder.append(", ");
 		}
 		
 		visit(type);
