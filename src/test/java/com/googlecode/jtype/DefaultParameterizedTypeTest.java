@@ -196,7 +196,7 @@ public class DefaultParameterizedTypeTest
 		ParameterizedType type = new DefaultParameterizedType(Map.class, Map.Entry.class,
 			new Type[] {String.class, Integer.class});
 		
-		assertEquals("java.util.Map.java.util.Map$Entry<java.lang.String,java.lang.Integer>", type.toString());
+		assertEquals("java.util.Map.java.util.Map$Entry<java.lang.String, java.lang.Integer>", type.toString());
 	}
 	
 	@Test
@@ -221,6 +221,6 @@ public class DefaultParameterizedTypeTest
 		ParameterizedType type = new DefaultParameterizedType(null, Map.class,
 			new Type[] {String.class, Integer.class});
 		
-		assertEquals("java.util.Map<java.lang.String,java.lang.Integer>", type.toString());
+		assertEquals("java.util.Map<java.lang.String, java.lang.Integer>", type.toString());
 	}
 }

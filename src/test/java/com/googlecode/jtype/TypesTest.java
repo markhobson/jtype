@@ -399,6 +399,13 @@ public class TypesTest
 	public void valueOfWithMultipleArgumentParameterizedType()
 	{
 		assertEquals(Types.parameterizedType(Map.class, String.class, Integer.class),
+			Types.valueOf("java.util.Map<java.lang.String, java.lang.Integer>"));
+	}
+	
+	@Test
+	public void valueOfWithMultipleArgumentParameterizedTypeAndNoWhitespace()
+	{
+		assertEquals(Types.parameterizedType(Map.class, String.class, Integer.class),
 			Types.valueOf("java.util.Map<java.lang.String,java.lang.Integer>"));
 	}
 	
@@ -413,7 +420,7 @@ public class TypesTest
 	public void valueOfWithMultipleUnboundedWildcardParameterizedType()
 	{
 		assertEquals(Types.parameterizedType(Map.class, Types.unboundedWildcardType(), Types.unboundedWildcardType()),
-			Types.valueOf("java.util.Map<?,?>"));
+			Types.valueOf("java.util.Map<?, ?>"));
 	}
 	
 	@Test(expected = MalformedParameterizedTypeException.class)
@@ -436,7 +443,7 @@ public class TypesTest
 			Types.parameterizedType(List.class, Integer.class));
 		
 		assertEquals(expected,
-			Types.valueOf("java.util.Map<java.util.List<java.lang.String>,java.util.List<java.lang.Integer>>"));
+			Types.valueOf("java.util.Map<java.util.List<java.lang.String>, java.util.List<java.lang.Integer>>"));
 	}
 	
 	@Test
