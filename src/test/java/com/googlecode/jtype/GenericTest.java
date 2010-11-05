@@ -17,6 +17,7 @@ package com.googlecode.jtype;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.GenericArrayType;
@@ -172,6 +173,66 @@ public class GenericTest
 		GenericArrayType genericArrayType = Types.genericArrayType(Types.parameterizedType(List.class, String.class));
 		
 		assertEquals(genericArrayType, Generic.get(genericArrayType).getType());
+	}
+	
+	@Test
+	public void getWithObjectClassIsCached()
+	{
+		assertSame(Generic.get(Object.class), Generic.get(Object.class));
+	}
+	
+	@Test
+	public void getWithBooleanClassIsCached()
+	{
+		assertSame(Generic.get(Boolean.class), Generic.get(Boolean.class));
+	}
+	
+	@Test
+	public void getWithByteClassIsCached()
+	{
+		assertSame(Generic.get(Byte.class), Generic.get(Byte.class));
+	}
+	
+	@Test
+	public void getWithCharacterClassIsCached()
+	{
+		assertSame(Generic.get(Character.class), Generic.get(Character.class));
+	}
+	
+	@Test
+	public void getWithDoubleClassIsCached()
+	{
+		assertSame(Generic.get(Double.class), Generic.get(Double.class));
+	}
+	
+	@Test
+	public void getWithFloatClassIsCached()
+	{
+		assertSame(Generic.get(Float.class), Generic.get(Float.class));
+	}
+	
+	@Test
+	public void getWithIntegerClassIsCached()
+	{
+		assertSame(Generic.get(Integer.class), Generic.get(Integer.class));
+	}
+	
+	@Test
+	public void getWithLongClassIsCached()
+	{
+		assertSame(Generic.get(Long.class), Generic.get(Long.class));
+	}
+	
+	@Test
+	public void getWithShortClassIsCached()
+	{
+		assertSame(Generic.get(Short.class), Generic.get(Short.class));
+	}
+	
+	@Test
+	public void getWithStringClassIsCached()
+	{
+		assertSame(Generic.get(String.class), Generic.get(String.class));
 	}
 	
 	@Test

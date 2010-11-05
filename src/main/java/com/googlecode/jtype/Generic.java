@@ -20,6 +20,9 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Provides a generic type literal.
@@ -60,6 +63,19 @@ public abstract class Generic<T>
 		public DefaultGeneric(Type type)
 		{
 			super(type);
+		}
+	}
+	
+	/**
+	 * Simple read-only cache for common generics. Implemented as an inner class for lazy instantiation.
+	 */
+	private static class GenericCache
+	{
+		private static final Map<Type, Generic<?>> GENERICS_BY_TYPE = createCache();
+		
+		public static Generic<?> get(Type type)
+		{
+			return GENERICS_BY_TYPE.get(type);
 		}
 	}
 	
@@ -105,12 +121,23 @@ public abstract class Generic<T>
 	
 	public static <T> Generic<T> get(Class<T> klass)
 	{
-		return new DefaultGeneric<T>(klass);
+		// guaranteed by definition
+		@SuppressWarnings("unchecked")
+		Generic<T> generic = (Generic<T>) get((Type) klass);
+		
+		return generic;
 	}
 	
 	public static Generic<?> get(Type type)
 	{
-		return new DefaultGeneric<Object>(type);
+		Generic<?> generic = GenericCache.get(type);
+		
+		if (generic == null)
+		{
+			generic = create(type);
+		}
+		
+		return generic;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -168,6 +195,35 @@ public abstract class Generic<T>
 	}
 	
 	// private methods --------------------------------------------------------
+	
+	private static Map<Type, Generic<?>> createCache()
+	{
+		Map<Type, Generic<?>> genericsByType = new HashMap<Type, Generic<?>>();
+		
+		putCacheEntry(genericsByType, Object.class);
+		
+		putCacheEntry(genericsByType, Boolean.class);
+		putCacheEntry(genericsByType, Byte.class);
+		putCacheEntry(genericsByType, Character.class);
+		putCacheEntry(genericsByType, Double.class);
+		putCacheEntry(genericsByType, Float.class);
+		putCacheEntry(genericsByType, Integer.class);
+		putCacheEntry(genericsByType, Long.class);
+		putCacheEntry(genericsByType, Short.class);
+		putCacheEntry(genericsByType, String.class);
+		
+		return Collections.unmodifiableMap(genericsByType);
+	}
+	
+	private static void putCacheEntry(Map<Type, Generic<?>> genericsByType, Type type)
+	{
+		genericsByType.put(type, create(type));
+	}
+	
+	private static Generic<Object> create(Type type)
+	{
+		return new DefaultGeneric<Object>(type);
+	}
 	
 	private static void validateType(Type type)
 	{
