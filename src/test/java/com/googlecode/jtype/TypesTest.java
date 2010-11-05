@@ -178,15 +178,10 @@ public class TypesTest
 		}
 	}
 	
-	@Test
-	public void parameterizedTypeWithNoActualTypeArguments()
+	@Test(expected = MalformedParameterizedTypeException.class)
+	public void parameterizedTypeWithUnparameterizedRawType()
 	{
-		ParameterizedType type = Types.parameterizedType(Integer.class);
-		
-		assertNotNull(type);
-		assertEquals(Integer.class, type.getRawType());
-		assertNull(type.getOwnerType());
-		assertArrayEquals(new Type[0], type.getActualTypeArguments());
+		Types.parameterizedType(Integer.class);
 	}
 	
 	@Test(expected = MalformedParameterizedTypeException.class)
