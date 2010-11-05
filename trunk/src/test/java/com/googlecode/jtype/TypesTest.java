@@ -19,6 +19,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.GenericArrayType;
@@ -203,6 +204,12 @@ public class TypesTest
 		
 		assertEquals(type, unboundedWildcardType);
 		assertEquals(unboundedWildcardType, type);
+	}
+	
+	@Test
+	public void unboundedWildcardTypeIsCached()
+	{
+		assertSame(Types.unboundedWildcardType(), Types.unboundedWildcardType());
 	}
 	
 	// upperBoundedWildcardType tests -----------------------------------------
