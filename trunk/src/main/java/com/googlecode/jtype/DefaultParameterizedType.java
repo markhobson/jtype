@@ -53,6 +53,12 @@ class DefaultParameterizedType implements ParameterizedType
 		
 		TypeVariable<?>[] typeParameters = rawType.getTypeParameters();
 		
+		// disallow unparameterized raw types
+		if (typeParameters.length == 0)
+		{
+			throw new MalformedParameterizedTypeException();
+		}
+		
 		if (typeParameters.length != actualTypeArguments.length)
 		{
 			throw new MalformedParameterizedTypeException();

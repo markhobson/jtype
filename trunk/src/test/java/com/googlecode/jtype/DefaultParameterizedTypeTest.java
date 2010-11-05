@@ -76,14 +76,10 @@ public class DefaultParameterizedTypeTest
 		}
 	}
 	
-	@Test
-	public void constructorWithNullActualTypeArguments()
+	@Test(expected = MalformedParameterizedTypeException.class)
+	public void constructorWithUnparameterizedRawType()
 	{
-		ParameterizedType type = new DefaultParameterizedType(null, String.class, null);
-		
-		assertNull(type.getOwnerType());
-		assertEquals(String.class, type.getRawType());
-		assertArrayEquals(new Type[0], type.getActualTypeArguments());
+		new DefaultParameterizedType(null, String.class, null);
 	}
 	
 	@Test(expected = MalformedParameterizedTypeException.class)
@@ -114,15 +110,6 @@ public class DefaultParameterizedTypeTest
 	}
 	
 	@Test
-	public void hashCodeWithNullActualTypeArguments()
-	{
-		ParameterizedType type1 = new DefaultParameterizedType(null, String.class, null);
-		ParameterizedType type2 = new DefaultParameterizedType(null, String.class, null);
-		
-		assertEquals(type1.hashCode(), type2.hashCode());
-	}
-	
-	@Test
 	public void equalsWhenEqual()
 	{
 		ParameterizedType type1 = new DefaultParameterizedType(Map.class, Map.Entry.class,
@@ -147,15 +134,6 @@ public class DefaultParameterizedTypeTest
 	{
 		ParameterizedType type1 = new DefaultParameterizedType(null, List.class, new Type[] {String.class});
 		ParameterizedType type2 = new DefaultParameterizedType(null, List.class, new Type[] {String.class});
-		
-		assertEquals(type1, type2);
-	}
-	
-	@Test
-	public void equalsWithNullActualTypeArguments()
-	{
-		ParameterizedType type1 = new DefaultParameterizedType(null, String.class, null);
-		ParameterizedType type2 = new DefaultParameterizedType(null, String.class, null);
 		
 		assertEquals(type1, type2);
 	}
@@ -197,14 +175,6 @@ public class DefaultParameterizedTypeTest
 			new Type[] {String.class, Integer.class});
 		
 		assertEquals("java.util.Map.java.util.Map$Entry<java.lang.String, java.lang.Integer>", type.toString());
-	}
-	
-	@Test
-	public void toStringWithRawType()
-	{
-		ParameterizedType type = new DefaultParameterizedType(null, String.class, null);
-		
-		assertEquals("java.lang.String", type.toString());
 	}
 	
 	@Test
