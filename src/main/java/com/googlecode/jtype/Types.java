@@ -40,6 +40,8 @@ public final class Types
 {
 	// constants --------------------------------------------------------------
 	
+	private static final WildcardType UNBOUNDED_WILDCARD_TYPE = wildcardType(null, null);
+	
 	private static final Pattern ARRAY_PATTERN = Pattern.compile("\\[\\s*\\]$");
 
 	private static final Pattern UPPER_BOUND_PATTERN = Pattern.compile("^\\?\\s+extends\\s+");
@@ -109,7 +111,7 @@ public final class Types
 	 */
 	public static WildcardType unboundedWildcardType()
 	{
-		return wildcardType(null, null);
+		return UNBOUNDED_WILDCARD_TYPE;
 	}
 	
 	/**
