@@ -39,10 +39,16 @@ public final class Generics
 {
 	// constants --------------------------------------------------------------
 	
-	private static final Generic<Comparator<?>> COMPARATOR = (Generic<Comparator<?>>) Generic.get(Comparator.class,
+	private static final Generic<Comparable<?>> COMPARABLE = (Generic<Comparable<?>>) Generic.get(Comparable.class,
 		Types.unboundedWildcardType());
 
+	private static final Generic<Comparator<?>> COMPARATOR = (Generic<Comparator<?>>) Generic.get(Comparator.class,
+		Types.unboundedWildcardType());
+	
 	private static final Generic<Enumeration<?>> ENUMERATION = (Generic<Enumeration<?>>) Generic.get(Enumeration.class,
+		Types.unboundedWildcardType());
+	
+	private static final Generic<Iterable<?>> ITERABLE = (Generic<Iterable<?>>) Generic.get(Iterable.class,
 		Types.unboundedWildcardType());
 	
 	private static final Generic<Iterator<?>> ITERATOR = (Generic<Iterator<?>>) Generic.get(Iterator.class,
@@ -80,6 +86,16 @@ public final class Generics
 	
 	// public methods ---------------------------------------------------------
 	
+	public static Generic<Comparable<?>> comparable()
+	{
+		return COMPARABLE;
+	}
+	
+	public static <T> Generic<Comparable<T>> comparable(Class<T> type)
+	{
+		return (Generic<Comparable<T>>) Generic.get(Comparable.class, type);
+	}
+	
 	public static Generic<Comparator<?>> comparator()
 	{
 		return COMPARATOR;
@@ -98,6 +114,16 @@ public final class Generics
 	public static <E> Generic<Enumeration<E>> enumeration(Class<E> elementClass)
 	{
 		return (Generic<Enumeration<E>>) Generic.get(Enumeration.class, elementClass);
+	}
+	
+	public static Generic<Iterable<?>> iterable()
+	{
+		return ITERABLE;
+	}
+	
+	public static <T> Generic<Iterable<T>> iterable(Class<T> elementClass)
+	{
+		return (Generic<Iterable<T>>) Generic.get(Iterable.class, elementClass);
 	}
 	
 	public static Generic<Iterator<?>> iterator()
