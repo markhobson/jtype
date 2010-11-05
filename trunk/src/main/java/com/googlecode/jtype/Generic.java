@@ -116,6 +116,11 @@ public abstract class Generic<T>
 	@SuppressWarnings("unchecked")
 	public static <T> Generic<? extends T> get(Class<T> rawType, Type... actualTypeArguments)
 	{
+		if (actualTypeArguments == null || actualTypeArguments.length == 0)
+		{
+			return get(rawType);
+		}
+		
 		ParameterizedType paramType = Types.parameterizedType(rawType, actualTypeArguments);
 		
 		return (Generic<? extends T>) get(paramType);

@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
@@ -105,6 +106,26 @@ public class GenericTest
 	public void getWithClass()
 	{
 		assertEquals(String.class, Generic.get(String.class).getType());
+	}
+	
+	@Test
+	public void getWithRawTypeAndActualTypeArguments()
+	{
+		ParameterizedType parameterizedType = Types.parameterizedType(List.class, String.class);
+		
+		assertEquals(parameterizedType, Generic.get(List.class, String.class).getType());
+	}
+	
+	@Test
+	public void getWithRawTypeAndNullActualTypeArguments()
+	{
+		assertEquals(String.class, Generic.get(String.class, (Type[]) null).getType());
+	}
+	
+	@Test
+	public void getWithRawTypeAndEmptyActualTypeArguments()
+	{
+		assertEquals(String.class, Generic.get(String.class, new Type[0]).getType());
 	}
 	
 	@Test
