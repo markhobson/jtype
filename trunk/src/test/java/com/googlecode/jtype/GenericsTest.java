@@ -43,6 +43,18 @@ public class GenericsTest
 	// tests ------------------------------------------------------------------
 	
 	@Test
+	public void comparable()
+	{
+		assertEquals(new Generic<Comparable<?>>() {/**/}, Generics.comparable());
+	}
+	
+	@Test
+	public void comparableWithClass()
+	{
+		assertEquals(new Generic<Comparable<String>>() {/**/}, Generics.comparable(String.class));
+	}
+	
+	@Test
 	public void comparator()
 	{
 		assertEquals(new Generic<Comparator<?>>() {/**/}, Generics.comparator());
@@ -64,6 +76,18 @@ public class GenericsTest
 	public void enumerationWithClass()
 	{
 		assertEquals(new Generic<Enumeration<String>>() {/**/}, Generics.enumeration(String.class));
+	}
+	
+	@Test
+	public void iterable()
+	{
+		assertEquals(new Generic<Iterable<?>>() {/**/}, Generics.iterable());
+	}
+	
+	@Test
+	public void iterableWithClass()
+	{
+		assertEquals(new Generic<Iterable<String>>() {/**/}, Generics.iterable(String.class));
 	}
 	
 	@Test
