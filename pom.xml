@@ -206,14 +206,14 @@
 
 	<distributionManagement>
 		<repository>
-			<id>jtype-releases</id>
-			<name>JType Staging Repository</name>
-			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			<id>sonatype-nexus-staging</id>
+			<name>Sonatype Nexus Staging Repository</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
 		<snapshotRepository>
-			<id>jtype-snapshots</id>
-			<name>JType Snapshot Repository</name>
-			<url>http://oss.sonatype.org/content/repositories/googlecode-snapshots/</url>
+			<id>sonatype-nexus-snapshots</id>
+			<name>Sonatype Nexus Snapshot Repository</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
 		</snapshotRepository>
 		<site>
 			<id>jtype-site</id>
