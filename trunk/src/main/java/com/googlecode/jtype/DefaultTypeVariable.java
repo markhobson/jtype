@@ -15,6 +15,7 @@
  */
 package com.googlecode.jtype;
 
+import java.io.Serializable;
 import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -30,20 +31,35 @@ import java.util.Arrays;
  *            the type of generic declaration that declared the type variable
  * @see TypeVariable
  */
-class DefaultTypeVariable<D extends GenericDeclaration> implements TypeVariable<D>
+class DefaultTypeVariable<D extends GenericDeclaration> implements TypeVariable<D>, Serializable
 {
-	// TODO: make serializable?
-	
 	// constants --------------------------------------------------------------
 	
 	private static final Type[] DEFAULT_BOUNDS = new Type[] {Object.class};
 	
+	private static final long serialVersionUID = 1L;
+	
 	// fields -----------------------------------------------------------------
 	
+	/**
+	 * The generic declaration that declared this type variable.
+	 * 
+	 * @serial
+	 */
 	private final D declaration;
 	
+	/**
+	 * The name of this type variable, as it occurs in the source code.
+	 * 
+	 * @serial
+	 */
 	private final String name;
 	
+	/**
+	 * The upper bound(s) of this type variable.
+	 * 
+	 * @serial
+	 */
 	private final Type[] bounds;
 	
 	// constructors -----------------------------------------------------------

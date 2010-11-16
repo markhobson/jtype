@@ -15,10 +15,12 @@
  */
 package com.googlecode.jtype;
 
+import static com.googlecode.jtype.SerializableAssert.assertSerializable;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.GenericDeclaration;
@@ -284,6 +286,15 @@ public class DefaultTypeVariableTest
 		assertEquals("T extends java.lang.Number & java.lang.Comparable", typeVariable.toString());
 	}
 	
+	@Test
+	public void serializable() throws IOException, ClassNotFoundException
+	{
+		TypeVariable<Class<?>> type = new DefaultTypeVariable<Class<?>>(getClass(), "T",
+			new Type[] {Number.class, Comparable.class});
+		
+		assertSerializable(type);
+	}
+
 	// private methods --------------------------------------------------------
 	
 	private static <D extends GenericDeclaration> void assertConstructor(D declaration, String name, Type... bounds)

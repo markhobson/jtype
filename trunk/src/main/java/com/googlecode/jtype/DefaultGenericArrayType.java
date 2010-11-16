@@ -15,6 +15,7 @@
  */
 package com.googlecode.jtype;
 
+import java.io.Serializable;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
 
@@ -25,12 +26,19 @@ import java.lang.reflect.Type;
  * @version $Id$
  * @see GenericArrayType
  */
-class DefaultGenericArrayType implements GenericArrayType
+class DefaultGenericArrayType implements GenericArrayType, Serializable
 {
-	// TODO: make serializable?
+	// constants --------------------------------------------------------------
+	
+	private static final long serialVersionUID = 1L;
 	
 	// fields -----------------------------------------------------------------
 	
+	/**
+	 * The component type of this array.
+	 * 
+	 * @serial
+	 */
 	private final Type componentType;
 	
 	// constructors -----------------------------------------------------------
