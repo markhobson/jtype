@@ -15,6 +15,7 @@
  */
 package com.googlecode.jtype;
 
+import java.io.Serializable;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -52,10 +53,8 @@ import java.util.Map;
  * @see Generics
  * @see <a href="http://gafter.blogspot.com/2006/12/super-type-tokens.html">Neal Gafter's blog: Super Type Tokens</a>
  */
-public abstract class Generic<T>
+public abstract class Generic<T> implements Serializable
 {
-	// TODO: make serializable?
-	
 	// classes ----------------------------------------------------------------
 	
 	private static final class DefaultGeneric<T> extends Generic<T>
@@ -79,8 +78,17 @@ public abstract class Generic<T>
 		}
 	}
 	
+	// constants --------------------------------------------------------------
+	
+	private static final long serialVersionUID = 1L;
+	
 	// fields -----------------------------------------------------------------
 	
+	/**
+	 * The type that this generic type literal represents.
+	 * 
+	 * @serial
+	 */
 	private final Type type;
 	
 	// constructors -----------------------------------------------------------

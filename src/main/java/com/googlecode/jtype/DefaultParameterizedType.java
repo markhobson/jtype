@@ -15,6 +15,7 @@
  */
 package com.googlecode.jtype;
 
+import java.io.Serializable;
 import java.lang.reflect.MalformedParameterizedTypeException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -28,16 +29,33 @@ import java.util.Arrays;
  * @version $Id$
  * @see ParameterizedType
  */
-class DefaultParameterizedType implements ParameterizedType
+class DefaultParameterizedType implements ParameterizedType, Serializable
 {
-	// TODO: make serializable?
+	// constants --------------------------------------------------------------
+	
+	private static final long serialVersionUID = 1L;
 	
 	// fields -----------------------------------------------------------------
 	
+	/**
+	 * The type that this type is a member of.
+	 * 
+	 * @serial
+	 */
 	private final Type ownerType;
 	
+	/**
+	 * The class or interface that declared this type.
+	 * 
+	 * @serial
+	 */
 	private final Type rawType;
 	
+	/**
+	 * The types representing the actual type arguments to this type.
+	 * 
+	 * @serial
+	 */
 	private final Type[] actualTypeArguments;
 	
 	// constructors -----------------------------------------------------------

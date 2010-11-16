@@ -15,10 +15,12 @@
  */
 package com.googlecode.jtype;
 
+import static com.googlecode.jtype.SerializableAssert.assertSerializable;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
 
@@ -168,5 +170,13 @@ public class DefaultWildcardTypeTest
 		WildcardType wildcardType = new DefaultWildcardType(null, new Type[] {Integer.class, Number.class});
 		
 		assertEquals("? super java.lang.Integer & java.lang.Number", wildcardType.toString());
+	}
+
+	@Test
+	public void serializable() throws IOException, ClassNotFoundException
+	{
+		WildcardType type = new DefaultWildcardType(null, new Type[] {Integer.class});
+		
+		assertSerializable(type);
 	}
 }

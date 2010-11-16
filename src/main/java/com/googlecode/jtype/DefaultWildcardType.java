@@ -15,6 +15,7 @@
  */
 package com.googlecode.jtype;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
 import java.util.Arrays;
@@ -26,20 +27,30 @@ import java.util.Arrays;
  * @version $Id$
  * @see WildcardType
  */
-class DefaultWildcardType implements WildcardType
+class DefaultWildcardType implements WildcardType, Serializable
 {
-	// TODO: make serializable?
-	
 	// constants --------------------------------------------------------------
 	
 	private static final Type[] DEFAULT_UPPER_BOUNDS = new Type[] {Object.class};
 	
 	private static final Type[] DEFAULT_LOWER_BOUNDS = new Type[0];
 	
+	private static final long serialVersionUID = 1L;
+	
 	// fields -----------------------------------------------------------------
 	
+	/**
+	 * The upper bound(s) of this type variable.
+	 * 
+	 * @serial
+	 */
 	private final Type[] upperBounds;
 	
+	/**
+	 * The lower bound(s) of this type variable.
+	 * 
+	 * @serial
+	 */
 	private final Type[] lowerBounds;
 	
 	// constructors -----------------------------------------------------------

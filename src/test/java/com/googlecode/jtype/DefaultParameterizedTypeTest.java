@@ -15,11 +15,13 @@
  */
 package com.googlecode.jtype;
 
+import static com.googlecode.jtype.SerializableAssert.assertSerializable;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 
+import java.io.IOException;
 import java.lang.reflect.MalformedParameterizedTypeException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -192,5 +194,14 @@ public class DefaultParameterizedTypeTest
 			new Type[] {String.class, Integer.class});
 		
 		assertEquals("java.util.Map<java.lang.String, java.lang.Integer>", type.toString());
+	}
+	
+	@Test
+	public void serializable() throws IOException, ClassNotFoundException
+	{
+		ParameterizedType type = new DefaultParameterizedType(Map.class, Map.Entry.class,
+			new Type[] {String.class, Integer.class});
+		
+		assertSerializable(type);
 	}
 }

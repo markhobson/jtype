@@ -15,11 +15,14 @@
  */
 package com.googlecode.jtype;
 
+import static com.googlecode.jtype.SerializableAssert.assertSerializable;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.ParameterizedType;
@@ -37,8 +40,10 @@ import org.junit.Test;
  * @version $Id$
  * @see Generic
  */
-public class GenericTest
+public class GenericTest implements Serializable
 {
+	// test is serializable with transient fields for serializableWhenSubclassed
+	
 	// classes ----------------------------------------------------------------
 	
 	private static class GenericSubclass<T> extends Generic<T>
@@ -48,7 +53,7 @@ public class GenericTest
 	
 	// fields -----------------------------------------------------------------
 	
-	private GenericDeclaration declaration;
+	private transient GenericDeclaration declaration;
 	
 	// public methods ---------------------------------------------------------
 	
@@ -107,6 +112,12 @@ public class GenericTest
 	public void getWithClass()
 	{
 		assertEquals(String.class, Generic.get(String.class).getType());
+	}
+	
+	@Test
+	public void getWithClassIsSerializable() throws IOException, ClassNotFoundException
+	{
+		assertSerializable(Generic.get(String.class));
 	}
 	
 	@Test
@@ -346,5 +357,11 @@ public class GenericTest
 	public void toUnqualifiedStringWithType()
 	{
 		assertEquals("List<String>", new Generic<List<String>>() {/**/}.toUnqualifiedString());
+	}
+
+	@Test
+	public void serializableWhenSubclassed() throws IOException, ClassNotFoundException
+	{
+		assertSerializable(new Generic<String>() {/**/});
 	}
 }

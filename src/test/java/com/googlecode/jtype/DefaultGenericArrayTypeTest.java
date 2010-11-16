@@ -15,9 +15,11 @@
  */
 package com.googlecode.jtype;
 
+import static com.googlecode.jtype.SerializableAssert.assertSerializable;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+import java.io.IOException;
 import java.lang.reflect.GenericArrayType;
 
 import org.junit.Test;
@@ -97,5 +99,13 @@ public class DefaultGenericArrayTypeTest
 		GenericArrayType genericArrayType = new DefaultGenericArrayType(Integer.class);
 		
 		assertEquals("java.lang.Integer[]", genericArrayType.toString());
+	}
+	
+	@Test
+	public void serializable() throws IOException, ClassNotFoundException
+	{
+		GenericArrayType type = new DefaultGenericArrayType(Integer.class);
+		
+		assertSerializable(type);
 	}
 }
