@@ -467,6 +467,30 @@ public class TypeUtilsTest
 	}
 	
 	/**
+	 * Tests that parameterized type upper bounded wildcard type arguments are assignable to wildcard types.
+	 * 
+	 * {@literal List<?> <: List<? extends Number>}
+	 */
+	@Test
+	public void isAssignableWithWildcardParameterizedTypeFromUpperBoundedWildcardParameterizedType()
+	{
+		assertAsymmetricallyAssignable(valueOf("List<?>"), valueOf("List<? extends Number>"));
+	}
+	
+	/**
+	 * Tests that parameterized type lower bounded wildcard type arguments are assignable to wildcard types.
+	 * 
+	 * {@literal List<?> <: List<? super Number>}
+	 */
+	// TODO: fix
+	@Ignore
+	@Test
+	public void isAssignableWithWildcardParameterizedTypeFromLowerBoundedWildcardParameterizedType()
+	{
+		assertAsymmetricallyAssignable(valueOf("List<?>"), valueOf("List<? super Number>"));
+	}
+	
+	/**
 	 * Tests that parameterized type arguments are assignable to wildcard types on their upper bound.
 	 * 
 	 * {@literal List<? extends Number> <: List<Number>}
@@ -503,8 +527,6 @@ public class TypeUtilsTest
 	/**
 	 * {@literal List<? extends Number> <: List<? extends Integer>}
 	 */
-	// TODO: fix
-	@Ignore
 	@Test
 	public void isAssignableWithUpperBoundedWildcardParameterizedTypeFromInBoundsUpperBoundedWildcardParameterizedType()
 	{
@@ -663,6 +685,94 @@ public class TypeUtilsTest
 		
 		assertAssignable(Number.class, type);
 		assertAssignable(Collection.class, type);
+	}
+	
+	/**
+	 * Tests that unbounded wildcards are assignable to Object.
+	 * 
+	 * {@literal Object <: ?}
+	 */
+	@Test
+	public void isAssignableWithObjectFromUnboundedWildcardType()
+	{
+		assertAssignable(Object.class, Types.unboundedWildcardType());
+	}
+	
+	/**
+	 * Tests that upper bounded wildcards are assignable to their upper bound.
+	 * 
+	 * {@literal Number <: ? extends Number}
+	 */
+	@Test
+	public void isAssignableWithBoundFromUpperBoundedWildcardType()
+	{
+		assertAssignable(Number.class, Types.upperBoundedWildcardType(Number.class));
+	}
+	
+	/**
+	 * Tests that upper bounded wildcards are assignable to supertypes of their upper bound.
+	 * 
+	 * {@literal Number <: ? extends Integer}
+	 */
+	@Test
+	public void isAssignableWithBoundSupertypeFromUpperBoundedWildcardType()
+	{
+		assertAssignable(Number.class, Types.upperBoundedWildcardType(Integer.class));
+	}
+	
+	/**
+	 * Tests that upper bounded wildcards are not assignable to subtypes of their upper bound.
+	 * 
+	 * {@literal Integer !<: ? extends Number}
+	 */
+	@Test
+	public void isAssignableWithBoundSubtypeFromUpperBoundedWildcardType()
+	{
+		assertUnassignable(Integer.class, Types.upperBoundedWildcardType(Number.class));
+	}
+	
+	/**
+	 * Tests that lower bounded wildcards are assignable to Object.
+	 * 
+	 * {@literal Object <: ? super Number}
+	 */
+	@Test
+	public void isAssignableWithObjectFromLowerBoundedWildcardType()
+	{
+		assertAssignable(Object.class, Types.lowerBoundedWildcardType(Number.class));
+	}
+	
+	/**
+	 * Tests that lower bounded wildcards are not assignable to their lower bound.
+	 * 
+	 * {@literal Number !<: ? super Number}
+	 */
+	@Test
+	public void isAssignableWithBoundFromLowerBoundedWildcardType()
+	{
+		assertUnassignable(Number.class, Types.lowerBoundedWildcardType(Number.class));
+	}
+	
+	/**
+	 * Tests that lower bounded wildcards are not assignable to supertypes of their lower bound.
+	 * 
+	 * {@literal Number !<: ? super Integer}
+	 */
+	@Test
+	public void isAssignableWithBoundSupertypeFromLowerBoundedWildcardType()
+	{
+		assertUnassignable(Number.class, Types.lowerBoundedWildcardType(Integer.class));
+	}
+	
+	/**
+	 * Tests that upper bounded wildcards are not assignable to subtypes of their upper bound.
+	 * 
+	 * {@literal Integer <: ? super Number}
+	 */
+	@Test
+	public void isAssignableWithBoundSubtypeFromLowerBoundedWildcardType()
+	{
+		assertUnassignable(Integer.class, Types.lowerBoundedWildcardType(Number.class));
 	}
 	
 	// isInstance tests -------------------------------------------------------
