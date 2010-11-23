@@ -187,6 +187,11 @@ public final class TypeUtils
 				return isArraySupertype((Class<?>) supertype);
 			}
 			
+			if (type instanceof WildcardType)
+			{
+				return isClassAssignableToWildcardType((Class<?>) supertype, (WildcardType) type);
+			}
+			
 			return false;
 		}
 		
@@ -461,6 +466,19 @@ public final class TypeUtils
 		}
 		
 		return supertype.isAssignableFrom(type);
+	}
+	
+	private static boolean isClassAssignableToWildcardType(Class<?> supertype, WildcardType type)
+	{
+		for (Type upperBound : type.getUpperBounds())
+		{
+			if (!isAssignable(supertype, upperBound))
+			{
+				return false;
+			}
+		}
+		
+		return true;
 	}
 	
 	private static boolean isParameterizedTypeAssignable(ParameterizedType supertype, ParameterizedType type)
