@@ -15,6 +15,10 @@
  */
 package com.googlecode.jtype;
 
+import static com.googlecode.jtype.Utils.checkNotNull;
+import static com.googlecode.jtype.Utils.nullEquals;
+import static com.googlecode.jtype.Utils.nullHashCode;
+
 import java.io.Serializable;
 import java.lang.reflect.MalformedParameterizedTypeException;
 import java.lang.reflect.ParameterizedType;
@@ -62,7 +66,7 @@ class DefaultParameterizedType implements ParameterizedType, Serializable
 	
 	public DefaultParameterizedType(Type ownerType, Class<?> rawType, Type[] actualTypeArguments)
 	{
-		this.rawType = Utils.checkNotNull(rawType, "rawType");
+		this.rawType = checkNotNull(rawType, "rawType");
 		
 		if (actualTypeArguments == null)
 		{
@@ -125,7 +129,7 @@ class DefaultParameterizedType implements ParameterizedType, Serializable
 	@Override
 	public int hashCode()
 	{
-		int hashCode = Utils.nullHashCode(ownerType);
+		int hashCode = nullHashCode(ownerType);
 		hashCode = (37 * hashCode) + rawType.hashCode();
 		hashCode = (37 * hashCode) + Arrays.hashCode(actualTypeArguments);
 		
@@ -150,7 +154,7 @@ class DefaultParameterizedType implements ParameterizedType, Serializable
 			return true;
 		}
 		
-		return Utils.nullEquals(ownerType, type.getOwnerType())
+		return nullEquals(ownerType, type.getOwnerType())
 			&& rawType.equals(type.getRawType())
 			&& Arrays.equals(actualTypeArguments, type.getActualTypeArguments());
 	}

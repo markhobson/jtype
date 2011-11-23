@@ -15,6 +15,9 @@
  */
 package com.googlecode.jtype;
 
+import static com.googlecode.jtype.Utils.checkNotNull;
+import static com.googlecode.jtype.Utils.checkTrue;
+
 import java.io.Serializable;
 import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.ParameterizedType;
@@ -73,15 +76,14 @@ class DefaultTypeVariable<D extends GenericDeclaration> implements TypeVariable<
 		
 		// initial bound must be either a class type, an interface type or a type variable
 		
-		Utils.checkTrue(isValidFirstBound(bounds[0]), "First bound must be either a class type, an interface type or a "
-			+ "type variable", bounds[0]);
+		checkTrue(isValidFirstBound(bounds[0]), "First bound must be either a class type, an interface type or a type "
+			+ "variable", bounds[0]);
 		
 		// subsequent bounds must be an interface type
 		
 		for (int i = 1; i < bounds.length; i++)
 		{
-			Utils.checkTrue(isValidSecondaryBound(bounds[i]), "Secondary bounds must be an interface type: ",
-				bounds[i]);
+			checkTrue(isValidSecondaryBound(bounds[i]), "Secondary bounds must be an interface type: ", bounds[i]);
 		}
 		
 		// TODO: the erasures of all constituent types of a bound must be pairwise different
@@ -89,8 +91,8 @@ class DefaultTypeVariable<D extends GenericDeclaration> implements TypeVariable<
 		// TODO: type variable may not be a subtype of two interface types which are different parameterizations of the
 		// same generic interface
 		
-		this.declaration = Utils.checkNotNull(declaration, "declaration");
-		this.name = Utils.checkNotNull(name, "name");
+		this.declaration = checkNotNull(declaration, "declaration");
+		this.name = checkNotNull(name, "name");
 		this.bounds = bounds.clone();
 	}
 	

@@ -15,6 +15,9 @@
  */
 package com.googlecode.jtype;
 
+import static com.googlecode.jtype.Utils.checkNotNull;
+import static com.googlecode.jtype.Utils.checkTrue;
+
 import java.io.Serializable;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.MalformedParameterizedTypeException;
@@ -27,8 +30,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * Provides utility methods for working with types.
@@ -70,8 +73,8 @@ public final class TypeUtils
 	
 	public static void accept(Type type, TypeVisitor visitor)
 	{
-		Utils.checkNotNull(type, "type");
-		Utils.checkNotNull(visitor, "visitor");
+		checkNotNull(type, "type");
+		checkNotNull(visitor, "visitor");
 		
 		if (type instanceof Class<?>)
 		{
@@ -152,8 +155,8 @@ public final class TypeUtils
 	
 	public static boolean isAssignable(Type supertype, Type type)
 	{
-		Utils.checkNotNull(supertype, "supertype");
-		Utils.checkNotNull(type, "type");
+		checkNotNull(supertype, "supertype");
+		checkNotNull(type, "type");
 		
 		if (supertype.equals(type))
 		{
@@ -281,7 +284,7 @@ public final class TypeUtils
 	
 	public static Class<?> getErasedReferenceType(Type type)
 	{
-		Utils.checkTrue(isReferenceType(type), "type is not a reference type: ", type);
+		checkTrue(isReferenceType(type), "type is not a reference type: ", type);
 		
 		return (Class<?>) getErasedType(type);
 	}
@@ -325,7 +328,7 @@ public final class TypeUtils
 	
 	public static Type getArrayType(Type componentType)
 	{
-		Utils.checkNotNull(componentType, "componentType");
+		checkNotNull(componentType, "componentType");
 		
 		if (componentType instanceof Class<?>)
 		{
@@ -337,8 +340,8 @@ public final class TypeUtils
 	
 	public static boolean isParameterizedType(Type type, Class<?> rawType)
 	{
-		Utils.checkNotNull(type, "type");
-		Utils.checkNotNull(rawType, "rawType");
+		checkNotNull(type, "type");
+		checkNotNull(rawType, "rawType");
 		
 		ParameterizedType parameterizedType;
 		
@@ -381,22 +384,22 @@ public final class TypeUtils
 	
 	public static Type getActualTypeArgument(Type type, int argIndex)
 	{
-		Utils.checkNotNull(type, "type");
-		Utils.checkTrue(type instanceof ParameterizedType, "type must be a ParameterizedType: ", type);
+		checkNotNull(type, "type");
+		checkTrue(type instanceof ParameterizedType, "type must be a ParameterizedType: ", type);
 		
 		ParameterizedType paramType = (ParameterizedType) type;
 		
 		Type[] typeArgs = paramType.getActualTypeArguments();
 		
-		Utils.checkTrue(argIndex >= 0, "argIndex must be non-negative: ", argIndex);
-		Utils.checkTrue(argIndex < typeArgs.length, "argIndex must be less than the number of type parameters: ", argIndex);
+		checkTrue(argIndex >= 0, "argIndex must be non-negative: ", argIndex);
+		checkTrue(argIndex < typeArgs.length, "argIndex must be less than the number of type parameters: ", argIndex);
 		
 		return typeArgs[0];
 	}
 	
 	public static Type getResolvedSuperclass(Type type)
 	{
-		Utils.checkNotNull(type, "type");
+		checkNotNull(type, "type");
 		
 		Class<?> rawType = getErasedReferenceType(type);
 		Type supertype = rawType.getGenericSuperclass();
@@ -411,7 +414,7 @@ public final class TypeUtils
 	
 	public static Type[] getResolvedInterfaces(Type type)
 	{
-		Utils.checkNotNull(type, "type");
+		checkNotNull(type, "type");
 		
 		Class<?> rawType = getErasedReferenceType(type);
 		Type[] interfaces = rawType.getGenericInterfaces();

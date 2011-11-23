@@ -15,6 +15,8 @@
  */
 package com.googlecode.jtype;
 
+import static com.googlecode.jtype.Utils.checkNotNull;
+
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.ParameterizedType;
@@ -40,7 +42,7 @@ class SerializingTypeVisitor extends AbstractTypeVisitor
 	
 	public SerializingTypeVisitor(ClassSerializer serializer)
 	{
-		Utils.checkNotNull(serializer, "serializer");
+		checkNotNull(serializer, "serializer");
 		
 		this.serializer = serializer;
 		

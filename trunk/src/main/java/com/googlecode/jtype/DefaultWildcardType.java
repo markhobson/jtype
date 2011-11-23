@@ -15,6 +15,8 @@
  */
 package com.googlecode.jtype;
 
+import static com.googlecode.jtype.Utils.checkFalse;
+
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
@@ -72,7 +74,7 @@ class DefaultWildcardType implements WildcardType, Serializable
 		
 		boolean hasUpperBounds = !Arrays.equals(this.upperBounds, DEFAULT_UPPER_BOUNDS);
 		boolean hasLowerBounds = !Arrays.equals(this.lowerBounds, DEFAULT_LOWER_BOUNDS);
-		Utils.checkFalse(hasUpperBounds && hasLowerBounds, "Wildcard type cannot have both upper and lower bounds");
+		checkFalse(hasUpperBounds && hasLowerBounds, "Wildcard type cannot have both upper and lower bounds");
 	}
 	
 	// WildcardType methods ---------------------------------------------------
