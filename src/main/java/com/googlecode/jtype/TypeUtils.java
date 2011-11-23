@@ -370,16 +370,26 @@ public final class TypeUtils
 		return (typeArgs.length == 1);
 	}
 	
-	// TODO: remove?
+	/**
+	 * @deprecated Use {@link #getActualTypeArgument(Type, int)} instead.
+	 */
+	@Deprecated
 	public static Type getActualTypeArgument(Type type)
 	{
+		return getActualTypeArgument(type, 0);
+	}
+	
+	public static Type getActualTypeArgument(Type type, int argIndex)
+	{
 		Utils.checkNotNull(type, "type");
+		Utils.checkTrue(type instanceof ParameterizedType, "type must be a ParameterizedType: ", type);
 		
 		ParameterizedType paramType = (ParameterizedType) type;
 		
 		Type[] typeArgs = paramType.getActualTypeArguments();
 		
-		Utils.checkTrue(typeArgs.length == 1, "type must be a ParameterizedType with one actual type argument: ", type);
+		Utils.checkTrue(argIndex >= 0, "argIndex must be non-negative: ", argIndex);
+		Utils.checkTrue(argIndex < typeArgs.length, "argIndex must be less than the number of type parameters: ", argIndex);
 		
 		return typeArgs[0];
 	}
