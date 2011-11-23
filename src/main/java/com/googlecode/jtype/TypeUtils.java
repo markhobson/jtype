@@ -335,7 +335,7 @@ public final class TypeUtils
 		return Types.genericArrayType(componentType);
 	}
 	
-	public static boolean isSimpleParameterizedType(Type type, Class<?> rawType)
+	public static boolean isParameterizedType(Type type, Class<?> rawType)
 	{
 		Utils.checkNotNull(type, "type");
 		Utils.checkNotNull(rawType, "rawType");
@@ -351,7 +351,16 @@ public final class TypeUtils
 			return false;
 		}
 		
-		if (!isAssignable(parameterizedType, type))
+		return isAssignable(parameterizedType, type);
+	}
+
+	/**
+	 * @deprecated Use {@link #isParameterizedType(Type, Class)} instead.
+	 */
+	@Deprecated
+	public static boolean isSimpleParameterizedType(Type type, Class<?> rawType)
+	{
+		if (!isParameterizedType(type, rawType))
 		{
 			return false;
 		}

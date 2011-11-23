@@ -1196,6 +1196,50 @@ public class TypeUtilsTest
 			TypeUtils.getArrayType(Types.unboundedWildcardType()));
 	}
 	
+	// isParameterizedType tests ----------------------------------------------
+	
+	@Test(expected = NullPointerException.class)
+	public void isParameterizedTypeWithNullType()
+	{
+		TypeUtils.isParameterizedType(null, List.class);
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void isParameterizedTypeWithNullRawType()
+	{
+		TypeUtils.isParameterizedType(List.class, null);
+	}
+	
+	@Test
+	public void isParameterizedTypeWithSameRawType()
+	{
+		assertTrue(TypeUtils.isParameterizedType(valueOf("List<Integer>"), List.class));
+	}
+	
+	@Test
+	public void isParameterizedTypeWithSuperRawType()
+	{
+		assertTrue(TypeUtils.isParameterizedType(valueOf("List<Integer>"), Collection.class));
+	}
+	
+	@Test
+	public void isParameterizedTypeWithUnassignableRawType()
+	{
+		assertFalse(TypeUtils.isParameterizedType(valueOf("List<Integer>"), Number.class));
+	}
+	
+	@Test
+	public void isParameterizedTypeWithClass()
+	{
+		assertFalse(TypeUtils.isParameterizedType(List.class, List.class));
+	}
+	
+	@Test
+	public void isParameterizedTypeWithParameterizedTypeArgument()
+	{
+		assertTrue(TypeUtils.isParameterizedType(valueOf("List<List<Integer>>"), List.class));
+	}
+	
 	// isSimpleParameterizedType tests ----------------------------------------
 	
 	@Test(expected = NullPointerException.class)
