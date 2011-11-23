@@ -19,9 +19,7 @@ import static com.googlecode.jtype.TypeAssert.assertGenericArrayType;
 import static com.googlecode.jtype.TypeAssert.assertParameterizedType;
 import static com.googlecode.jtype.TypeAssert.assertTypeVariable;
 import static com.googlecode.jtype.TypeAssert.assertWildcardType;
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 
 import java.lang.reflect.Constructor;
