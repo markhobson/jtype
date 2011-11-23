@@ -43,8 +43,8 @@ final class TypeAssert
 	
 	// public methods ---------------------------------------------------------
 	
-	public static <T extends GenericDeclaration> void assertTypeVariable(T expectedGenericDeclaration,
-		String expectedName, Type[] expectedBounds, TypeVariable<?> actual)
+	public static <D extends GenericDeclaration> void assertTypeVariable(D expectedGenericDeclaration,
+		String expectedName, Type[] expectedBounds, TypeVariable<D> actual)
 	{
 		assertNotNull(actual);
 		assertEquals("Generic declaration", expectedGenericDeclaration, actual.getGenericDeclaration());
