@@ -1298,6 +1298,42 @@ public class TypeUtilsTest
 		assertEquals(Integer.class, TypeUtils.getActualTypeArgument(valueOf("List<Integer>")));
 	}
 	
+	@Test(expected = IllegalArgumentException.class)
+	public void getActualTypeArgumentWithUnparameterizedType()
+	{
+		TypeUtils.getActualTypeArgument(Integer.class);
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void getActualTypeArgumentIndexWithNull()
+	{
+		TypeUtils.getActualTypeArgument(null, 0);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void getActualTypeArgumentIndexWithUnparameterizedType()
+	{
+		TypeUtils.getActualTypeArgument(Integer.class, 0);
+	}
+	
+	@Test
+	public void getActualTypeArgumentIndexWithIndex()
+	{
+		assertEquals(Integer.class, TypeUtils.getActualTypeArgument(valueOf("List<Integer>"), 0));
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void getActualTypeArgumentIndexWithNegativeIndex()
+	{
+		TypeUtils.getActualTypeArgument(valueOf("List<Integer>"), -1);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void getActualTypeArgumentIndexWithOutOfBoundsIndex()
+	{
+		TypeUtils.getActualTypeArgument(valueOf("List<Integer>"), 1);
+	}
+	
 	// getResolvedSuperclass tests ---------------------------------------------
 	
 	@Test
