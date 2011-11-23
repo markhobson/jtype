@@ -58,6 +58,12 @@ final class TypeAssert
 		assertEquals("Component type", expectedComponentType, actual.getGenericComponentType());
 	}
 	
+	public static void assertParameterizedType(Class<?> expectedRawType, Type[] expectedActualTypeArguments,
+		ParameterizedType actual)
+	{
+		assertParameterizedType(null, expectedRawType, expectedActualTypeArguments, actual);
+	}
+	
 	public static void assertParameterizedType(Type expectedOwnerType, Class<?> expectedRawType,
 		Type[] expectedActualTypeArguments, ParameterizedType actual)
 	{

@@ -149,7 +149,7 @@ public class TypesTest
 	{
 		ParameterizedType type = Types.parameterizedType(Map.class, new Type[] {String.class, Integer.class});
 		
-		assertParameterizedType(null, Map.class, new Type[] {String.class, Integer.class}, type);
+		assertParameterizedType(Map.class, new Type[] {String.class, Integer.class}, type);
 		
 		assertEquals(type, stringIntegerMapType);
 		assertEquals(stringIntegerMapType, type);
@@ -188,7 +188,7 @@ public class TypesTest
 		ParameterizedType type = Types.unboundedParameterizedType(Map.class);
 		
 		Type[] expectedActualTypeArguments = new Type[] {Types.unboundedWildcardType(), Types.unboundedWildcardType()};
-		assertParameterizedType(null, Map.class, expectedActualTypeArguments, type);
+		assertParameterizedType(Map.class, expectedActualTypeArguments, type);
 	}
 	
 	@Test(expected = NullPointerException.class)
