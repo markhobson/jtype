@@ -98,7 +98,8 @@ public final class Types
 	 *            the actual type arguments
 	 * @return the parameterized type
 	 * @throws MalformedParameterizedTypeException
-	 *             if the number of actual type arguments differs from those defined on the raw type
+	 *             if the raw type is not a parameterized type or the number of actual type arguments differs from those
+	 *             defined on the raw type
 	 */
 	public static ParameterizedType parameterizedType(Class<?> rawType, Type... actualTypeArguments)
 	{
