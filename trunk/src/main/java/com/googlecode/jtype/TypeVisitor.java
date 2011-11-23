@@ -32,6 +32,7 @@ public interface TypeVisitor
 {
 	void visit(Class<?> type);
 
+	// TODO: rename to visit
 	<D extends GenericDeclaration> boolean beginVisit(TypeVariable<D> type);
 	
 	void visitTypeVariableBound(Type bound, int index);
@@ -40,12 +41,14 @@ public interface TypeVisitor
 	
 	void visit(GenericArrayType type);
 	
+	// TODO: rename to visit
 	boolean beginVisit(ParameterizedType type);
 	
 	void visitActualTypeArgument(Type type, int index);
 	
 	void endVisit(ParameterizedType type);
 	
+	// TODO: rename to visit
 	boolean beginVisit(WildcardType type);
 	
 	void visitUpperBound(Type bound, int index);
