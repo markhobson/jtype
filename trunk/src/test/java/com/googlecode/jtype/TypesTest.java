@@ -15,10 +15,13 @@
  */
 package com.googlecode.jtype;
 
+import static com.googlecode.jtype.TypeAssert.assertGenericArrayType;
+import static com.googlecode.jtype.TypeAssert.assertParameterizedType;
+import static com.googlecode.jtype.TypeAssert.assertTypeVariable;
+import static com.googlecode.jtype.TypeAssert.assertWildcardType;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
 import java.lang.reflect.Constructor;
@@ -101,11 +104,8 @@ public class TypesTest
 		Constructor<TypesTest> constructor = TypesTest.class.getConstructor();
 		
 		TypeVariable<Constructor<TypesTest>> typeVariable = Types.typeVariable(constructor, "T");
-		
-		assertNotNull(typeVariable);
-		assertEquals(constructor, typeVariable.getGenericDeclaration());
-		assertEquals("T", typeVariable.getName());
-		assertArrayEquals(new Type[] {Object.class}, typeVariable.getBounds());
+
+		assertTypeVariable(constructor, "T", new Type[] {Object.class}, typeVariable);
 	}
 	
 	@Test
@@ -116,10 +116,7 @@ public class TypesTest
 		TypeVariable<Constructor<TypesTest>> typeVariable = Types.typeVariable(constructor, "T", Number.class,
 			Comparable.class);
 		
-		assertNotNull(typeVariable);
-		assertEquals(constructor, typeVariable.getGenericDeclaration());
-		assertEquals("T", typeVariable.getName());
-		assertArrayEquals(new Type[] {Number.class, Comparable.class}, typeVariable.getBounds());
+		assertTypeVariable(constructor, "T", new Type[] {Number.class, Comparable.class}, typeVariable);
 	}
 	
 	// genericArrayType tests -------------------------------------------------
@@ -129,8 +126,7 @@ public class TypesTest
 	{
 		GenericArrayType type = Types.genericArrayType(Integer.class);
 		
-		assertNotNull(type);
-		assertEquals(Integer.class, type.getGenericComponentType());
+		assertGenericArrayType(Integer.class, type);
 	}
 	
 	@Test(expected = NullPointerException.class)
@@ -155,10 +151,7 @@ public class TypesTest
 	{
 		ParameterizedType type = Types.parameterizedType(Map.class, new Type[] {String.class, Integer.class});
 		
-		assertNotNull(type);
-		assertEquals(Map.class, type.getRawType());
-		assertNull(type.getOwnerType());
-		assertArrayEquals(new Type[] {String.class, Integer.class}, type.getActualTypeArguments());
+		assertParameterizedType(null, Map.class, new Type[] {String.class, Integer.class}, type);
 		
 		assertEquals(type, stringIntegerMapType);
 		assertEquals(stringIntegerMapType, type);
@@ -197,10 +190,8 @@ public class TypesTest
 	public void unboundedWildcardType()
 	{
 		WildcardType type = Types.unboundedWildcardType();
-		
-		assertNotNull(type);
-		assertArrayEquals(new Type[] {Object.class}, type.getUpperBounds());
-		assertArrayEquals(new Type[0], type.getLowerBounds());
+
+		assertWildcardType(new Type[] {Object.class}, new Type[0], type);
 		
 		assertEquals(type, unboundedWildcardType);
 		assertEquals(unboundedWildcardType, type);
@@ -219,9 +210,7 @@ public class TypesTest
 	{
 		WildcardType type = Types.upperBoundedWildcardType(Number.class);
 		
-		assertNotNull(type);
-		assertArrayEquals(new Type[] {Number.class}, type.getUpperBounds());
-		assertArrayEquals(new Type[0], type.getLowerBounds());
+		assertWildcardType(new Type[] {Number.class}, new Type[0], type);
 		
 		assertEquals(type, numberUpperBoundedWildcardType);
 		assertEquals(numberUpperBoundedWildcardType, type);
@@ -249,9 +238,7 @@ public class TypesTest
 	{
 		WildcardType type = Types.lowerBoundedWildcardType(Integer.class);
 		
-		assertNotNull(type);
-		assertArrayEquals(new Type[] {Object.class}, type.getUpperBounds());
-		assertArrayEquals(new Type[] {Integer.class}, type.getLowerBounds());
+		assertWildcardType(new Type[] {Object.class}, new Type[] {Integer.class}, type);
 		
 		assertEquals(type, integerLowerBoundedWildcardType);
 		assertEquals(integerLowerBoundedWildcardType, type);
