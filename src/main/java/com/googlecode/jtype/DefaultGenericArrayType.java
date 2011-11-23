@@ -15,6 +15,8 @@
  */
 package com.googlecode.jtype;
 
+import static com.googlecode.jtype.Utils.checkNotNull;
+
 import java.io.Serializable;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
@@ -45,7 +47,7 @@ class DefaultGenericArrayType implements GenericArrayType, Serializable
 	
 	public DefaultGenericArrayType(Type componentType)
 	{
-		this.componentType = Utils.checkNotNull(componentType, "componentType");
+		this.componentType = checkNotNull(componentType, "componentType");
 	}
 	
 	// GenericArrayType methods -----------------------------------------------

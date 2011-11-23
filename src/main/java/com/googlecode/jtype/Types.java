@@ -15,6 +15,8 @@
  */
 package com.googlecode.jtype;
 
+import static com.googlecode.jtype.Utils.checkNotNull;
+
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.MalformedParameterizedTypeException;
@@ -117,7 +119,7 @@ public final class Types
 	 */
 	public static ParameterizedType unboundedParameterizedType(Class<?> rawType)
 	{
-		Utils.checkNotNull(rawType, "rawType");
+		checkNotNull(rawType, "rawType");
 		
 		int typeParameterCount = rawType.getTypeParameters().length;
 		
@@ -146,7 +148,7 @@ public final class Types
 	 */
 	public static WildcardType upperBoundedWildcardType(Type upperBound)
 	{
-		Utils.checkNotNull(upperBound, "upperBound");
+		checkNotNull(upperBound, "upperBound");
 		
 		return wildcardType(new Type[] {upperBound}, null);
 	}
@@ -160,7 +162,7 @@ public final class Types
 	 */
 	public static WildcardType lowerBoundedWildcardType(Type lowerBound)
 	{
-		Utils.checkNotNull(lowerBound, "lowerBound");
+		checkNotNull(lowerBound, "lowerBound");
 		
 		return wildcardType(null, new Type[] {lowerBound});
 	}
@@ -190,7 +192,7 @@ public final class Types
 	 */
 	public static Type valueOf(String typeName, Set<String> imports)
 	{
-		Utils.checkNotNull(typeName, "typeName");
+		checkNotNull(typeName, "typeName");
 		
 		Map<String, String> importMap = createImportMap(imports);
 		

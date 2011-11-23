@@ -15,6 +15,10 @@
  */
 package com.googlecode.jtype;
 
+import static com.googlecode.jtype.Utils.checkFalse;
+import static com.googlecode.jtype.Utils.checkNotNull;
+import static com.googlecode.jtype.Utils.checkTrue;
+
 import java.io.Serializable;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
@@ -235,11 +239,11 @@ public abstract class Generic<T> implements Serializable
 	
 	private static void validateType(Type type)
 	{
-		Utils.checkNotNull(type, "type");
-		Utils.checkFalse(type instanceof TypeVariable<?>, "Type variables are not supported: ", type);
-		Utils.checkFalse(type instanceof WildcardType, "Wildcard types are not supported: ", type);
-		Utils.checkTrue(type instanceof Class<?> || type instanceof ParameterizedType
-			|| type instanceof GenericArrayType, "Unsupported type: ", type);
+		checkNotNull(type, "type");
+		checkFalse(type instanceof TypeVariable<?>, "Type variables are not supported: ", type);
+		checkFalse(type instanceof WildcardType, "Wildcard types are not supported: ", type);
+		checkTrue(type instanceof Class<?> || type instanceof ParameterizedType || type instanceof GenericArrayType,
+			"Unsupported type: ", type);
 	}
 	
 	private Type getActualTypeArgument()
