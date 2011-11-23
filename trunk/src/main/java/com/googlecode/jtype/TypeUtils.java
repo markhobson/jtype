@@ -335,34 +335,28 @@ public final class TypeUtils
 		return Types.genericArrayType(componentType);
 	}
 	
-	// TODO: perform isSubtype(type, Types.parameterizedType(rawType, Types.unboundedWildcardType()))
 	public static boolean isSimpleParameterizedType(Type type, Class<?> rawType)
 	{
 		Utils.checkNotNull(type, "type");
 		Utils.checkNotNull(rawType, "rawType");
 		
-		if (!(type instanceof ParameterizedType))
+		ParameterizedType parameterizedType;
+		
+		try
+		{
+			parameterizedType = Types.unboundedParameterizedType(rawType);
+		}
+		catch (MalformedParameterizedTypeException exception)
 		{
 			return false;
 		}
 		
-		ParameterizedType paramType = (ParameterizedType) type;
-		
-		Type paramRawType = paramType.getRawType();
-		
-		if (!(paramRawType instanceof Class<?>))
+		if (!isAssignable(parameterizedType, type))
 		{
 			return false;
 		}
 		
-		Class<?> paramRawClass = (Class<?>) paramRawType;
-		
-		if (!rawType.isAssignableFrom(paramRawClass))
-		{
-			return false;
-		}
-		
-		Type[] typeArgs = paramType.getActualTypeArguments();
+		Type[] typeArgs = ((ParameterizedType) type).getActualTypeArguments();
 		
 		return (typeArgs.length == 1);
 	}
