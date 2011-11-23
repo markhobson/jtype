@@ -182,6 +182,36 @@ public class TypesTest
 		Types.parameterizedType(Map.class, String.class);
 	}
 	
+	@Test
+	public void unboundedParameterizedType()
+	{
+		ParameterizedType type = Types.unboundedParameterizedType(Map.class);
+		
+		Type[] expectedActualTypeArguments = new Type[] {Types.unboundedWildcardType(), Types.unboundedWildcardType()};
+		assertParameterizedType(null, Map.class, expectedActualTypeArguments, type);
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void unboundedParameterizedTypeWithNullRawType()
+	{
+		try
+		{
+			Types.unboundedParameterizedType(null);
+		}
+		catch (NullPointerException exception)
+		{
+			assertEquals("rawType cannot be null", exception.getMessage());
+			
+			throw exception;
+		}
+	}
+	
+	@Test(expected = MalformedParameterizedTypeException.class)
+	public void unboundedParameterizedTypeWithUnparameterizedRawType()
+	{
+		Types.unboundedParameterizedType(Integer.class);
+	}
+	
 	// unboundedWildcardType tests --------------------------------------------
 	
 	@Test

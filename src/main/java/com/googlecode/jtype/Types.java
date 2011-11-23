@@ -22,6 +22,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -104,6 +105,27 @@ public final class Types
 		return new DefaultParameterizedType(null, rawType, actualTypeArguments);
 	}
 	
+	/**
+	 * Creates a parameterized type for the specified raw type with unbounded wildcard actual type arguments.
+	 * 
+	 * @param rawType
+	 *            the raw type
+	 * @return the parameterized type
+	 * @throws MalformedParameterizedTypeException
+	 *             if the raw type is not a parameterized type
+	 */
+	public static ParameterizedType unboundedParameterizedType(Class<?> rawType)
+	{
+		Utils.checkNotNull(rawType, "rawType");
+		
+		int typeParameterCount = rawType.getTypeParameters().length;
+		
+		Type[] actualTypeArguments = new Type[typeParameterCount];
+		Arrays.fill(actualTypeArguments, unboundedWildcardType());
+		
+		return parameterizedType(rawType, actualTypeArguments);
+	}
+
 	/**
 	 * Creates an unbounded wildcard type.
 	 * 
