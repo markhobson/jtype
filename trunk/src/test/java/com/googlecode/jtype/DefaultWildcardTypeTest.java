@@ -15,7 +15,7 @@
  */
 package com.googlecode.jtype;
 
-import static com.googlecode.jtype.SerializableAssert.assertSerializable;
+import static com.googlecode.jtype.test.SerializableAssert.assertSerializable;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

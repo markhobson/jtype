@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.googlecode.jtype;
+package com.googlecode.jtype.test;
 
 import static org.junit.Assert.assertEquals;
 
@@ -29,7 +29,7 @@ import java.io.ObjectOutputStream;
  * @author Mark Hobson
  * @version $Id$
  */
-final class SerializableAssert
+public final class SerializableAssert
 {
 	// constructors -----------------------------------------------------------
 	

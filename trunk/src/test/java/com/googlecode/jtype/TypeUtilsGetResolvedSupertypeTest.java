@@ -22,6 +22,8 @@ import static org.junit.Assert.assertEquals;
 import java.lang.reflect.Type;
 import java.util.Set;
 
+import com.googlecode.jtype.test.AbstractTypeTest;
+
 import org.junit.Test;
 
 /**
