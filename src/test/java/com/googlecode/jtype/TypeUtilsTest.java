@@ -1317,9 +1317,15 @@ public class TypeUtilsTest
 	}
 	
 	@Test
-	public void getActualTypeArgumentIndexWithIndex()
+	public void getActualTypeArgumentIndexWithFirstIndex()
 	{
 		assertEquals(Integer.class, TypeUtils.getActualTypeArgument(valueOf("List<Integer>"), 0));
+	}
+	
+	@Test
+	public void getActualTypeArgumentIndexWithSecondIndex()
+	{
+		assertEquals(Number.class, TypeUtils.getActualTypeArgument(valueOf("Map<Integer, Number>"), 1));
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

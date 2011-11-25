@@ -394,7 +394,7 @@ public final class TypeUtils
 		checkTrue(argIndex >= 0, "argIndex must be non-negative: ", argIndex);
 		checkTrue(argIndex < typeArgs.length, "argIndex must be less than the number of type parameters: ", argIndex);
 		
-		return typeArgs[0];
+		return typeArgs[argIndex];
 	}
 	
 	public static Type getResolvedSuperclass(Type type)
