@@ -428,6 +428,18 @@ public final class TypeUtils
 		return resolvedInterfaces;
 	}
 	
+	public static <T> Type getResolvedSupertype(Class<? extends T> type, Class<T> rawSupertype)
+	{
+		Type resolvedSupertype = getResolvedSupertype((Type) type, rawSupertype);
+		
+		if (resolvedSupertype == null)
+		{
+			throw new IllegalStateException("type must extend or implement supertype: " + type.getName());
+		}
+
+		return resolvedSupertype;
+	}
+	
 	public static String toString(Type type)
 	{
 		return toString(type, ClassSerializers.QUALIFIED);
@@ -731,5 +743,38 @@ public final class TypeUtils
 		}
 		
 		return map;
+	}
+	
+	private static Type getResolvedSupertype(Type type, Class<?> rawSupertype)
+	{
+		Class<?> rawCurrentType = TypeUtils.getErasedReferenceType(type);
+		
+		if (rawSupertype.equals(rawCurrentType))
+		{
+			return type;
+		}
+		
+		// try interfaces
+		
+		for (Type interfaceType : TypeUtils.getResolvedInterfaces(type))
+		{
+			Type resolvedType = getResolvedSupertype(interfaceType, rawSupertype);
+			
+			if (resolvedType != null)
+			{
+				return resolvedType;
+			}
+		}
+		
+		// try superclass
+		
+		Type supertype = TypeUtils.getResolvedSuperclass(type);
+		
+		if (supertype == null)
+		{
+			return null;
+		}
+		
+		return getResolvedSupertype(supertype, rawSupertype);
 	}
 }
