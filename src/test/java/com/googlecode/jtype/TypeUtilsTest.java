@@ -53,6 +53,9 @@ import org.junit.Test;
  */
 public class TypeUtilsTest
 {
+	// TODO: split into smaller test cases
+	// TODO: use local types rather than JDK classes in tests
+	
 	// classes ----------------------------------------------------------------
 	
 	private static class IntegerArrayList extends ArrayList<Integer>
