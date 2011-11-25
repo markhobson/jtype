@@ -15,10 +15,10 @@
  */
 package com.googlecode.jtype;
 
-import static com.googlecode.jtype.TypeAssert.assertGenericArrayType;
-import static com.googlecode.jtype.TypeAssert.assertParameterizedType;
-import static com.googlecode.jtype.TypeAssert.assertTypeVariable;
-import static com.googlecode.jtype.TypeAssert.assertWildcardType;
+import static com.googlecode.jtype.test.TypeAssert.assertGenericArrayType;
+import static com.googlecode.jtype.test.TypeAssert.assertParameterizedType;
+import static com.googlecode.jtype.test.TypeAssert.assertTypeVariable;
+import static com.googlecode.jtype.test.TypeAssert.assertWildcardType;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
