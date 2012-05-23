@@ -6,7 +6,7 @@
 	<groupId>com.googlecode.jtype</groupId>
 	<artifactId>jtype</artifactId>
 	<packaging>jar</packaging>
-	<version>0.1.3</version>
+	<version>0.1.4-SNAPSHOT</version>
 	
 	<name>JType</name>
 	<description>Library for working with the Java 5 type system</description>
@@ -26,9 +26,9 @@
 	</licenses>
 	
 	<scm>
-		<connection>scm:svn:http://jtype.googlecode.com/svn/tags/0.1.3</connection>
-		<developerConnection>scm:svn:https://jtype.googlecode.com/svn/tags/0.1.3</developerConnection>
-		<url>http://code.google.com/p/jtype/source/browse/tags/0.1.3</url>
+		<connection>scm:svn:http://jtype.googlecode.com/svn/trunk/</connection>
+		<developerConnection>scm:svn:https://jtype.googlecode.com/svn/trunk/</developerConnection>
+		<url>http://code.google.com/p/jtype/source/browse/</url>
 	</scm>
 	
 	<issueManagement>
