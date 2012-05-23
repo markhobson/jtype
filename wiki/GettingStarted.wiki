@@ -21,4 +21,4 @@ To start using JType in a [http://maven.apache.org/ Maven] project, add the foll
 </project>
 }}}
 
-JType is deployed to [http://oss.sonatype.org/ Sonatype's OSS Repository] and synced with the [http://repo1.maven.org/maven2/ Maven Central Repository], so no repository definitions are required.
+JType is deployed to [http://oss.sonatype.org/ Sonatype's OSS Repository] and synced with the [http://search.maven.org/ Maven Central Repository], so no repository definitions are required.
