@@ -43,7 +43,7 @@ public class TypeUtilsGetResolvedSupertypeTest extends AbstractTypeTest
 		// simple subtype
 	}
 	
-	private static interface IFake<T>
+	private interface IFake<T>
 	{
 		// simple subtype
 	}
@@ -68,7 +68,7 @@ public class TypeUtilsGetResolvedSupertypeTest extends AbstractTypeTest
 		// simple subtype
 	}
 	
-	private static interface IFake2<T> extends IFake<T>
+	private interface IFake2<T> extends IFake<T>
 	{
 		// simple subtype
 	}
