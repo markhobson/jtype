@@ -30,3 +30,8 @@ To start using JType in a [Maven](http://maven.apache.org/) project, add the fol
 	</project>
 
 JType is deployed to [Sonatype's OSS Repository](http://oss.sonatype.org/) and synced with the [Maven Central Repository](http://search.maven.org/), so no repository definitions are required.
+
+Links
+-----
+
+* [JType Google Group](https://groups.google.com/d/forum/jtype)

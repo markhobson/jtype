@@ -36,6 +36,14 @@
 		<url>https://github.com/markhobson/jtype/issues</url>
 	</issueManagement>
 	
+	<mailingLists>
+		<mailingList>
+			<name>JType Google Group</name>
+			<post>jtype@googlegroups.com</post>
+			<archive>https://groups.google.com/d/forum/jtype</archive>
+		</mailingList>
+	</mailingLists>
+	
 	<developers>
 		<developer>
 			<id>markhobson</id>
