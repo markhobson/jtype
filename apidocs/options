@@ -1,0 +1,26 @@
+-classpath
+'/home/mark/projects/hobsoft/jtype/target/classes'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/home/mark/projects/hobsoft/jtype/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2008-2015. All Rights Reserved.'
+-charset
+'UTF-8'
+-d
+'/home/mark/projects/hobsoft/jtype/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'JType 0.1.4-SNAPSHOT API'
+-link
+'http://java.sun.com/j2se/1.5.0/docs/api'
+-link
+'http://java.sun.com/j2se/1.5.0/docs/api'
+-use
+-version
+-windowtitle
+'JType 0.1.4-SNAPSHOT API'
