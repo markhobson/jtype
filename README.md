@@ -35,4 +35,4 @@ Links
 -----
 
 * [Javadoc](http://www.hobsoft.org/jtype/apidocs/)
-* [JType Google Group](https://groups.google.com/d/forum/jtype)
+* [Google Group](https://groups.google.com/d/forum/jtype)
