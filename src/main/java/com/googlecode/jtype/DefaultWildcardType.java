@@ -15,12 +15,12 @@
  */
 package com.googlecode.jtype;
 
-import static com.googlecode.jtype.Utils.checkFalse;
-
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
 import java.util.Arrays;
+
+import static com.googlecode.jtype.Utils.checkFalse;
 
 /**
  * Default implementation of a wildcard type.

@@ -15,13 +15,13 @@
  */
 package com.googlecode.jtype.test;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Provides custom assertions for testing serializable objects.

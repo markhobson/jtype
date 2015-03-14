@@ -15,16 +15,16 @@
  */
 package com.googlecode.jtype;
 
-import static com.googlecode.jtype.Utils.checkNotNull;
-import static com.googlecode.jtype.Utils.nullEquals;
-import static com.googlecode.jtype.Utils.nullHashCode;
-
 import java.io.Serializable;
 import java.lang.reflect.MalformedParameterizedTypeException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
+
+import static com.googlecode.jtype.Utils.checkNotNull;
+import static com.googlecode.jtype.Utils.nullEquals;
+import static com.googlecode.jtype.Utils.nullHashCode;
 
 /**
  * Default implementation of a parameterized type.

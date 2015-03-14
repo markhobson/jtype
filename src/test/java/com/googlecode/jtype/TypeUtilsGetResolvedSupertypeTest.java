@@ -15,16 +15,17 @@
  */
 package com.googlecode.jtype;
 
-import static com.googlecode.jtype.Types.parameterizedType;
-import static com.googlecode.jtype.Types.typeVariable;
-import static org.junit.Assert.assertEquals;
-
 import java.lang.reflect.Type;
 import java.util.Set;
 
+import org.junit.Test;
+
 import com.googlecode.jtype.test.AbstractTypeTest;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+
+import static com.googlecode.jtype.Types.parameterizedType;
+import static com.googlecode.jtype.Types.typeVariable;
 
 /**
  * Tests {@code TypeUtils.getResolvedSupertype}.

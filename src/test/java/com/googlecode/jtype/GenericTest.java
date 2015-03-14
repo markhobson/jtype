@@ -15,12 +15,6 @@
  */
 package com.googlecode.jtype;
 
-import static com.googlecode.jtype.test.SerializableAssert.assertSerializable;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.GenericArrayType;
@@ -32,6 +26,13 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+
+import static com.googlecode.jtype.test.SerializableAssert.assertSerializable;
 
 /**
  * Tests {@code Generic}.

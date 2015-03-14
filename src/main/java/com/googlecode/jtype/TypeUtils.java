@@ -15,9 +15,6 @@
  */
 package com.googlecode.jtype;
 
-import static com.googlecode.jtype.Utils.checkNotNull;
-import static com.googlecode.jtype.Utils.checkTrue;
-
 import java.io.Serializable;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.MalformedParameterizedTypeException;
@@ -32,6 +29,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import static com.googlecode.jtype.Utils.checkNotNull;
+import static com.googlecode.jtype.Utils.checkTrue;
 
 /**
  * Provides utility methods for working with types.

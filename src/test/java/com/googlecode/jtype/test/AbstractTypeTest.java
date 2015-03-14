@@ -21,9 +21,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.googlecode.jtype.Types;
-
 import org.junit.Before;
+
+import com.googlecode.jtype.Types;
 
 /**
  * Provides support for testing with types.

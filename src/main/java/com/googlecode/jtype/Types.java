@@ -15,8 +15,6 @@
  */
 package com.googlecode.jtype;
 
-import static com.googlecode.jtype.Utils.checkNotNull;
-
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.MalformedParameterizedTypeException;
@@ -31,6 +29,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.googlecode.jtype.Utils.checkNotNull;
 
 /**
  * Factory for creating types.

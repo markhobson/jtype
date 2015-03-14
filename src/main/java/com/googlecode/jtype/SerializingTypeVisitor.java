@@ -15,14 +15,14 @@
  */
 package com.googlecode.jtype;
 
-import static com.googlecode.jtype.Utils.checkNotNull;
-
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
+
+import static com.googlecode.jtype.Utils.checkNotNull;
 
 /**
  * 

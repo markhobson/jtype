@@ -15,11 +15,11 @@
  */
 package com.googlecode.jtype;
 
-import static com.googlecode.jtype.Utils.checkNotNull;
-
 import java.io.Serializable;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
+
+import static com.googlecode.jtype.Utils.checkNotNull;
 
 /**
  * Default implementation of a generic array type.

@@ -15,12 +15,6 @@
  */
 package com.googlecode.jtype;
 
-import static com.googlecode.jtype.test.SerializableAssert.assertSerializable;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-
 import java.io.IOException;
 import java.lang.reflect.MalformedParameterizedTypeException;
 import java.lang.reflect.ParameterizedType;
@@ -30,6 +24,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Test;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+
+import static com.googlecode.jtype.test.SerializableAssert.assertSerializable;
 
 /**
  * Tests {@code DefaultParameterizedType}.

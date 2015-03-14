@@ -15,13 +15,6 @@
  */
 package com.googlecode.jtype;
 
-import static com.googlecode.jtype.test.TypeAssert.assertGenericArrayType;
-import static com.googlecode.jtype.test.TypeAssert.assertParameterizedType;
-import static com.googlecode.jtype.test.TypeAssert.assertTypeVariable;
-import static com.googlecode.jtype.test.TypeAssert.assertWildcardType;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.MalformedParameterizedTypeException;
@@ -45,6 +38,14 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+
+import static com.googlecode.jtype.test.TypeAssert.assertGenericArrayType;
+import static com.googlecode.jtype.test.TypeAssert.assertParameterizedType;
+import static com.googlecode.jtype.test.TypeAssert.assertTypeVariable;
+import static com.googlecode.jtype.test.TypeAssert.assertWildcardType;
 
 /**
  * Tests {@code Types}.

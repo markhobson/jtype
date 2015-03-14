@@ -15,8 +15,6 @@
  */
 package com.googlecode.jtype;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Enumeration;
@@ -30,6 +28,8 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests {@code Generics}.

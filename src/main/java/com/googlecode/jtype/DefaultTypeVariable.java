@@ -15,15 +15,15 @@
  */
 package com.googlecode.jtype;
 
-import static com.googlecode.jtype.Utils.checkNotNull;
-import static com.googlecode.jtype.Utils.checkTrue;
-
 import java.io.Serializable;
 import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
+
+import static com.googlecode.jtype.Utils.checkNotNull;
+import static com.googlecode.jtype.Utils.checkTrue;
 
 /**
  * Default implementation of a type variable.

@@ -15,10 +15,6 @@
  */
 package com.googlecode.jtype;
 
-import static com.googlecode.jtype.Utils.checkFalse;
-import static com.googlecode.jtype.Utils.checkNotNull;
-import static com.googlecode.jtype.Utils.checkTrue;
-
 import java.io.Serializable;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
@@ -28,6 +24,10 @@ import java.lang.reflect.WildcardType;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.googlecode.jtype.Utils.checkFalse;
+import static com.googlecode.jtype.Utils.checkNotNull;
+import static com.googlecode.jtype.Utils.checkTrue;
 
 /**
  * Provides a generic type literal.

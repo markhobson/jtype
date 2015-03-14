@@ -15,9 +15,9 @@
  */
 package com.googlecode.jtype;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests {@code ClassUtils}.
