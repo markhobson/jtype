@@ -238,6 +238,11 @@
 			<name>Sonatype Nexus Snapshot Repository</name>
 			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
 		</snapshotRepository>
+		<site>
+			<id>site</id>
+			<name>JType Maven Site</name>
+			<url>scm:git:git@github.com:markhobson/jtype.git</url>
+		</site>
 	</distributionManagement>
 
 </project>
