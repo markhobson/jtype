@@ -71,7 +71,7 @@ public class GenericTest implements Serializable
 	{
 		try
 		{
-			new GenericSubclass<List<String>>() {/**/};
+			new GenericSubclass<List<String>>() { /**/ };
 		}
 		catch (IllegalStateException exception)
 		{
@@ -84,7 +84,7 @@ public class GenericTest implements Serializable
 	@Test
 	public void constructorWhenSubclassedWithParameterType()
 	{
-		assertEquals(Types.parameterizedType(List.class, String.class), new Generic<List<String>>() {/**/}.getType());
+		assertEquals(Types.parameterizedType(List.class, String.class), new Generic<List<String>>() { /**/ }.getType());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -92,7 +92,7 @@ public class GenericTest implements Serializable
 	{
 		try
 		{
-			new Generic<T>() {/**/};
+			new Generic<T>() { /**/ };
 		}
 		catch (IllegalArgumentException exception)
 		{
@@ -106,7 +106,7 @@ public class GenericTest implements Serializable
 	public void constructorWhenSubclassedWithGenericArrayType()
 	{
 		assertEquals(Types.genericArrayType(Types.parameterizedType(List.class, String.class)),
-			new Generic<List<String>[]>() {/**/}.getType());
+			new Generic<List<String>[]>() { /**/ }.getType());
 	}
 	
 	@Test
@@ -286,8 +286,8 @@ public class GenericTest implements Serializable
 	@Test
 	public void hashCodeWithType()
 	{
-		Generic<List<String>> generic1 = new Generic<List<String>>() {/**/};
-		Generic<List<String>> generic2 = new Generic<List<String>>() {/**/};
+		Generic<List<String>> generic1 = new Generic<List<String>>() { /**/ };
+		Generic<List<String>> generic2 = new Generic<List<String>>() { /**/ };
 		
 		assertEquals(generic1.hashCode(), generic2.hashCode());
 	}
@@ -313,8 +313,8 @@ public class GenericTest implements Serializable
 	@Test
 	public void equalsWithGenericWhenEqual()
 	{
-		Generic<List<String>> generic1 = new Generic<List<String>>() {/**/};
-		Generic<List<String>> generic2 = new Generic<List<String>>() {/**/};
+		Generic<List<String>> generic1 = new Generic<List<String>>() { /**/ };
+		Generic<List<String>> generic2 = new Generic<List<String>>() { /**/ };
 		
 		assertTrue(generic1.equals(generic2));
 	}
@@ -322,8 +322,8 @@ public class GenericTest implements Serializable
 	@Test
 	public void equalsWithGenericWhenUnequal()
 	{
-		Generic<List<String>> generic1 = new Generic<List<String>>() {/**/};
-		Generic<List<Integer>> generic2 = new Generic<List<Integer>>() {/**/};
+		Generic<List<String>> generic1 = new Generic<List<String>>() { /**/ };
+		Generic<List<Integer>> generic2 = new Generic<List<Integer>>() { /**/ };
 		
 		assertFalse(generic1.equals(generic2));
 	}
@@ -345,7 +345,7 @@ public class GenericTest implements Serializable
 	@Test
 	public void toStringWithType()
 	{
-		assertEquals("java.util.List<java.lang.String>", new Generic<List<String>>() {/**/}.toString());
+		assertEquals("java.util.List<java.lang.String>", new Generic<List<String>>() { /**/ }.toString());
 	}
 	
 	@Test
@@ -357,12 +357,12 @@ public class GenericTest implements Serializable
 	@Test
 	public void toUnqualifiedStringWithType()
 	{
-		assertEquals("List<String>", new Generic<List<String>>() {/**/}.toUnqualifiedString());
+		assertEquals("List<String>", new Generic<List<String>>() { /**/ }.toUnqualifiedString());
 	}
 
 	@Test
 	public void serializableWhenSubclassed() throws IOException, ClassNotFoundException
 	{
-		assertSerializable(new Generic<String>() {/**/});
+		assertSerializable(new Generic<String>() { /**/ });
 	}
 }

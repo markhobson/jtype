@@ -45,156 +45,157 @@ public class GenericsTest
 	@Test
 	public void comparable()
 	{
-		assertEquals(new Generic<Comparable<?>>() {/**/}, Generics.comparable());
+		assertEquals(new Generic<Comparable<?>>() { /**/ }, Generics.comparable());
 	}
 	
 	@Test
 	public void comparableWithClass()
 	{
-		assertEquals(new Generic<Comparable<String>>() {/**/}, Generics.comparable(String.class));
+		assertEquals(new Generic<Comparable<String>>() { /**/ }, Generics.comparable(String.class));
 	}
 	
 	@Test
 	public void comparator()
 	{
-		assertEquals(new Generic<Comparator<?>>() {/**/}, Generics.comparator());
+		assertEquals(new Generic<Comparator<?>>() { /**/ }, Generics.comparator());
 	}
 	
 	@Test
 	public void comparatorWithClass()
 	{
-		assertEquals(new Generic<Comparator<String>>() {/**/}, Generics.comparator(String.class));
+		assertEquals(new Generic<Comparator<String>>() { /**/ }, Generics.comparator(String.class));
 	}
 	
 	@Test
 	public void enumeration()
 	{
-		assertEquals(new Generic<Enumeration<?>>() {/**/}, Generics.enumeration());
+		assertEquals(new Generic<Enumeration<?>>() { /**/ }, Generics.enumeration());
 	}
 	
 	@Test
 	public void enumerationWithClass()
 	{
-		assertEquals(new Generic<Enumeration<String>>() {/**/}, Generics.enumeration(String.class));
+		assertEquals(new Generic<Enumeration<String>>() { /**/ }, Generics.enumeration(String.class));
 	}
 	
 	@Test
 	public void iterable()
 	{
-		assertEquals(new Generic<Iterable<?>>() {/**/}, Generics.iterable());
+		assertEquals(new Generic<Iterable<?>>() { /**/ }, Generics.iterable());
 	}
 	
 	@Test
 	public void iterableWithClass()
 	{
-		assertEquals(new Generic<Iterable<String>>() {/**/}, Generics.iterable(String.class));
+		assertEquals(new Generic<Iterable<String>>() { /**/ }, Generics.iterable(String.class));
 	}
 	
 	@Test
 	public void iterator()
 	{
-		assertEquals(new Generic<Iterator<?>>() {/**/}, Generics.iterator());
+		assertEquals(new Generic<Iterator<?>>() { /**/ }, Generics.iterator());
 	}
 	
 	@Test
 	public void iteratorWithClass()
 	{
-		assertEquals(new Generic<Iterator<String>>() {/**/}, Generics.iterator(String.class));
+		assertEquals(new Generic<Iterator<String>>() { /**/ }, Generics.iterator(String.class));
 	}
 	
 	@Test
 	public void listIterator()
 	{
-		assertEquals(new Generic<ListIterator<?>>() {/**/}, Generics.listIterator());
+		assertEquals(new Generic<ListIterator<?>>() { /**/ }, Generics.listIterator());
 	}
 	
 	@Test
 	public void listIteratorWithClass()
 	{
-		assertEquals(new Generic<ListIterator<String>>() {/**/}, Generics.listIterator(String.class));
+		assertEquals(new Generic<ListIterator<String>>() { /**/ }, Generics.listIterator(String.class));
 	}
 	
 	@Test
 	public void collection()
 	{
-		assertEquals(new Generic<Collection<?>>() {/**/}, Generics.collection());
+		assertEquals(new Generic<Collection<?>>() { /**/ }, Generics.collection());
 	}
 	
 	@Test
 	public void collectionWithClass()
 	{
-		assertEquals(new Generic<Collection<String>>() {/**/}, Generics.collection(String.class));
+		assertEquals(new Generic<Collection<String>>() { /**/ }, Generics.collection(String.class));
 	}
 	
 	@Test
 	public void set()
 	{
-		assertEquals(new Generic<Set<?>>() {/**/}, Generics.set());
+		assertEquals(new Generic<Set<?>>() { /**/ }, Generics.set());
 	}
 	
 	@Test
 	public void setWithClass()
 	{
-		assertEquals(new Generic<Set<String>>() {/**/}, Generics.set(String.class));
+		assertEquals(new Generic<Set<String>>() { /**/ }, Generics.set(String.class));
 	}
 	
 	@Test
 	public void sortedSet()
 	{
-		assertEquals(new Generic<SortedSet<?>>() {/**/}, Generics.sortedSet());
+		assertEquals(new Generic<SortedSet<?>>() { /**/ }, Generics.sortedSet());
 	}
 	
 	@Test
 	public void sortedSetWithClass()
 	{
-		assertEquals(new Generic<SortedSet<String>>() {/**/}, Generics.sortedSet(String.class));
+		assertEquals(new Generic<SortedSet<String>>() { /**/ }, Generics.sortedSet(String.class));
 	}
 	
 	@Test
 	public void list()
 	{
-		assertEquals(new Generic<List<?>>() {/**/}, Generics.list());
+		assertEquals(new Generic<List<?>>() { /**/ }, Generics.list());
 	}
 	
 	@Test
 	public void listWithClass()
 	{
-		assertEquals(new Generic<List<String>>() {/**/}, Generics.list(String.class));
+		assertEquals(new Generic<List<String>>() { /**/ }, Generics.list(String.class));
 	}
 	
 	@Test
 	public void map()
 	{
-		assertEquals(new Generic<Map<?, ?>>() {/**/}, Generics.map());
+		assertEquals(new Generic<Map<?, ?>>() { /**/ }, Generics.map());
 	}
 	
 	@Test
 	public void mapWithClasses()
 	{
-		assertEquals(new Generic<Map<String, Integer>>() {/**/}, Generics.map(String.class, Integer.class));
+		assertEquals(new Generic<Map<String, Integer>>() { /**/ }, Generics.map(String.class, Integer.class));
 	}
 	
 	@Test
 	public void sortedMap()
 	{
-		assertEquals(new Generic<SortedMap<?, ?>>() {/**/}, Generics.sortedMap());
+		assertEquals(new Generic<SortedMap<?, ?>>() { /**/ }, Generics.sortedMap());
 	}
 	
 	@Test
 	public void sortedMapWithClasses()
 	{
-		assertEquals(new Generic<SortedMap<String, Integer>>() {/**/}, Generics.sortedMap(String.class, Integer.class));
+		assertEquals(new Generic<SortedMap<String, Integer>>() { /**/ },
+			Generics.sortedMap(String.class, Integer.class));
 	}
 	
 	@Test
 	public void queue()
 	{
-		assertEquals(new Generic<Queue<?>>() {/**/}, Generics.queue());
+		assertEquals(new Generic<Queue<?>>() { /**/ }, Generics.queue());
 	}
 	
 	@Test
 	public void queueWithClass()
 	{
-		assertEquals(new Generic<Queue<String>>() {/**/}, Generics.queue(String.class));
+		assertEquals(new Generic<Queue<String>>() { /**/ }, Generics.queue(String.class));
 	}
 }

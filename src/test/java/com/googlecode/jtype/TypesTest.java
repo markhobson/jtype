@@ -357,9 +357,9 @@ public class TypesTest
 		
 		final ClassLoader newClassLoader = context.mock(ClassLoader.class);
 		
-		context.checking(new Expectations() {{
+		context.checking(new Expectations() { {
 			one(newClassLoader).loadClass("java.lang.Integer"); will(returnValue(Integer.class));
-		}});
+		} });
 
 		try
 		{
