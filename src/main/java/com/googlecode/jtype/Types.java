@@ -17,7 +17,6 @@ package com.googlecode.jtype;
 
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.GenericDeclaration;
-import java.lang.reflect.MalformedParameterizedTypeException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -99,7 +98,7 @@ public final class Types
 	 * @param actualTypeArguments
 	 *            the actual type arguments
 	 * @return the parameterized type
-	 * @throws MalformedParameterizedTypeException
+	 * @throws java.lang.reflect.MalformedParameterizedTypeException
 	 *             if the raw type is not a parameterized type or the number of actual type arguments differs from those
 	 *             defined on the raw type
 	 */
@@ -114,7 +113,7 @@ public final class Types
 	 * @param rawType
 	 *            the raw type
 	 * @return the parameterized type
-	 * @throws MalformedParameterizedTypeException
+	 * @throws java.lang.reflect.MalformedParameterizedTypeException
 	 *             if the raw type is not a parameterized type
 	 */
 	public static ParameterizedType unboundedParameterizedType(Class<?> rawType)
