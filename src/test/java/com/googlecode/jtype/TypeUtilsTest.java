@@ -989,6 +989,9 @@ public class TypeUtilsTest
 	
 	// getRawType tests -------------------------------------------------------
 	
+	/**
+	 * @deprecated Tests deprecated method.
+	 */
 	@Deprecated
 	@Test
 	public void getRawTypeWithNull()
@@ -996,6 +999,9 @@ public class TypeUtilsTest
 		assertNull(TypeUtils.getRawType(null));
 	}
 	
+	/**
+	 * @deprecated Tests deprecated method.
+	 */
 	@Deprecated
 	@Test
 	public void getRawTypeWithClass()
@@ -1003,6 +1009,9 @@ public class TypeUtilsTest
 		assertEquals(Integer.class, TypeUtils.getRawType(Integer.class));
 	}
 	
+	/**
+	 * @deprecated Tests deprecated method.
+	 */
 	@Deprecated
 	@Test
 	public void getRawTypeWithGenericArrayType()
@@ -1010,6 +1019,9 @@ public class TypeUtilsTest
 		assertEquals(List[].class, TypeUtils.getRawType(valueOf("List<Integer>[]")));
 	}
 	
+	/**
+	 * @deprecated Tests deprecated method.
+	 */
 	@Deprecated
 	@Test
 	public void getRawTypeWithParameterizedType()
