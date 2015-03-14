@@ -625,7 +625,8 @@ public final class TypeUtils
 	 * @param type
 	 *            the type to check
 	 * @return {@code true} if the specified type is a reference type
-	 * @see <a href="http://java.sun.com/docs/books/jls/third_edition/html/typesValues.html#4.3">4.3 Reference Types and Values</a>
+	 * @see <a href="http://java.sun.com/docs/books/jls/third_edition/html/typesValues.html#4.3">4.3 Reference Types and
+	 *      Values</a>
 	 */
 	private static boolean isReferenceType(Type type)
 	{
@@ -702,7 +703,8 @@ public final class TypeUtils
 		return parameterizeClassCapture(type, actualTypeArgumentsByParameter);
 	}
 	
-	private static <T> ParameterizedType parameterizeClassCapture(Class<T> type, Map<Type, Type> actualTypeArgumentsByParameter)
+	private static <T> ParameterizedType parameterizeClassCapture(Class<T> type,
+		Map<Type, Type> actualTypeArgumentsByParameter)
 	{
 		// TODO: actualTypeArgumentsByParameter should be Map<TypeVariable<Class<T>>, Type>
 		
