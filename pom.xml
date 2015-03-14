@@ -10,7 +10,7 @@
 	
 	<name>JType</name>
 	<description>Library for working with the Java 5 type system</description>
-	<url>http://jtype.googlecode.com/</url>
+	<url>https://github.com/markhobson/jtype</url>
 	<inceptionYear>2008</inceptionYear>
 	
 	<prerequisites>
