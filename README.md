@@ -34,4 +34,5 @@ JType is deployed to [Sonatype's OSS Repository](http://oss.sonatype.org/) and s
 Links
 -----
 
+* [Javadoc](http://www.hobsoft.org/jtype/apidocs/)
 * [JType Google Group](https://groups.google.com/d/forum/jtype)
