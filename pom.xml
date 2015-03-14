@@ -26,14 +26,14 @@
 	</licenses>
 	
 	<scm>
-		<connection>scm:svn:http://jtype.googlecode.com/svn/trunk/</connection>
-		<developerConnection>scm:svn:https://jtype.googlecode.com/svn/trunk/</developerConnection>
-		<url>http://code.google.com/p/jtype/source/browse/</url>
+		<connection>scm:git:git@github.com:markhobson/jtype.git</connection>
+		<developerConnection>scm:git:git@github.com:markhobson/jtype.git</developerConnection>
+		<url>https://github.com/markhobson/jtype</url>
 	</scm>
 	
 	<issueManagement>
-		<system>Google Code</system>
-		<url>http://code.google.com/p/jtype/issues/list</url>
+		<system>GitHub</system>
+		<url>https://github.com/markhobson/jtype/issues</url>
 	</issueManagement>
 	
 	<developers>
