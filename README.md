@@ -36,3 +36,5 @@ Links
 
 * [Javadoc](http://www.hobsoft.org/jtype/apidocs/)
 * [Google Group](https://groups.google.com/d/forum/jtype)
+
+[![Build Status](https://travis-ci.org/markhobson/jtype.svg?branch=master)](https://travis-ci.org/markhobson/jtype)
