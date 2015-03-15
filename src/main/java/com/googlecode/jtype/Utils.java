@@ -17,7 +17,6 @@ package com.googlecode.jtype;
  * Various internal utility methods.
  * 
  * @author Mark Hobson
- * @version $Id$
  */
 final class Utils
 {

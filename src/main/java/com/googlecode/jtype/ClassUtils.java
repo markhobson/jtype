@@ -22,7 +22,6 @@ import java.util.Map;
  * Provides utility methods for working with classes.
  * 
  * @author Mark Hobson
- * @version $Id$
  * @see Class
  */
 final class ClassUtils

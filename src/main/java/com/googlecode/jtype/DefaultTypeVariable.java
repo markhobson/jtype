@@ -27,7 +27,6 @@ import static com.googlecode.jtype.Utils.checkTrue;
  * Default implementation of a type variable.
  * 
  * @author Mark Hobson
- * @version $Id$
  * @param <D>
  *            the type of generic declaration that declared the type variable
  * @see TypeVariable

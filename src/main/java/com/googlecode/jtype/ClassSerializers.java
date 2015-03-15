@@ -17,7 +17,6 @@ package com.googlecode.jtype;
  * Factory for creating {@code ClassSerializer}s.
  * 
  * @author Mark Hobson
- * @version $Id$
  * @see ClassSerializer
  */
 public final class ClassSerializers

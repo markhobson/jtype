@@ -36,7 +36,6 @@ import static com.googlecode.jtype.test.SerializableAssert.assertSerializable;
  * Tests {@code DefaultTypeVariable}.
  * 
  * @author Mark Hobson
- * @version $Id$
  * @see DefaultTypeVariable
  */
 public class DefaultTypeVariableTest

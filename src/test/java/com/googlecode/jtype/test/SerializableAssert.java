@@ -25,7 +25,6 @@ import static org.junit.Assert.assertEquals;
  * Provides custom assertions for testing serializable objects.
  * 
  * @author Mark Hobson
- * @version $Id$
  */
 public final class SerializableAssert
 {

@@ -29,7 +29,6 @@ import java.util.SortedSet;
  * Factory for creating common generics.
  * 
  * @author Mark Hobson
- * @version $Id$
  * @see Generic
  */
 @SuppressWarnings("unchecked")

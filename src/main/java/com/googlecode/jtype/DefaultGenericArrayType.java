@@ -23,7 +23,6 @@ import static com.googlecode.jtype.Utils.checkNotNull;
  * Default implementation of a generic array type.
  * 
  * @author Mark Hobson
- * @version $Id$
  * @see GenericArrayType
  */
 class DefaultGenericArrayType implements GenericArrayType, Serializable

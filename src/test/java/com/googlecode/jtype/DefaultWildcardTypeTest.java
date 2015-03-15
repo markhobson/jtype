@@ -29,7 +29,6 @@ import static com.googlecode.jtype.test.SerializableAssert.assertSerializable;
  * Tests {@code DefaultWildcardType}.
  * 
  * @author Mark Hobson
- * @version $Id$
  * @see DefaultWildcardType
  */
 public class DefaultWildcardTypeTest

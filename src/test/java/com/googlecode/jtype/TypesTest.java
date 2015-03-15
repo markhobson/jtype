@@ -49,7 +49,6 @@ import static com.googlecode.jtype.test.TypeAssert.assertWildcardType;
  * Tests {@code Types}.
  * 
  * @author Mark Hobson
- * @version $Id$
  * @see Types
  */
 @RunWith(JMock.class)

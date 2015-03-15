@@ -28,7 +28,6 @@ import static com.googlecode.jtype.Utils.nullHashCode;
  * Default implementation of a parameterized type.
  * 
  * @author Mark Hobson
- * @version $Id$
  * @see ParameterizedType
  */
 class DefaultParameterizedType implements ParameterizedType, Serializable

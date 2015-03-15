@@ -50,7 +50,6 @@ import static com.googlecode.jtype.Utils.checkTrue;
  * {@code add(new ArrayList<String>(), new Generic<List<String>>() }<code>{});</code>
  * 
  * @author Mark Hobson
- * @version $Id$
  * @param <T> the type that this generic type literal represents
  * @see Generics
  * @see <a href="http://gafter.blogspot.com/2006/12/super-type-tokens.html">Neal Gafter's blog: Super Type Tokens</a>

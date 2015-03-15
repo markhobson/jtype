@@ -46,7 +46,6 @@ import static org.junit.Assert.assertTrue;
  * Tests {@code TypeUtils}.
  * 
  * @author Mark Hobson
- * @version $Id$
  * @see TypeUtils
  */
 public class TypeUtilsTest

@@ -27,7 +27,6 @@ import com.googlecode.jtype.Types;
  * Provides support for testing with types.
  * 
  * @author Mark Hobson
- * @version $Id$
  */
 public abstract class AbstractTypeTest
 {

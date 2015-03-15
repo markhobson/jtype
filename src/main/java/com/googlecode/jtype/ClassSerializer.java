@@ -17,7 +17,6 @@ package com.googlecode.jtype;
  * Function that maps classes to a string representation.
  * 
  * @author Mark Hobson
- * @version $Id$
  */
 public interface ClassSerializer
 {

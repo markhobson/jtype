@@ -35,7 +35,6 @@ import static com.googlecode.jtype.Utils.checkTrue;
  * Provides utility methods for working with types.
  * 
  * @author Mark Hobson
- * @version $Id$
  */
 public final class TypeUtils
 {

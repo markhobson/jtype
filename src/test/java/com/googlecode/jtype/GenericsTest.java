@@ -33,7 +33,6 @@ import static org.junit.Assert.assertEquals;
  * Tests {@code Generics}.
  * 
  * @author Mark Hobson
- * @version $Id$
  * @see Generics
  */
 public class GenericsTest

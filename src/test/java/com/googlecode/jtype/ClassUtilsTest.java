@@ -21,7 +21,6 @@ import static org.junit.Assert.assertEquals;
  * Tests {@code ClassUtils}.
  * 
  * @author Mark Hobson
- * @version $Id$
  * @see ClassUtils
  */
 public class ClassUtilsTest

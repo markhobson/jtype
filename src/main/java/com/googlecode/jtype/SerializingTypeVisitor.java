@@ -26,7 +26,6 @@ import static com.googlecode.jtype.Utils.checkNotNull;
  * 
  * 
  * @author Mark Hobson
- * @version $Id$
  */
 class SerializingTypeVisitor extends AbstractTypeVisitor
 {

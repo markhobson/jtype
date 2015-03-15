@@ -24,7 +24,6 @@ import java.lang.reflect.WildcardType;
  * 
  * 
  * @author Mark Hobson
- * @version $Id$
  */
 public interface TypeVisitor
 {

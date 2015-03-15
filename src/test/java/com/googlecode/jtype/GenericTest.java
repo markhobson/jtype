@@ -36,7 +36,6 @@ import static com.googlecode.jtype.test.SerializableAssert.assertSerializable;
  * Tests {@code Generic}.
  * 
  * @author Mark Hobson
- * @version $Id$
  * @see Generic
  */
 public class GenericTest implements Serializable

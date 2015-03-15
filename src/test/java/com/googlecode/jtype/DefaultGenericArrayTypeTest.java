@@ -27,7 +27,6 @@ import static com.googlecode.jtype.test.SerializableAssert.assertSerializable;
  * Tests {@code DefaultGenericArrayType}.
  * 
  * @author Mark Hobson
- * @version $Id$
  * @see DefaultGenericArrayType
  */
 public class DefaultGenericArrayTypeTest

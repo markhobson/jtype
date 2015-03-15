@@ -33,7 +33,6 @@ import static com.googlecode.jtype.Utils.checkNotNull;
  * Factory for creating types.
  * 
  * @author Mark Hobson
- * @version $Id$
  * @see Type
  */
 public final class Types

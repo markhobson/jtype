@@ -29,7 +29,6 @@ import static com.googlecode.jtype.Types.typeVariable;
  * Tests {@code TypeUtils.getResolvedSupertype}.
  * 
  * @author Mark Hobson
- * @version $Id$
  * @see TypeUtils#getResolvedSupertype(Class, Class)
  */
 public class TypeUtilsGetResolvedSupertypeTest extends AbstractTypeTest

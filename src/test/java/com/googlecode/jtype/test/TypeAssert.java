@@ -28,7 +28,6 @@ import static org.junit.Assert.assertNotNull;
  * Provides custom assertions for testing types.
  * 
  * @author Mark Hobson
- * @version $Id$
  */
 public final class TypeAssert
 {

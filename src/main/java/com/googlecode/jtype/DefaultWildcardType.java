@@ -24,7 +24,6 @@ import static com.googlecode.jtype.Utils.checkFalse;
  * Default implementation of a wildcard type.
  * 
  * @author Mark Hobson
- * @version $Id$
  * @see WildcardType
  */
 class DefaultWildcardType implements WildcardType, Serializable
