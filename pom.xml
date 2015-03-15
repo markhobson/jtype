@@ -36,6 +36,11 @@
 		<url>https://github.com/markhobson/jtype/issues</url>
 	</issueManagement>
 	
+	<ciManagement>
+		<system>Travis CI</system>
+		<url>https://travis-ci.org/markhobson/jtype</url>
+	</ciManagement>
+	
 	<mailingLists>
 		<mailingList>
 			<name>JType Google Group</name>
