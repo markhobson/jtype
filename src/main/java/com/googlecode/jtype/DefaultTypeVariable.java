@@ -31,7 +31,7 @@ import static com.googlecode.jtype.Utils.checkTrue;
  *            the type of generic declaration that declared the type variable
  * @see TypeVariable
  */
-class DefaultTypeVariable<D extends GenericDeclaration> implements TypeVariable<D>, Serializable
+class DefaultTypeVariable<D extends GenericDeclaration> implements Type, Serializable
 {
 	// constants --------------------------------------------------------------
 	
@@ -151,16 +151,7 @@ class DefaultTypeVariable<D extends GenericDeclaration> implements TypeVariable<
 			&& name.equals(typeVariable.getName())
 			&& Arrays.equals(bounds, typeVariable.getBounds());
 	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String toString()
-	{
-		return TypeUtils.toString(this);
-	}
-	
+
 	// private methods --------------------------------------------------------
 	
 	private static boolean isValidFirstBound(Type bound)

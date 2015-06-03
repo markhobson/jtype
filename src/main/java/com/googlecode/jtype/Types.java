@@ -13,9 +13,14 @@
  */
 package com.googlecode.jtype;
 
+import java.io.Serializable;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.GenericDeclaration;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
@@ -72,7 +77,10 @@ public final class Types
 	public static <D extends GenericDeclaration> TypeVariable<D> typeVariable(D declaration, String name,
 		Type... bounds)
 	{
-		return new DefaultTypeVariable<D>(declaration, name, bounds);
+		return (TypeVariable<D>) Proxy.newProxyInstance(
+				Types.class.getClassLoader(),
+				new Class[]{TypeVariable.class},
+				new TypeVariableInvocationHandler(new DefaultTypeVariable<D>(declaration, name, bounds)));
 	}
 	
 	/**
@@ -342,5 +350,41 @@ public final class Types
 		}
 		
 		return wildcardType(upperBounds, lowerBounds);
+	}
+
+	private static class TypeVariableInvocationHandler implements InvocationHandler, Serializable {
+		private static final Map<String, Method> typeVariableMethods = new HashMap<String, Method>();
+		static {
+			for (Method method : DefaultTypeVariable.class.getMethods()) {
+				if (method.getDeclaringClass().equals(DefaultTypeVariable.class)) {
+					typeVariableMethods.put(method.getName(), method);
+				}
+			}
+		}
+
+		private final DefaultTypeVariable<?> typeVariable;
+
+		public TypeVariableInvocationHandler(DefaultTypeVariable<?> typeVariable) {
+			this.typeVariable = typeVariable;
+		}
+
+		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+			String methodName = method.getName();
+
+			if ("toString".equals(methodName)) {
+				return TypeUtils.toString((Type) proxy);
+			}
+
+			Method typeVariableMethod = typeVariableMethods.get(methodName);
+			if (typeVariableMethod == null) {
+				throw new UnsupportedOperationException(methodName);
+			} else {
+				try {
+					return typeVariableMethod.invoke(typeVariable, args);
+				} catch (InvocationTargetException e) {
+					throw e.getCause();
+				}
+			}
+		}
 	}
 }

@@ -59,7 +59,7 @@ public class DefaultTypeVariableTest
 	{
 		try
 		{
-			new DefaultTypeVariable<Constructor<?>>(null, "T", new Type[] {Number.class});
+			Types.<Constructor<?>>typeVariable(null, "T", new Type[] {Number.class});
 		}
 		catch (NullPointerException exception)
 		{
@@ -74,7 +74,7 @@ public class DefaultTypeVariableTest
 	{
 		try
 		{
-			new DefaultTypeVariable<Constructor<?>>(constructor, null, new Type[] {Number.class});
+			Types.<Constructor<?>>typeVariable(constructor, null, new Type[] {Number.class});
 		}
 		catch (NullPointerException exception)
 		{
@@ -171,7 +171,7 @@ public class DefaultTypeVariableTest
 	@Test
 	public void constructorWithNullBounds()
 	{
-		TypeVariable<Constructor<?>> typeVariable = new DefaultTypeVariable<Constructor<?>>(constructor, "T", null);
+		TypeVariable<Constructor<?>> typeVariable = Types.<Constructor<?>>typeVariable(constructor, "T", null);
 		
 		assertEquals(constructor, typeVariable.getGenericDeclaration());
 		assertEquals("T", typeVariable.getName());
@@ -181,7 +181,7 @@ public class DefaultTypeVariableTest
 	@Test
 	public void constructorWithEmptyBounds()
 	{
-		TypeVariable<Constructor<?>> typeVariable = new DefaultTypeVariable<Constructor<?>>(constructor, "T",
+		TypeVariable<Constructor<?>> typeVariable = Types.<Constructor<?>>typeVariable(constructor, "T",
 			new Type[0]);
 		
 		assertEquals(constructor, typeVariable.getGenericDeclaration());
@@ -192,10 +192,10 @@ public class DefaultTypeVariableTest
 	@Test
 	public void hashCodeTest()
 	{
-		TypeVariable<Constructor<?>> typeVariable1 = new DefaultTypeVariable<Constructor<?>>(constructor, "T",
+		TypeVariable<Constructor<?>> typeVariable1 = Types.<Constructor<?>>typeVariable(constructor, "T",
 			new Type[] {Number.class, Comparable.class});
 		
-		TypeVariable<Constructor<?>> typeVariable2 = new DefaultTypeVariable<Constructor<?>>(constructor, "T",
+		TypeVariable<Constructor<?>> typeVariable2 = Types.<Constructor<?>>typeVariable(constructor, "T",
 			new Type[] {Number.class, Comparable.class});
 		
 		assertEquals(typeVariable1.hashCode(), typeVariable2.hashCode());
@@ -204,10 +204,10 @@ public class DefaultTypeVariableTest
 	@Test
 	public void equalsWhenEqual()
 	{
-		TypeVariable<Constructor<?>> typeVariable1 = new DefaultTypeVariable<Constructor<?>>(constructor, "T",
+		TypeVariable<Constructor<?>> typeVariable1 = Types.<Constructor<?>>typeVariable(constructor, "T",
 			new Type[] {Number.class, Comparable.class});
 		
-		TypeVariable<Constructor<?>> typeVariable2 = new DefaultTypeVariable<Constructor<?>>(constructor, "T",
+		TypeVariable<Constructor<?>> typeVariable2 = Types.<Constructor<?>>typeVariable(constructor, "T",
 			new Type[] {Number.class, Comparable.class});
 		
 		assertEquals(typeVariable1, typeVariable2);
@@ -216,7 +216,7 @@ public class DefaultTypeVariableTest
 	@Test
 	public void equalsWithDifferentClass()
 	{
-		TypeVariable<Constructor<?>> typeVariable = new DefaultTypeVariable<Constructor<?>>(constructor, "T", null);
+		TypeVariable<Constructor<?>> typeVariable = Types.<Constructor<?>>typeVariable(constructor, "T", null);
 		
 		assertFalse(typeVariable.equals(new Object()));
 	}
@@ -224,12 +224,12 @@ public class DefaultTypeVariableTest
 	@Test
 	public void equalsWithDifferentDeclarations() throws NoSuchMethodException
 	{
-		TypeVariable<Constructor<?>> typeVariable1 = new DefaultTypeVariable<Constructor<?>>(constructor, "T",
+		TypeVariable<Constructor<?>> typeVariable1 = Types.<Constructor<?>>typeVariable(constructor, "T",
 			new Type[] {Number.class});
 		
 		Method method = getClass().getDeclaredMethod("equalsWithDifferentDeclarations");
 		
-		TypeVariable<Method> typeVariable2 = new DefaultTypeVariable<Method>(method, "T", new Type[] {Number.class});
+		TypeVariable<Method> typeVariable2 = Types.<Method>typeVariable(method, "T", new Type[] {Number.class});
 		
 		assertFalse(typeVariable1.equals(typeVariable2));
 	}
@@ -237,10 +237,10 @@ public class DefaultTypeVariableTest
 	@Test
 	public void equalsWithDifferentNames()
 	{
-		TypeVariable<Constructor<?>> typeVariable1 = new DefaultTypeVariable<Constructor<?>>(constructor, "T",
+		TypeVariable<Constructor<?>> typeVariable1 = Types.<Constructor<?>>typeVariable(constructor, "T",
 			new Type[] {Number.class});
 		
-		TypeVariable<Constructor<?>> typeVariable2 = new DefaultTypeVariable<Constructor<?>>(constructor, "U",
+		TypeVariable<Constructor<?>> typeVariable2 = Types.<Constructor<?>>typeVariable(constructor, "U",
 			new Type[] {Number.class});
 		
 		assertFalse(typeVariable1.equals(typeVariable2));
@@ -249,10 +249,10 @@ public class DefaultTypeVariableTest
 	@Test
 	public void equalsWithDifferentBounds()
 	{
-		TypeVariable<Constructor<?>> typeVariable1 = new DefaultTypeVariable<Constructor<?>>(constructor, "T",
+		TypeVariable<Constructor<?>> typeVariable1 = Types.<Constructor<?>>typeVariable(constructor, "T",
 			new Type[] {Number.class});
 		
-		TypeVariable<Constructor<?>> typeVariable2 = new DefaultTypeVariable<Constructor<?>>(constructor, "T",
+		TypeVariable<Constructor<?>> typeVariable2 = Types.<Constructor<?>>typeVariable(constructor, "T",
 			new Type[] {Integer.class});
 		
 		assertFalse(typeVariable1.equals(typeVariable2));
@@ -261,7 +261,7 @@ public class DefaultTypeVariableTest
 	@Test
 	public void toStringWithNoBounds()
 	{
-		TypeVariable<Constructor<?>> typeVariable = new DefaultTypeVariable<Constructor<?>>(constructor, "T", null);
+		TypeVariable<Constructor<?>> typeVariable = Types.<Constructor<?>>typeVariable(constructor, "T", null);
 		
 		assertEquals("T", typeVariable.toString());
 	}
@@ -269,7 +269,7 @@ public class DefaultTypeVariableTest
 	@Test
 	public void toStringWithSingleBound()
 	{
-		TypeVariable<Constructor<?>> typeVariable = new DefaultTypeVariable<Constructor<?>>(constructor, "T",
+		TypeVariable<Constructor<?>> typeVariable = Types.<Constructor<?>>typeVariable(constructor, "T",
 			new Type[] {Number.class});
 		
 		assertEquals("T extends java.lang.Number", typeVariable.toString());
@@ -278,7 +278,7 @@ public class DefaultTypeVariableTest
 	@Test
 	public void toStringWithMultipleBounds()
 	{
-		TypeVariable<Constructor<?>> typeVariable = new DefaultTypeVariable<Constructor<?>>(constructor, "T",
+		TypeVariable<Constructor<?>> typeVariable = Types.<Constructor<?>>typeVariable(constructor, "T",
 			new Type[] {Number.class, Comparable.class});
 		
 		assertEquals("T extends java.lang.Number & java.lang.Comparable", typeVariable.toString());
@@ -287,7 +287,7 @@ public class DefaultTypeVariableTest
 	@Test
 	public void serializable() throws IOException, ClassNotFoundException
 	{
-		TypeVariable<Class<?>> type = new DefaultTypeVariable<Class<?>>(getClass(), "T",
+		TypeVariable<Class<?>> type = Types.<Class<?>>typeVariable(getClass(), "T",
 			new Type[] {Number.class, Comparable.class});
 		
 		assertSerializable(type);
@@ -297,7 +297,7 @@ public class DefaultTypeVariableTest
 	
 	private static <D extends GenericDeclaration> void assertConstructor(D declaration, String name, Type... bounds)
 	{
-		TypeVariable<D> typeVariable = new DefaultTypeVariable<D>(declaration, name, bounds);
+		TypeVariable<D> typeVariable = Types.<D>typeVariable(declaration, name, bounds);
 		
 		assertEquals("Generic declaration", declaration, typeVariable.getGenericDeclaration());
 		assertEquals("Name", name, typeVariable.getName());
